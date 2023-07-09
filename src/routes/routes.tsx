@@ -19,7 +19,7 @@ const routes = [
     element: <RegistrationForm />,
   },
   {
-    path: "drug-lookup",
+    path: "drug-summary",
     element: <DrugSummary />,
   },
 ];

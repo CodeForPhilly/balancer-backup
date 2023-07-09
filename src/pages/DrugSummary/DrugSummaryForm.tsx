@@ -1,13 +1,27 @@
+import axios from "axios";
 import { useFormik } from "formik";
+import { useMutation } from "react-query";
 
 const DrugSummaryForm = () => {
+  const mutation = useMutation({
+    mutationFn: (values: { webpage_url: string }) => {
+      return axios.post("/wpextraction", values);
+    },
+  });
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues: {
-      url: "",
+      webpage_url: "",
     },
     onSubmit: (values) => {
-      console.log("values", values);
-      // post search term here
+      mutation.mutate(values, {
+        onSuccess: () => {
+          alert("Form submitted successfully");
+        },
+        onError: (response) => {
+          console.log("An error occured while submiting the form");
+          console.log(response);
+        },
+      });
     },
   });
   return (
@@ -24,11 +38,11 @@ const DrugSummaryForm = () => {
               Enter a URL
             </label>
             <input
-              id="url"
-              name="url"
+              id="webpage_url"
+              name="webpage_url"
               type="text"
               onChange={handleChange}
-              value={values.url}
+              value={values.webpage_url}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
