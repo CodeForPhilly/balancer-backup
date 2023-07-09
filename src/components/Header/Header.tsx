@@ -1,6 +1,7 @@
 import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Summary from "../Welcome/Welcome";
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -21,6 +22,9 @@ const Header = () => {
             </Link>
           </>
         )}
+        <Link to="/drug-summary" className="hover:text-blue-600 font-bold">
+          Drug Summary
+        </Link>
         <a
           href="https://codeforphilly.org/"
           target="_blank"
@@ -28,16 +32,7 @@ const Header = () => {
           Code for Philly
         </a>
       </nav>
-
-      <h1 className="head_text">
-        {/* AI-powered Bipolar Medication: <br className="max-md:hidden" /> */}
-        <span className="orange_gradient">Balancer</span>
-      </h1>
-      <h2 className="desc">
-        Balancer is an innovative AI-powered web application designed to assist
-        medication prescribers in selecting the most appropriate bipolar medication for
-        first-time patients. It is open-source and free to use.
-      </h2>
+      <Summary />
     </header>
   );
 };
