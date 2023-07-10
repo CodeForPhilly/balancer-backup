@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 const DrugSummaryForm = () => {
   const mutation = useMutation({
     mutationFn: (values: { webpage_url: string }) => {
-      return axios.post("/wpextraction", values);
+      return axios.post("http://localhost:3001/wpextraction", values);
     },
   });
   const { handleChange, handleSubmit, values } = useFormik({
@@ -27,7 +27,6 @@ const DrugSummaryForm = () => {
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">
-        <p></p>
         <form
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
