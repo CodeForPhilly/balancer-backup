@@ -1,27 +1,38 @@
-import axios from "axios";
 import { useFormik } from "formik";
-import { useMutation } from "react-query";
+import useSWRMutation from "swr/mutation";
+// import useSWR from "swr";
+
+async function sendRequest(
+  url: string,
+  { arg }: { arg: { webpage_url: string } }
+) {
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => res.json());
+}
+
+// TODO: delete react query + axios if not using
 
 const DrugSummaryForm = () => {
-  const mutation = useMutation({
-    mutationFn: (values: { webpage_url: string }) => {
-      return axios.post("http://localhost:3001/wpextraction", values);
-    },
-  });
+  const { trigger, data, error } = useSWRMutation(
+    "http://localhost:3001/wpextraction",
+    sendRequest
+  );
+
   const { handleChange, handleSubmit, values } = useFormik({
     initialValues: {
       webpage_url: "",
     },
-    onSubmit: (values) => {
-      mutation.mutate(values, {
-        onSuccess: () => {
-          alert("Form submitted successfully");
-        },
-        onError: (response) => {
-          console.log("An error occured while submiting the form");
-          console.log(response);
-        },
-      });
+    onSubmit: async (values) => {
+      try {
+        const result = await trigger(values /* options */);
+      } catch (e) {
+        console.error(e);
+      }
     },
   });
   return (
