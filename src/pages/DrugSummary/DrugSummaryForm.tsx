@@ -20,6 +20,8 @@ async function sendRequest(url: string, { arg }: { arg: FormValues }) {
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
 
+  // TODO change this to actual endpoint url when ready
+
   const { trigger, error, isMutating } = useSWRMutation(
     "http://localhost:3001/wpextraction",
     sendRequest
