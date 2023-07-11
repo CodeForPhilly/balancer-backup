@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import useSWRMutation from "swr/mutation";
-// import useSWR from "swr";
+import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
 
 async function sendRequest(
   url: string,
@@ -18,7 +18,7 @@ async function sendRequest(
 // TODO: delete react query + axios if not using
 
 const DrugSummaryForm = () => {
-  const { trigger, data, error } = useSWRMutation(
+  const { trigger, data, error, isMutating } = useSWRMutation(
     "http://localhost:3001/wpextraction",
     sendRequest
   );
@@ -30,11 +30,14 @@ const DrugSummaryForm = () => {
     onSubmit: async (values) => {
       try {
         const result = await trigger(values /* options */);
+        console.log("result", result);
+        console.log("data", data);
       } catch (e) {
         console.error(e);
       }
     },
   });
+  console.log("data", data);
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">
@@ -59,11 +62,19 @@ const DrugSummaryForm = () => {
           <div className="mb-6"></div>
 
           <div className="flex items-center justify-end">
-            <button className="black_btn" type="submit">
+            <button
+              className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
+              type="submit"
+              disabled={!values.webpage_url || isMutating}>
               Submit
             </button>
           </div>
         </form>
+        {isMutating && (
+          <div style={{display: 'flex', justifyContent: 'center'}}>
+            <HourglassSpinner />
+          </div>
+        )}
       </section>
     </>
   );
