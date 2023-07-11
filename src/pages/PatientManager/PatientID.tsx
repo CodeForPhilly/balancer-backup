@@ -11,7 +11,7 @@ function PatientIDInput({ patientInfo, setPatientInfo }: PatientIDInputProps) {
   useEffect(() => {
     const generatedGuid = uuidv4();
     setPatientInfo({ ...patientInfo, ID: generatedGuid });
-  }, []);
+  }, [patientInfo, setPatientInfo]);
 
   return (
     <div className="">

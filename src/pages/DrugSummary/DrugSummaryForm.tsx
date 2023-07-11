@@ -1,11 +1,13 @@
 import { useFormik } from "formik";
 import useSWRMutation from "swr/mutation";
 import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
+import { useState } from "react";
 
-async function sendRequest(
-  url: string,
-  { arg }: { arg: { webpage_url: string } }
-) {
+interface FormValues {
+  webpage_url: string;
+}
+
+async function sendRequest(url: string, { arg }: { arg: FormValues }) {
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),
@@ -15,29 +17,34 @@ async function sendRequest(
   }).then((res) => res.json());
 }
 
-// TODO: delete react query + axios if not using
-
 const DrugSummaryForm = () => {
-  const { trigger, data, error, isMutating } = useSWRMutation(
+  const [summary, setSummary] = useState("");
+
+  const { trigger, error, isMutating } = useSWRMutation(
     "http://localhost:3001/wpextraction",
     sendRequest
   );
 
-  const { handleChange, handleSubmit, values } = useFormik({
-    initialValues: {
-      webpage_url: "",
-    },
-    onSubmit: async (values) => {
-      try {
-        const result = await trigger(values /* options */);
-        console.log("result", result);
-        console.log("data", data);
-      } catch (e) {
-        console.error(e);
-      }
-    },
-  });
-  console.log("data", data);
+  const { handleChange, handleSubmit, values, resetForm } =
+    useFormik<FormValues>({
+      initialValues: {
+        webpage_url: "",
+      },
+      onSubmit: async (values) => {
+        setSummary("");
+        try {
+          const result = await trigger(values /* options */);
+          const message = result?.message?.choices?.[0]?.message?.content;
+          // console.log("result", result);
+          if (message) setSummary(message);
+        } catch (e) {
+          console.error(e);
+        } finally {
+          resetForm();
+        }
+      },
+    });
+
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">
@@ -71,9 +78,20 @@ const DrugSummaryForm = () => {
           </div>
         </form>
         {isMutating && (
-          <div style={{display: 'flex', justifyContent: 'center'}}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <HourglassSpinner />
           </div>
+        )}
+        {error && <p className="text-center">Please enter a valid URL.</p>}
+        {summary && (
+          <>
+            <h2
+              style={{ fontSize: "2rem" }}
+              className="text-center font-bold my-6">
+              URL Summary
+            </h2>
+            <p>{summary}</p>
+          </>
         )}
       </section>
     </>
