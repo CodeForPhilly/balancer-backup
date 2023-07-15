@@ -1,30 +1,40 @@
 import logo from "../../assets/balancer.png";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import Summary from "../Welcome/Welcome";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
-  const { pathname } = useLocation();
+  const activeClass = "text-blue-600 cursor-default font-bold";
+  const inActiveClass = "hover:text-black font-bold";
 
   return (
     <header className="w-full flex justify-center items-center flex-col">
       <nav className="flex justify-between items-center w-full pt-3">
-        <Link to="/">
+        <NavLink to="/">
           <img src={logo} alt="logo" className="w-28 object-contain" />
-        </Link>
-        {pathname === "/" && (
-          <>
-            <Link to="/login" className="hover:text-blue-600 font-bold">
-              Login
-            </Link>
-            <Link to="/register" className="hover:text-blue-600 font-bold">
-              Register
-            </Link>
-          </>
-        )}
-        <Link to="/drug-summary" className="hover:text-blue-600 font-bold">
+        </NavLink>
+        <>
+          <NavLink
+            to="/login"
+            className={({ isActive }) =>
+              isActive ? activeClass : inActiveClass
+            }>
+            Login
+          </NavLink>
+          <NavLink
+            to="/register"
+            className={({ isActive }) =>
+              isActive ? activeClass : inActiveClass
+            }>
+            Register
+          </NavLink>
+        </>
+
+        <NavLink
+          to="/drug-summary"
+          className={({ isActive }) =>
+            isActive ? activeClass : inActiveClass
+          }>
           Drug Summary
-        </Link>
+        </NavLink>
         <a
           href="https://codeforphilly.org/"
           target="_blank"
@@ -32,7 +42,6 @@ const Header = () => {
           Code for Philly
         </a>
       </nav>
-      <Summary />
     </header>
   );
 };

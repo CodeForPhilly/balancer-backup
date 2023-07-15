@@ -5,7 +5,8 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-function Layout({ children }: LayoutProps) {
+function Layout(props: LayoutProps) {
+  console.log('props', props)
   return (
     <main>
       <div className="main">
@@ -13,7 +14,7 @@ function Layout({ children }: LayoutProps) {
       </div>
       <div className="container">
         <Header />
-        {children}
+        {props.children}
       </div>
     </main>
   );
