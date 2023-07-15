@@ -9,10 +9,13 @@ export default function RouteError() {
     return (
       <Layout>
         <div id="error-page" className={styles["error-page"]}>
-          <h1 className="text-xl">Oops!</h1>
-          <p>Sorry, an unexpected error has occurred.</p>
+          <h1 className="text-3xl">Oops! 🫠</h1>
           <p>
-            <i>{error.statusText}</i>
+            Sorry, an unexpected{" "}
+            <span className="text-red-500 font-bold">error</span> has occurred.
+          </p>
+          <p className="mt-4">
+            <i className="font-bold text-lg">{error.statusText}</i>
           </p>
         </div>
       </Layout>

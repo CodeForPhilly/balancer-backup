@@ -1,4 +1,6 @@
 .error-page {
-  padding: 2rem;
-  background: red;
+  padding: 4rem 2rem;
+  & * {
+    margin-bottom: 2rem;
+  }
 }
