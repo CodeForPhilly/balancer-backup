@@ -1,56 +1,30 @@
-import { useFormik, Field, useField, FieldHookConfig } from "formik";
+import { useFormik } from "formik";
 import { Link } from "react-router-dom";
 
 import * as Yup from "yup";
 
 const LoginSchema = Yup.object().shape({
-  firstName: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  lastName: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  email: Yup.string().email("Invalid email").required("Email required"),
+  password: Yup.string().required("Password required"),
 });
 
-type MyTextInputProps = {
-  label: string;
-} & FieldHookConfig<string>;
-
-const MyTextInput = ({ label, ...props }: MyTextInputProps): JSX.Element => {
-  // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
-  // which we can spread on <input>. We can use field meta to show an error
-  // message if the field is invalid and it has been touched (i.e. visited)
-  const [field, meta] = useField(props);
-  return (
-    <>
-      <label htmlFor={props.id || props.name}>{label}</label>
-      <input
-        className="text-input"
-        {...field}
-        {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
-      />
-      {meta.touched && meta.error ? (
-        <div className="error">{meta.error}</div>
-      ) : null}
-    </>
-  );
-};
-
 const LoginForm = () => {
-  const { dirty, handleChange, handleSubmit, isValid, values } = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit: (values) => {
-      console.log("values", values);
-      // make login post request here.
-    },
-    validationSchema: LoginSchema,
-  });
+  const { dirty, handleChange, handleSubmit, setErrors, isValid, values } =
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+      },
+      onSubmit: (values) => {
+        console.log("values", values);
+        try {
+          // make login post request here
+        } catch (e) {
+          // setErrors(transformMyApiErrors(e));
+        }
+      },
+      validationSchema: LoginSchema,
+    });
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">
@@ -61,19 +35,19 @@ const LoginForm = () => {
           onSubmit={handleSubmit}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
-            {/* <label
+            <label
               htmlFor="email"
               className="block text-gray-700 text-sm font-bold mb-2">
               Email
-            </label> */}
-            {/* <input
+            </label>
+            <input
               id="email"
               name="email"
               type="email"
               onChange={handleChange}
               value={values.email}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            /> */}
+            />
           </div>
           <div className="mb-6">
             <label
