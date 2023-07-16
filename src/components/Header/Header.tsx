@@ -64,7 +64,6 @@ const Header = () => {
     <header className="w-full items-center fixed">
       {/* <div className="flex bg-blue-500 text-center font-light text-white w-full h-8 items-center justify-center text-sm">
         WELCOME! STAY TUNE FOR OUR FIRST RELEASE! -
-        <Typed strings={["  JULY 30th"]} typeSpeed={200} backSpeed={200} loop />
       </div> */}
       <div
         className={
@@ -105,7 +104,7 @@ const Header = () => {
               ref={dropdownResearchRef}
               className="">
               <span
-                className={` mr-9 text-black ${
+                className={`mr-9 text-black ${
                   showResearchMenu
                     ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
                     : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"

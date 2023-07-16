@@ -7,7 +7,6 @@ import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx
 import { copy, loader } from "../../assets/index.js";
 import PatientSummary from "./PatientSummary.tsx";
 import { PatientInfo } from "./PatientTypes.ts";
-import Welcome from "../../components/Welcome/Welcome.tsx";
 
 const PatientManager = () => {
   const [patientInfo, setPatientInfo] = useState({
