@@ -161,7 +161,7 @@ const NewPatientForm = ({
               </label>
               <input
                 type="text"
-                placeholder="Patient ID will be created on submit"
+                placeholder="Patient ID will be randomly generated on submit"
                 value={patientInfo.ID}
                 readOnly
                 className={
@@ -176,7 +176,7 @@ const NewPatientForm = ({
                 htmlFor="diagnosis"
                 className="block font-latoBold text-sm pb-2"
               >
-                Diagnosis:
+                Patient Current State:
               </label>
               <select
                 value={patientInfo.Diagnosis}
@@ -188,7 +188,7 @@ const NewPatientForm = ({
                     : "url_input peer w-1/2"
                 }
               >
-                <option value="Other">Select a diagnosis</option>
+                <option value="Other">Select a state</option>
                 <option value="Bipolar I mania">Bipolar I mania</option>
                 <option value="Bipolar I depression">
                   Bipolar I depression

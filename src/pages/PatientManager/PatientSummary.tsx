@@ -75,7 +75,7 @@ const PatientSummary = ({
                     htmlFor="diagnosis"
                     className="block font-latoBold text-sm pb-2"
                   >
-                    <b>Diagnosis: </b> {patientInfo.Diagnosis}{" "}
+                    <b>Current State: </b> {patientInfo.Diagnosis}{" "}
                     {patientInfo.OtherDiagnosis}
                   </label>
                   <label

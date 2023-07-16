@@ -34,7 +34,7 @@ const PatientManager = () => {
       </h1>
       <h2 className="desc">Designed to assist prescribers</h2>
       <h2 className="desc1">
-        Balancer is an AI-powered tool for selecting bipolar medication for
+        Balancer is an powerful tool for selecting bipolar medication for
         patients. We are open-source and available for free use.
       </h2>
       <div className="mt-16 flex flex-col w-full gap-2">
