@@ -1,17 +1,42 @@
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
+import { object, string, ref } from "yup";
+
+const RegistrationSchema = object().shape({
+  email: string()
+    .email("Invalid email")
+    .required("Please enter an email address."),
+  password: string().required("Please enter a password"),
+  passwordConfirmation: string()
+    .oneOf([ref("password"), undefined], "Passwords must match")
+    .required("Please confirm password."),
+});
 
 const LoginForm = () => {
-  const { handleSubmit, handleChange, values } = useFormik({
+  const {
+    dirty,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isValid,
+    touched,
+    values,
+  } = useFormik({
     initialValues: {
       email: "",
       password: "",
+      passwordConfirmation: "",
     },
     onSubmit: (values) => {
       console.log("values", values);
       // make registration post request here.
     },
+    validationSchema: RegistrationSchema,
   });
+
+  console.log("errors", errors);
+  console.log("touched", touched);
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">
@@ -28,17 +53,23 @@ const LoginForm = () => {
               Email
             </label>
             <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="email"
               name="email"
-              type="email"
+              onBlur={handleBlur}
               onChange={handleChange}
+              type="email"
               value={values.email}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.email && errors?.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
+            </div>
           </div>
-          <div className="mb-6">
+          <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="password"
               className="block text-gray-700 text-sm font-bold mb-2">
               Password
             </label>
@@ -46,13 +77,46 @@ const LoginForm = () => {
               id="password"
               name="password"
               type="password"
+              onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.password && errors?.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
+            </div>
+          </div>
+          <div className="mb-6">
+            <label
+              htmlFor="passwordConfirmation"
+              className="block text-gray-700 text-sm font-bold mb-2">
+              Password Confirmation
+            </label>
+            <input
+              id="passwordConfirmation"
+              name="passwordConfirmation"
+              type="password"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              value={values.passwordConfirmation}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.passwordConfirmation &&
+                errors?.passwordConfirmation && (
+                  <p className="text-sm text-red-500">
+                    {errors.passwordConfirmation}
+                  </p>
+                )}
+            </div>
           </div>
 
-          <button className="black_btn ml-auto block" type="submit">
+          <button
+            className="black_btn ml-auto block"
+            disabled={!(dirty && isValid)}
+            type="submit">
             Register
           </button>
         </form>
