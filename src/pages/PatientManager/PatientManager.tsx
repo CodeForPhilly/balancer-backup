@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Welcome from "../../components/Welcome/Welcome.tsx";
 import NewPatientForm from "./NewPatientForm.tsx";
 import PatientHistory from "./PatientHistory.tsx";
 import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx";
@@ -23,15 +24,11 @@ const PatientManager = () => {
 
   return (
     <div className="mt-16 w-full max-w-2xl">
-      <h1 className="head_text">
-        {/* AI-powered Bipolar Medication: <br className="max-md:hidden" /> */}
-        <span className="orange_gradient">Balancer</span>
-      </h1>
-      <h2 className="desc">Designed to assist prescribers</h2>
-      <h2 className="desc1">
-        Balancer is an AI-powered tool for selecting bipolar medication for
-        patients. We are open-source and available for free use.
-      </h2>
+      <Welcome
+        subHeader="Designed to assist prescribers"
+        descriptionText="Balancer is an AI-powered tool for selecting bipolar medication for
+        patients. We are open-source and available for free use."
+      />
       <div className="mt-16 flex flex-col w-full gap-2">
         <PatientSummary
           patientInfo={patientInfo}

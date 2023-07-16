@@ -101,7 +101,7 @@
 }
 
 .black_btn {
-  @apply rounded-full border border-black bg-blue-500 py-2.5 px-6 text-sm text-white transition-all hover:bg-white hover:text-black;
+  @apply rounded-full border border-black bg-blue-500 py-2.5 px-6 text-sm text-white transition-all hover:bg-white hover:text-black disabled:bg-gray-500 disabled:text-white disabled:cursor-default disabled:border-transparent;
 }
 
 .head_text {
