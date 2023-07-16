@@ -8,16 +8,14 @@ export const FeatureMenuDropDown = () => {
         <ul className=" mt-8 mb-8">
           <Link
             to="/"
-            className=" text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-          >
+            className=" text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
             Diagnosis
           </Link>
         </ul>
         <ul className=" mb-8">
           <Link
             to="/login"
-            className=" mr-9 text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-          >
+            className=" mr-9 text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
             Drug Summary and Comparison
             {/* <span className="absolute ml-1.5 transition-transform duration-300 hover:rotate-180">
             &#8593;
@@ -27,8 +25,7 @@ export const FeatureMenuDropDown = () => {
         <ul className=" mb-8">
           <Link
             to="/login"
-            className="mr-9 text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-          >
+            className="mr-9 text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
             Drug Review Lookup
             {/* <span className="absolute ml-1.5 transition-transform duration-300 hover:rotate-180">
             &#8593;

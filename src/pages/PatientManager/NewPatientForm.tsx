@@ -1,12 +1,11 @@
 import { FormEvent, ChangeEvent, useEffect, useState } from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { loader } from "../../assets";
-import { v4 as uuidv4 } from "uuid";
-import { PatientInfo } from "./PatientTypes";
+
 import axios from "axios";
-import minLogo from "../../assets/min.svg";
+import { v4 as uuidv4 } from "uuid";
+
+import { PatientInfo } from "./PatientTypes";
 import maxLogo from "../../assets/max.svg";
+import minLogo from "../../assets/min.svg";
 
 // TODO: refactor with Formik
 
@@ -45,7 +44,7 @@ const NewPatientForm = ({
     if (patientInfoFromLocalStorage) {
       setAllPatientInfo(patientInfoFromLocalStorage);
     }
-  }, []);
+  }, [setAllPatientInfo]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -155,8 +154,7 @@ const NewPatientForm = ({
             <div>
               <label
                 htmlFor="name"
-                className="block font-latoBold text-sm pb-2"
-              >
+                className="block font-latoBold text-sm pb-2">
                 Patient ID:{" "}
               </label>
               <input
@@ -174,8 +172,7 @@ const NewPatientForm = ({
             <div className="mt-5">
               <label
                 htmlFor="diagnosis"
-                className="block font-latoBold text-sm pb-2"
-              >
+                className="block font-latoBold text-sm pb-2">
                 Diagnosis:
               </label>
               <select
@@ -186,8 +183,7 @@ const NewPatientForm = ({
                   isLoading
                     ? " url_input_loading peer w-1/2"
                     : "url_input peer w-1/2"
-                }
-              >
+                }>
                 <option value="Other">Select a diagnosis</option>
                 <option value="Bipolar I mania">Bipolar I mania</option>
                 <option value="Bipolar I depression">
@@ -225,8 +221,7 @@ const NewPatientForm = ({
             <div className="items-center mt-5">
               <label
                 htmlFor="currentMedications"
-                className="block font-latoBold text-sm pb-2"
-              >
+                className="block font-latoBold text-sm pb-2">
                 Current Medications:
               </label>
               <input

@@ -1,7 +1,9 @@
 import React from "react";
-import closeLogo from "../../assets/close.svg";
-import logo from "../../assets/balancer.png";
+
 import { Link } from "react-router-dom";
+
+import logo from "../../assets/balancer.png";
+import closeLogo from "../../assets/close.svg";
 
 interface LoginMenuDropDownProps {
   showLoginMenu: boolean;
@@ -17,16 +19,14 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
       {showLoginMenu && (
         <div
           className="fixed inset-0 bg-gray-900 opacity-50 z-5"
-          onClick={handleLoginMenu}
-        ></div>
+          onClick={handleLoginMenu}></div>
       )}
       <div
         className={
           showLoginMenu
             ? "fixed right-0 top-0 p-16 w-[35%] border-l bg-white border-l-gray-900 h-full ease-in-out duration-1000 z20"
             : "ease-in-out duration-500 fixed right-[-100%]"
-        }
-      >
+        }>
         <div className="flex justify-between">
           <div className="font-satoshi text-2xl">
             <h1>Balance account</h1>
@@ -71,16 +71,14 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
           <Link to="/login">
             <button
               type="submit"
-              className="mt-12 bg-blue-500 rounded-xl text-white py-2 px-24 hover:bg-blue-600"
-            >
+              className="mt-12 bg-blue-500 rounded-xl text-white py-2 px-24 hover:bg-blue-600">
               <p>Login</p>
             </button>
           </Link>
           <Link to="/register">
             <button
               type="submit"
-              className="mt-1 bg-blue-500 rounded-xl text-white py-2 px-8 hover:bg-blue-600"
-            >
+              className="mt-1 bg-blue-500 rounded-xl text-white py-2 px-8 hover:bg-blue-600">
               <p>Sign up for a new account</p>
             </button>
           </Link>

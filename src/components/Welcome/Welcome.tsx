@@ -1,6 +1,6 @@
 interface WelcomeProps {
   subHeader?: string;
-  descriptionText: string;
+  descriptionText?: string;
 }
 
 function Welcome({
@@ -8,7 +8,7 @@ function Welcome({
   descriptionText,
 }: WelcomeProps) {
   return (
-    <div>
+    <div className="mt-10">
       <h1 className="head_text">
         <span className="orange_gradient">Balancer</span>
       </h1>

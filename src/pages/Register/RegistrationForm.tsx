@@ -4,9 +4,9 @@ import { object, string, ref } from "yup";
 
 const RegistrationSchema = object().shape({
   email: string()
-    .email("Invalid email")
+    .email("Please enter a valid email address.")
     .required("Please enter an email address."),
-  password: string().required("Please enter a password"),
+  password: string().required("Please enter a password."),
   passwordConfirmation: string()
     .oneOf([ref("password"), undefined], "Passwords must match")
     .required("Please confirm password."),
@@ -30,13 +30,16 @@ const LoginForm = () => {
     },
     onSubmit: (values) => {
       console.log("values", values);
-      // make registration post request here.
+      try {
+        // make registration post request here
+      } catch (e) {
+        // set request errors here
+        // setErrors(transformMyApiErrors(e));
+      }
     },
     validationSchema: RegistrationSchema,
   });
 
-  console.log("errors", errors);
-  console.log("touched", touched);
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">

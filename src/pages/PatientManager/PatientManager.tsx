@@ -1,13 +1,14 @@
 import { useState } from "react";
-import Welcome from "../../components/Welcome/Welcome.tsx";
+
 import NewPatientForm from "./NewPatientForm.tsx";
 import PatientHistory from "./PatientHistory.tsx";
-import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx";
+import PatientSummary from "./PatientSummary.tsx";
+import { PatientInfo } from "./PatientTypes.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { copy, loader } from "../../assets/index.js";
-import PatientSummary from "./PatientSummary.tsx";
-import { PatientInfo } from "./PatientTypes.ts";
+import Welcome from "../../components/Welcome/Welcome.tsx";
+import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx";
 
 const PatientManager = () => {
   const [patientInfo, setPatientInfo] = useState({

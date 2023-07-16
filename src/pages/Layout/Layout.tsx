@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+
 import Header from "../../components/Header/Header";
 
 interface LayoutProps {
@@ -6,7 +7,7 @@ interface LayoutProps {
 }
 
 function Layout(props: LayoutProps) {
-  console.log('props', props)
+  console.log("props", props);
   return (
     <main>
       <div className="main">

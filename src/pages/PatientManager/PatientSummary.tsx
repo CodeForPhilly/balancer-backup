@@ -1,8 +1,9 @@
+import { useState } from "react";
+
 import { PatientInfo } from "./PatientTypes";
 // import { loader } from "../../assets";
-import minLogo from "../../assets/min.svg";
 import maxLogo from "../../assets/max.svg";
-import { useState } from "react";
+import minLogo from "../../assets/min.svg";
 
 interface PatientSummaryProps {
   patientInfo: PatientInfo;
@@ -37,8 +38,7 @@ const PatientSummary = ({
         patientInfo.Description && (
           <div
             className="flex flex-col gap-3 whitespace-normal break-words"
-            style={{ width: "670px" }}
-          >
+            style={{ width: "670px" }}>
             <div className="flex justify-between">
               <div>
                 <h2 className="font-satoshi font-bold text-gray-600 text-xl">
@@ -66,30 +66,26 @@ const PatientSummary = ({
                 <p className="font-inter font-medium text-sm text-gray-700">
                   <label
                     htmlFor="patientID"
-                    className="block font-latoBold text-sm pb-2"
-                  >
+                    className="block font-latoBold text-sm pb-2">
                     {" "}
                     <b>Patient ID: </b> {patientInfo.ID}
                   </label>
                   <label
                     htmlFor="diagnosis"
-                    className="block font-latoBold text-sm pb-2"
-                  >
+                    className="block font-latoBold text-sm pb-2">
                     <b>Diagnosis: </b> {patientInfo.Diagnosis}{" "}
                     {patientInfo.OtherDiagnosis}
                   </label>
                   <label
                     htmlFor="ageInput"
-                    className="block font-latoBold text-sm pb-2"
-                  >
+                    className="block font-latoBold text-sm pb-2">
                     {" "}
                     <b>Current Medications: </b>
                     {patientInfo.CurrentMedications}
                   </label>
                   <label
                     htmlFor="currentMedications"
-                    className="block font-latoBold text-sm pb-2"
-                  >
+                    className="block font-latoBold text-sm pb-2">
                     <b>Possible Medications: </b>
                     <br />
                     <br />
@@ -106,8 +102,7 @@ const PatientSummary = ({
                         }}
                         dangerouslySetInnerHTML={{
                           __html: patientInfo.Description,
-                        }}
-                      ></pre>
+                        }}></pre>
                       {/* {patientInfo.Description} */}
                     </p>
                   </label>

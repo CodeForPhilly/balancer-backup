@@ -1,15 +1,16 @@
-import logo from "../../assets/balancer.png";
+// import { useLocation } from "react-router-dom";
+
+import "../../components/Header/header.css";
+import { useState, useRef, useEffect } from "react";
 
 import { Link } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
-import accountLogo from "../../assets/account.svg";
-import "../../components/Header/header.css";
-// import Typed from "react-typed";
-import { useState, useRef, useEffect } from "react";
-import MdNavBar from "./MdNavBar";
-import LoginMenuDropDown from "./LoginMenuDropDown";
+
 import { FeatureMenuDropDown } from "./FeatureMenuDropDown";
+import LoginMenuDropDown from "./LoginMenuDropDown";
+import MdNavBar from "./MdNavBar";
 import { ResearchMenuDropDown } from "./ResearchMenuDropDown";
+import accountLogo from "../../assets/account.svg";
+import logo from "../../assets/balancer.png";
 
 const Header = () => {
   // const { pathname } = useLocation();

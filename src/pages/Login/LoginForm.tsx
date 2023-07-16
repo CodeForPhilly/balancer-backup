@@ -1,30 +1,41 @@
 import { useFormik } from "formik";
 import { Link } from "react-router-dom";
-
 import { object, string } from "yup";
 
 const LoginSchema = object().shape({
-  email: string().email("Invalid email").required("Email required"),
-  password: string().required("Password required"),
+  email: string()
+    .email("Please enter a valid email address.")
+    .required("Please enter an email address."),
+  password: string().required("Please enter a password."),
 });
 
 const LoginForm = () => {
-  const { dirty, handleChange, handleSubmit, setErrors, isValid, values } =
-    useFormik({
-      initialValues: {
-        email: "",
-        password: "",
-      },
-      onSubmit: (values) => {
-        console.log("values", values);
-        try {
-          // make login post request here
-        } catch (e) {
-          // setErrors(transformMyApiErrors(e));
-        }
-      },
-      validationSchema: LoginSchema,
-    });
+  const {
+    dirty,
+    errors,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    isValid,
+    setErrors,
+    touched,
+    values,
+  } = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit: (values) => {
+      console.log("values", values);
+      try {
+        // make login post request here
+      } catch (e) {
+        // set request errors here
+        // setErrors(transformMyApiErrors(e));
+      }
+    },
+    validationSchema: LoginSchema,
+  });
   return (
     <>
       <section className="mt-12 mx-auto w-full max-w-xs">
@@ -41,13 +52,19 @@ const LoginForm = () => {
               Email
             </label>
             <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="email"
               name="email"
-              type="email"
+              onBlur={handleBlur}
               onChange={handleChange}
+              type="email"
               value={values.email}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.email && errors?.email && (
+                <p className="text-sm text-red-500">{errors.email}</p>
+              )}
+            </div>
           </div>
           <div className="mb-6">
             <label
@@ -56,13 +73,19 @@ const LoginForm = () => {
               Password
             </label>
             <input
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="password"
               name="password"
-              type="password"
+              onBlur={handleBlur}
               onChange={handleChange}
+              type="password"
               value={values.password}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.password && errors?.password && (
+                <p className="text-sm text-red-500">{errors.password}</p>
+              )}
+            </div>
           </div>
 
           <div className="flex items-center justify-between">
