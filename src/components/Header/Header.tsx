@@ -1,49 +1,5 @@
 import logo from "../../assets/balancer.png";
-<<<<<<< HEAD
-import { NavLink } from "react-router-dom";
 
-const Header = () => {
-  const activeClass = "text-blue-600 cursor-default font-bold";
-  const inActiveClass = "hover:text-black font-bold";
-
-  return (
-    <header className="w-full flex justify-center items-center flex-col">
-      <nav className="flex justify-between items-center w-full pt-3">
-        <NavLink to="/">
-          <img src={logo} alt="logo" className="w-28 object-contain" />
-        </NavLink>
-        <>
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? activeClass : inActiveClass
-            }>
-            Login
-          </NavLink>
-          <NavLink
-            to="/register"
-            className={({ isActive }) =>
-              isActive ? activeClass : inActiveClass
-            }>
-            Register
-          </NavLink>
-        </>
-
-        <NavLink
-          to="/drug-summary"
-          className={({ isActive }) =>
-            isActive ? activeClass : inActiveClass
-          }>
-          Drug Summary
-        </NavLink>
-        <a
-          href="https://codeforphilly.org/"
-          target="_blank"
-          className="black_btn">
-          Code for Philly
-        </a>
-      </nav>
-=======
 import { Link } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
@@ -113,8 +69,7 @@ const Header = () => {
       <div
         className={
           "hidden lg:flex items-center border-b border-gray-300 h-20 mx-auto bg-white justify-between  px-4 sm:px-6 md:px-8 lg:px-8 xl:px-50 2xl:px-56"
-        }
-      >
+        }>
         <nav className="w-full flex font-satoshi items-center text-sm">
           <Link to="/">
             <img src={logo} alt="logo" className="object-contain w-28 mr-9  " />
@@ -124,23 +79,20 @@ const Header = () => {
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               ref={dropdownRef}
-              className=""
-            >
+              className="">
               <span
                 className={` mr-9 text-black ${
                   showFeaturesMenu
                     ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
                     : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
-                }`}
-              >
+                }`}>
                 Features
                 <span
                   className={` ${
                     showFeaturesMenu
                       ? "absolute ml-1.5 transition-transform duration-300 rotate-180"
                       : "absolute ml-1.5 "
-                  }`}
-                >
+                  }`}>
                   &#8593;
                 </span>
               </span>
@@ -151,23 +103,20 @@ const Header = () => {
               onMouseEnter={handleMouseEnterResearch}
               onMouseLeave={handleMouseLeaveResearch}
               ref={dropdownResearchRef}
-              className=""
-            >
+              className="">
               <span
                 className={` mr-9 text-black ${
                   showResearchMenu
                     ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
                     : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
-                }`}
-              >
+                }`}>
                 Research Information
                 <span
                   className={` ${
                     showResearchMenu
                       ? "absolute ml-1.5 transition-transform duration-300 rotate-180"
                       : "absolute ml-1.5 "
-                  }`}
-                >
+                  }`}>
                   &#8593;
                 </span>
                 {showResearchMenu && <ResearchMenuDropDown />}
@@ -180,14 +129,12 @@ const Header = () => {
           <>
             <Link
               to="/login"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-            >
+              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
               About Balancer
             </Link>
             <Link
               to="/register"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-            >
+              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
               Support
             </Link>
             <div onClick={handleLoginMenu}>
@@ -205,7 +152,6 @@ const Header = () => {
         </nav>
       </div>
       <MdNavBar />
->>>>>>> develop
     </header>
   );
 };
