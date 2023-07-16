@@ -33,14 +33,13 @@ const NewPatientForm = ({
   const handleMouseUp = () => {
     setIsPressed(false);
   };
+
   const [enterNewPatient, setEnterNewPatient] = useState(true);
 
   useEffect(() => {
-    const patientInfos = localStorage?.getItem("patientInfos");
-    const patientInfoFromLocalStorage = JSON.parse(patientInfos);
-
-    if (patientInfoFromLocalStorage) {
-      setAllPatientInfo(patientInfoFromLocalStorage);
+    const patientInfos = localStorage.getItem("patientInfos");
+    if (patientInfos) {
+      setAllPatientInfo(JSON.parse(patientInfos));
     }
   }, [setAllPatientInfo]);
 

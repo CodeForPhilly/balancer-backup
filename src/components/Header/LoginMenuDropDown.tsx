@@ -56,12 +56,12 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
         </div>
         <div className="h-28 flex flex-col justify-center items-center text-center">
           <p className="mb-4">
-            Log into an existing Balance account or create a new one. With a
+            Log into an existing Balancer account or create a new one. With a
             Balance account, you can get access to additional features and store
             data.
           </p>
           <p className="w-96">
-            You can log in or sign up for a Balance account using your email,
+            You can log in or sign up for a Balancer account using your email,
             gmail or Facebook account.
           </p>
         </div>

@@ -149,7 +149,7 @@ const Header = () => {
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2"
+                className="object-contain hover:fill-current hover:border-blue-600 hover:border-b-2 hover:cursor-pointer"
               />
             </div>
             <LoginMenuDropDown
