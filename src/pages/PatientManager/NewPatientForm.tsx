@@ -34,12 +34,10 @@ const NewPatientForm = ({
     setIsPressed(false);
   };
   const [enterNewPatient, setEnterNewPatient] = useState(true);
+
   useEffect(() => {
-    const patientInfoFromLocalStorage = JSON.parse(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      localStorage.getItem("patientInfos")
-    );
+    const patientInfos = localStorage?.getItem("patientInfos");
+    const patientInfoFromLocalStorage = JSON.parse(patientInfos);
 
     if (patientInfoFromLocalStorage) {
       setAllPatientInfo(patientInfoFromLocalStorage);

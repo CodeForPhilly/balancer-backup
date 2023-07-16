@@ -51,16 +51,15 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
             />
           </div>
         </div>
-        <div className="font-satoshi text-xl h-14 flex flex-col justify-center items-center text-center">
-          <p>Log into your Balance account</p>
+        <div className="font-satoshi text-xl h-14 flex flex-col justify-center items-center text-center mb-4">
+          <p>Log into your Balancer account</p>
         </div>
         <div className="h-28 flex flex-col justify-center items-center text-center">
-          <p>
+          <p className="mb-4">
             Log into an existing Balance account or create a new one. With a
             Balance account, you can get access to additional features and store
             data.
           </p>
-          <br></br>
           <p className="w-96">
             You can log in or sign up for a Balance account using your email,
             gmail or Facebook account.
@@ -72,14 +71,14 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
             <button
               type="submit"
               className="mt-12 bg-blue-500 rounded-xl text-white py-2 px-24 hover:bg-blue-600">
-              <p>Login</p>
+              Login
             </button>
           </Link>
           <Link to="/register">
             <button
               type="submit"
               className="mt-1 bg-blue-500 rounded-xl text-white py-2 px-8 hover:bg-blue-600">
-              <p>Sign up for a new account</p>
+              Sign up for a new account
             </button>
           </Link>
         </div>

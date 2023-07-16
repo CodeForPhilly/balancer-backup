@@ -1,19 +1,27 @@
-// import { useLocation } from "react-router-dom";
-
 import "../../components/Header/header.css";
 import { useState, useRef, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 
-import { FeatureMenuDropDown } from "./FeatureMenuDropDown";
 import LoginMenuDropDown from "./LoginMenuDropDown";
 import MdNavBar from "./MdNavBar";
-import { ResearchMenuDropDown } from "./ResearchMenuDropDown";
 import accountLogo from "../../assets/account.svg";
 import logo from "../../assets/balancer.png";
+import { DropDownMenu } from "../DropDownMenu/DropDownMenu";
+
+const featureLinks = [
+  { url: "/", title: "Diagnosis" },
+  { url: "/", title: "Drug Summary and Comparison" },
+  { url: "/", title: "Drug Review Lookup" },
+];
+
+const researchLinks = [
+  { url: "/", title: "PubMed" },
+  { url: "/", title: "Google Scholar" },
+  { url: "/", title: "ScienceDirect" },
+];
 
 const Header = () => {
-  // const { pathname } = useLocation();
   const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const [showResearchMenu, setShowResearchMenu] = useState(false);
   const dropdownRef = useRef(null);
@@ -96,7 +104,7 @@ const Header = () => {
                   &#8593;
                 </span>
               </span>
-              {showFeaturesMenu && <FeatureMenuDropDown />}
+              {showFeaturesMenu && <DropDownMenu links={featureLinks} />}
             </div>
 
             <div
@@ -119,7 +127,7 @@ const Header = () => {
                   }`}>
                   &#8593;
                 </span>
-                {showResearchMenu && <ResearchMenuDropDown />}
+                {showResearchMenu && <DropDownMenu links={researchLinks} />}
               </span>
             </div>
           </>
