@@ -11,7 +11,7 @@ import { DropDownMenu } from "../DropDownMenu/DropDownMenu";
 
 const featureLinks = [
   { url: "/", title: "Diagnosis" },
-  { url: "/", title: "Drug Summary and Comparison" },
+  { url: "/drug-summary", title: "Drug Summary and Comparison" },
   { url: "/", title: "Drug Review Lookup" },
 ];
 

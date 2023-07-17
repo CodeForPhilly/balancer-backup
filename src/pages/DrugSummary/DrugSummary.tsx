@@ -5,7 +5,10 @@ import Layout from "../Layout/Layout";
 function DrugLookup() {
   return (
     <Layout>
-      <Welcome />
+      <Welcome
+        subHeader="Drug Summary"
+        descriptionText="Get a condensed summary for a clinical drug trial and/or study. "
+      />
       <DrugSummaryForm />
     </Layout>
   );

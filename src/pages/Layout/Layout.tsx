@@ -7,7 +7,6 @@ interface LayoutProps {
 }
 
 function Layout(props: LayoutProps) {
-  console.log("props", props);
   return (
     <main>
       <div className="main">
