@@ -1,7 +1,8 @@
 import { useState } from "react";
 
+import axios from "axios";
 import { useFormik } from "formik";
-import useSWRMutation from "swr/mutation";
+import { useMutation } from "react-query";
 
 import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
 
@@ -9,24 +10,18 @@ interface FormValues {
   webpage_url: string;
 }
 
-async function sendRequest(url: string, { arg }: { arg: FormValues }) {
-  return fetch(url, {
-    method: "POST",
-    body: JSON.stringify(arg),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).then((res) => res.json());
-}
-
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
 
-  // TODO change this to actual endpoint url when ready
-
-  const { trigger, error, isMutating } = useSWRMutation(
-    "http://localhost:3001/wpextraction",
-    sendRequest
+  const { error, isLoading, mutate } = useMutation(
+    async (values: { webpage_url: string }) => {
+      // TODO change this to actual endpoint url when ready
+      const res = await axios.post(
+        "http://localhost:3001/wpextraction",
+        values
+      );
+      return res;
+    }
   );
 
   const { handleChange, handleSubmit, values, resetForm } =
@@ -34,20 +29,24 @@ const DrugSummaryForm = () => {
       initialValues: {
         webpage_url: "",
       },
-      onSubmit: async (values) => {
-        setSummary("");
-        try {
-          const result = await trigger(values /* options */);
-          const message = result?.message?.choices?.[0]?.message?.content;
-          // console.log("result", result);
-          if (message) setSummary(message);
-        } catch (e) {
-          console.error(e);
-        } finally {
-          resetForm();
-        }
+      onSubmit: (values) => {
+        mutate(values, {
+          onSuccess: (response) => {
+            const message =
+              response?.data?.message?.choices?.[0]?.message?.content;
+            if (message) setSummary(message);
+          },
+          onError: () => {
+            console.error("An error occured while submitting the form");
+          },
+          onSettled: () => {
+            resetForm();
+          },
+        });
       },
     });
+
+  // TODO: add more validation around URL input
 
   return (
     <>
@@ -76,17 +75,19 @@ const DrugSummaryForm = () => {
             <button
               className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
               type="submit"
-              disabled={!values.webpage_url || isMutating}>
+              disabled={!values.webpage_url || isLoading}>
               Submit
             </button>
           </div>
         </form>
-        {isMutating && (
+        {isLoading && (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <HourglassSpinner />
           </div>
         )}
-        {error && <p className="text-center">Please enter a valid URL.</p>}
+        {(error as boolean) && (
+          <p className="text-center">Please enter a valid URL.</p>
+        )}
         {summary && (
           <>
             <h2

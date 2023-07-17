@@ -9,6 +9,8 @@ const LoginSchema = object().shape({
   password: string().required("Please enter a password."),
 });
 
+// TODO: make re-usable Form and FormItem components
+
 const LoginForm = () => {
   const {
     dirty,
@@ -89,11 +91,11 @@ const LoginForm = () => {
           </div>
 
           <div className="flex items-center justify-between">
-            <a
+            <Link
               className="inline-block align-baseline font-bold text-sm hover:text-blue-600"
-              href="register">
+              to="register">
               Forgot Password?
-            </a>
+            </Link>
             <button
               className="black_btn"
               disabled={!(dirty && isValid)}
