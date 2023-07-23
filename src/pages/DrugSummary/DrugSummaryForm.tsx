@@ -6,29 +6,20 @@ import { useMutation } from "react-query";
 
 import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
 
-// interface PDF extends Blob {
-//   lastModified: number;
-//   lastModifiedDate: Date;
-//   name: string;
-//   size: number;
-//   type: string;
-//   webkitRelativePath: string;
-// }
 interface FormValues {
   url: string;
-  pdf_file: string;
+  pdf_file: File | null;
 }
 
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
-  const [pdf, setPdf] = useState<File | null>();
   const [errorMessage, setErrorMessage] = useState("");
 
   const { isLoading, mutate } = useMutation(async (values: FormValues) => {
     const formData = new FormData();
     formData.append("url", values.url);
-    if (pdf) {
-      formData.append("pdf", pdf);
+    if (values?.pdf_file) {
+      formData.append("pdf", values.pdf_file as File);
     }
     // TODO change this to actual endpoint url when ready
     try {
@@ -51,11 +42,10 @@ const DrugSummaryForm = () => {
     useFormik<FormValues>({
       initialValues: {
         url: "",
-        pdf_file: "",
+        pdf_file: null,
       },
       onSubmit: (values) => {
         setSummary("");
-        setPdf(null);
         mutate(values, {
           onSuccess: (response) => {
             const message =
@@ -89,7 +79,7 @@ const DrugSummaryForm = () => {
               name="url"
               type="text"
               onChange={handleChange}
-              disabled={!!pdf?.name}
+              disabled={!!values?.pdf_file}
               value={values.url}
               className={`disabled:bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             />
@@ -100,13 +90,13 @@ const DrugSummaryForm = () => {
               id="pdf-label"
               htmlFor="pdf_file"
               className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer mb-4 leading-tight transition ease-in-out ${
-                pdf?.name
+                values.pdf_file
                   ? "bg-green-200 hover:bg-green-200"
                   : values.url
                   ? "bg-gray-200 hover:cursor-default hover:bg-gray-200"
                   : "bg-white hover:bg-green-100"
               } rounded-md`}>
-              {pdf?.name || `Upload a PDF`}
+              {values?.pdf_file?.name || `Upload a PDF`}
             </label>
             <input
               id="pdf_file"
@@ -114,17 +104,18 @@ const DrugSummaryForm = () => {
               type="file"
               disabled={!!values.url}
               hidden
-              onChange={(e) => {
-                setPdf(e?.currentTarget?.files?.[0]);
+              onChange={(event) => {
+                setFieldValue("pdf_file", event?.currentTarget?.files?.[0]);
               }}
-              value={values?.pdf_file}
+              // TODO: Replace with custom input component. temporary hack to stay within Formik value state manager. TODO: Replace with custom input component.
+              value={undefined}
             />
           </div>
           <div className="flex items-center justify-end">
             <button
               className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
               type="submit"
-              disabled={(!values.url && !pdf) || isLoading}>
+              disabled={(!values.url && !values.pdf_file) || isLoading}>
               Submit
             </button>
           </div>
