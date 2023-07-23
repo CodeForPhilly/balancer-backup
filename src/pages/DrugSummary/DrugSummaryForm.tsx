@@ -13,16 +13,17 @@ interface FormValues {
 
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
-  const [pdf, setPdf] = useState("");
+  const [pdf, setPdf] = useState<any>();
+  const [erroMessage, setErrorMessage] = useState("");
 
   const { error, isLoading, mutate } = useMutation(
     async (values: FormValues) => {
-      // TODO change this to actual endpoint url when ready
-      console.log("values", values);
-
       const formData = new FormData();
-      // formData.append("url", values.url);
-      formData.append("pdf", values.pdf_file);
+      formData.append("url", values.url);
+      if (pdf) {
+        formData.append("pdf", pdf);
+      }
+      // TODO change this to actual endpoint url when ready
       const res = await axios.post(
         "http://localhost:3001/text_extraction/",
         formData,
@@ -32,21 +33,10 @@ const DrugSummaryForm = () => {
           },
         }
       );
-      console.log('res', res)
+      console.log("res", res);
       return res;
     }
   );
-
-  // const handleFileUpload = (even: any) => {
-  //   const reader = new FileReader();
-  //   const file = event?.target?.files?.[0];
-  //   reader.onloadend = () => {
-  //     this.setState({
-  //       file: reader.result,
-  //     });
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
 
   const { handleChange, handleSubmit, resetForm, setFieldValue, values } =
     useFormik<FormValues>({
@@ -55,12 +45,14 @@ const DrugSummaryForm = () => {
         pdf_file: "",
       },
       onSubmit: (values) => {
-        // console.log({
-        //   pdf: values.pdf,
-        //   fileName: values.pdf.name,
-        //   type: values.pdf.type,
-        //   size: `${values.pdf.size} bytes`,
-        // });
+        setSummary("");
+        setPdf(null);
+        console.log({
+          pdf: values.pdf_file,
+          fileName: values.pdf_file.name,
+          type: values.pdf_file.type,
+          size: `${values.pdf_file.size} bytes`,
+        });
         mutate(values, {
           onSuccess: (response) => {
             const message =
@@ -68,7 +60,7 @@ const DrugSummaryForm = () => {
             if (message) setSummary(message);
           },
           onError: () => {
-            console.error("An error occured while submitting the form");
+            setErrorMessage("An error occured while submitting the form");
           },
           onSettled: () => {
             resetForm();
@@ -96,44 +88,35 @@ const DrugSummaryForm = () => {
               name="url"
               type="text"
               onChange={handleChange}
-              disabled={!!values.pdf_file}
+              disabled={pdf}
               value={values.url}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className={`disabled:bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             />
           </div>
           <p className="font-bold mb-4 text-blue-600">OR</p>
           <div className="mb-4">
             <label
-              htmlFor="pdf"
-              className="block text-gray-700 text-sm font-bold mb-2">
-              Upload a PDF
+              id="pdf-label"
+              htmlFor="pdf_file"
+              className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer  leading-tight transition ease-in-out ${
+                pdf?.name
+                  ? "bg-green-200 hover:bg-green-200"
+                  : values.url
+                  ? "bg-gray-200 hover:cursor-default hover:bg-gray-200"
+                  : "bg-white hover:bg-green-100"
+              } rounded-md`}>
+              {pdf?.name || `Upload a PDF`}
             </label>
             <input
-              id="pdf"
+              id="pdf_file"
               name="pdf_file"
               type="file"
               disabled={!!values.url}
-              onChange={handleChange}
-              // onChange={(e) => {
-              //   const file = e.target?.files?.[0];
-              //   if (file !== undefined) {
-              //     const fileReader = new FileReader();
-              //     fileReader.onloadend = () => {
-              //       const pdf = fileReader.result as string;
-              //       console.log("base64String", pdf);
-              //       // Use the base64String as needed
-              //       setPdf(pdf);
-              //       // setFieldValue("pdf", pdf);
-              //     };
-              //     fileReader.readAsDataURL(file);
-              //   }
-              // }}
-              // onChange={(e) => {
-              //   console.log('file', e?.currentTarget?.files?.[0])
-              //   setFieldValue("file", e?.currentTarget?.files?.[0]);
-              // }}
+              hidden
+              onChange={(e) => {
+                setPdf(e?.currentTarget?.files?.[0]);
+              }}
               value={values.pdf_file}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-6"></div>
@@ -142,8 +125,7 @@ const DrugSummaryForm = () => {
             <button
               className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
               type="submit"
-              // disabled={!values.url || isLoading}
-            >
+              disabled={!values.url || isLoading}>
               Submit
             </button>
           </div>
@@ -157,7 +139,7 @@ const DrugSummaryForm = () => {
           <p className="text-center">Please enter a valid URL.</p>
         )}
       </section>
-      {summary && (
+      {!isLoading && summary && (
         <>
           <h2
             style={{ fontSize: "2rem" }}
