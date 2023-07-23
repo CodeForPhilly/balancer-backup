@@ -8,7 +8,7 @@ import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner
 
 interface FormValues {
   webpage_url: string;
-  pdf: any;
+  pdf?: any;
 }
 
 const DrugSummaryForm = () => {
@@ -18,8 +18,12 @@ const DrugSummaryForm = () => {
   const { error, isLoading, mutate } = useMutation(
     async (values: FormValues) => {
       // TODO change this to actual endpoint url when ready
+      console.log("values", values);
+
+      const form = new FormData();
+      form.append("webpage_url", values.webpage_url);
       const res = await axios.post(
-        "http://localhost:3001/wpextraction",
+        "http://localhost:3001/text_extraction/",
         values
       );
       return res;
@@ -41,15 +45,15 @@ const DrugSummaryForm = () => {
     useFormik<FormValues>({
       initialValues: {
         webpage_url: "",
-        pdf: "",
+        // pdf: "",
       },
       onSubmit: (values) => {
-        console.log({
-          pdf: values.pdf,
-          fileName: values.pdf.name,
-          type: values.pdf.type,
-          size: `${values.pdf.size} bytes`,
-        });
+        // console.log({
+        //   pdf: values.pdf,
+        //   fileName: values.pdf.name,
+        //   type: values.pdf.type,
+        //   size: `${values.pdf.size} bytes`,
+        // });
         mutate(values, {
           onSuccess: (response) => {
             const message =
@@ -96,7 +100,7 @@ const DrugSummaryForm = () => {
               className="block text-gray-700 text-sm font-bold mb-2">
               Upload a PDF
             </label>
-            <input
+            {/* <input
               id="pdf"
               name="pdf"
               type="file"
@@ -115,7 +119,7 @@ const DrugSummaryForm = () => {
               }}
               value={values.pdf}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            />
+            /> */}
           </div>
           <div className="mb-6"></div>
 
