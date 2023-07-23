@@ -6,24 +6,32 @@ import { useMutation } from "react-query";
 
 import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
 
+// interface PDF extends Blob {
+//   lastModified: number;
+//   lastModifiedDate: Date;
+//   name: string;
+//   size: number;
+//   type: string;
+//   webkitRelativePath: string;
+// }
 interface FormValues {
   url: string;
-  pdf_file: any;
+  pdf_file: string;
 }
 
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
-  const [pdf, setPdf] = useState<any>();
-  const [erroMessage, setErrorMessage] = useState("");
+  const [pdf, setPdf] = useState<File | null>();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { error, isLoading, mutate } = useMutation(
-    async (values: FormValues) => {
-      const formData = new FormData();
-      formData.append("url", values.url);
-      if (pdf) {
-        formData.append("pdf", pdf);
-      }
-      // TODO change this to actual endpoint url when ready
+  const { isLoading, mutate } = useMutation(async (values: FormValues) => {
+    const formData = new FormData();
+    formData.append("url", values.url);
+    if (pdf) {
+      formData.append("pdf", pdf);
+    }
+    // TODO change this to actual endpoint url when ready
+    try {
       const res = await axios.post(
         "http://localhost:3001/text_extraction/",
         formData,
@@ -33,10 +41,11 @@ const DrugSummaryForm = () => {
           },
         }
       );
-      console.log("res", res);
       return res;
+    } catch (e) {
+      console.error(e);
     }
-  );
+  });
 
   const { handleChange, handleSubmit, resetForm, setFieldValue, values } =
     useFormik<FormValues>({
@@ -47,12 +56,6 @@ const DrugSummaryForm = () => {
       onSubmit: (values) => {
         setSummary("");
         setPdf(null);
-        console.log({
-          pdf: values.pdf_file,
-          fileName: values.pdf_file.name,
-          type: values.pdf_file.type,
-          size: `${values.pdf_file.size} bytes`,
-        });
         mutate(values, {
           onSuccess: (response) => {
             const message =
@@ -68,8 +71,6 @@ const DrugSummaryForm = () => {
         });
       },
     });
-
-  // TODO: add more validation around URL input
 
   return (
     <>
@@ -88,7 +89,7 @@ const DrugSummaryForm = () => {
               name="url"
               type="text"
               onChange={handleChange}
-              disabled={pdf}
+              disabled={!!pdf?.name}
               value={values.url}
               className={`disabled:bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             />
@@ -98,7 +99,7 @@ const DrugSummaryForm = () => {
             <label
               id="pdf-label"
               htmlFor="pdf_file"
-              className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer  leading-tight transition ease-in-out ${
+              className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer mb-4 leading-tight transition ease-in-out ${
                 pdf?.name
                   ? "bg-green-200 hover:bg-green-200"
                   : values.url
@@ -116,16 +117,14 @@ const DrugSummaryForm = () => {
               onChange={(e) => {
                 setPdf(e?.currentTarget?.files?.[0]);
               }}
-              value={values.pdf_file}
+              value={values?.pdf_file}
             />
           </div>
-          <div className="mb-6"></div>
-
           <div className="flex items-center justify-end">
             <button
               className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
               type="submit"
-              disabled={!values.url || isLoading}>
+              disabled={(!values.url && !pdf) || isLoading}>
               Submit
             </button>
           </div>
@@ -135,7 +134,7 @@ const DrugSummaryForm = () => {
             <HourglassSpinner />
           </div>
         )}
-        {(error as boolean) && (
+        {errorMessage && (
           <p className="text-center">Please enter a valid URL.</p>
         )}
       </section>
