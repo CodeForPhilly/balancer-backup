@@ -17,18 +17,20 @@ const DrugSummaryForm = () => {
 
   const { isLoading, mutate } = useMutation(async (values: FormValues) => {
     const formData = new FormData();
-    formData.append("url", values.url);
-    if (values?.pdf_file) {
-      formData.append("pdf", values.pdf_file as File);
-    }
+    if (values.url) formData.append("url", values.url);
+    if (values.pdf_file) formData.append("pdf", values.pdf_file);
+
+    const contentType = values.url ? "application/json" : "application/pdf";
     // TODO change this to actual endpoint url when ready
+    console.log("contentType", contentType);
+    console.log("formData", formData.get("pdf"));
     try {
       const res = await axios.post(
         "http://localhost:3001/text_extraction/",
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": contentType,
           },
         }
       );
@@ -130,14 +132,14 @@ const DrugSummaryForm = () => {
         )}
       </section>
       {!isLoading && summary && (
-        <>
+        <section className="w-9/12">
           <h2
             style={{ fontSize: "2rem" }}
             className="text-center font-bold my-6">
             URL Summary
           </h2>
           <p>{summary}</p>
-        </>
+        </section>
       )}
     </>
   );
