@@ -4,7 +4,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
 
-import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
+import Summary from "./Summary";
 
 interface FormValues {
   url: string;
@@ -91,7 +91,7 @@ const DrugSummaryForm = () => {
               onChange={handleChange}
               disabled={!!values?.pdf}
               value={values.url}
-              className={`disabled:bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
+              className={` shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight disabled:bg-gray-200 focus:outline-none focus:shadow-outline`}
             />
           </div>
           <p className="font-bold mb-4 text-blue-600">OR</p>
@@ -112,7 +112,7 @@ const DrugSummaryForm = () => {
               id="pdf"
               name="pdf"
               type="file"
-              disabled={!!values.url}
+              disabled={Boolean(values.url)}
               hidden
               onChange={(event) => {
                 setFieldValue("pdf", event?.currentTarget?.files?.[0]);
@@ -130,23 +130,12 @@ const DrugSummaryForm = () => {
             </button>
           </div>
         </form>
-        {isLoading && (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <HourglassSpinner />
-          </div>
-        )}
-        {errorMessage && <p className="text-center">{errorMessage}</p>}
       </section>
-      {!isLoading && summary && (
-        <section className="w-6/12">
-          <h2
-            style={{ fontSize: "2rem" }}
-            className="text-center font-bold my-6">
-            Summary
-          </h2>
-          <p>{summary}</p>
-        </section>
-      )}
+      <Summary
+        errorMessage={errorMessage}
+        isLoading={isLoading}
+        summary={summary}
+      />
     </>
   );
 };

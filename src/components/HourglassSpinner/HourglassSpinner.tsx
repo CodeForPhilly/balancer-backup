@@ -4,7 +4,8 @@ function HourglassSpinner() {
   return (
     <div
       className={styles["lds-hourglass"]}
-      style={{ borderColor: `#fff transparent #fff transparent` }}></div>
+      style={{ borderColor: `#fff transparent #fff transparent` }}
+    />
   );
 }
 
