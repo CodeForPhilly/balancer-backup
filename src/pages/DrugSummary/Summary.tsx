@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner";
 
 interface SummaryProps {
@@ -7,16 +9,29 @@ interface SummaryProps {
 }
 
 function Summary({ errorMessage, isLoading, summary }: SummaryProps) {
-  if (isLoading) {
+  const [minLoading, setMinLoading] = useState(false);
+
+  useEffect(() => {
+    if (isLoading && !errorMessage) {
+      // only show loader after 200ms to avoid flash of loader before error message
+      setTimeout(() => {
+        setMinLoading(true);
+      }, 200);
+    } else {
+      setMinLoading(false);
+    }
+  }, [isLoading, errorMessage]);
+
+  if (errorMessage) {
+    return <p className="text-center">{errorMessage}</p>;
+  }
+
+  if (minLoading) {
     return (
       <div style={{ display: "flex", justifyContent: "center" }}>
         <HourglassSpinner />
       </div>
     );
-  }
-
-  if (errorMessage) {
-    return <p className="text-center">{errorMessage}</p>;
   }
 
   if (!isLoading && summary) {

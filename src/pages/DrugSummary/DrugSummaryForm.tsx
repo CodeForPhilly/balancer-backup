@@ -130,7 +130,7 @@ const DrugSummaryForm = () => {
               onChange={(event) => {
                 setFieldValue("pdf", event?.currentTarget?.files?.[0]);
               }}
-              // TODO: Replace with custom input component. temporary hack to stay within Formik value state manager.
+              // TODO: Replace with custom input component. temporary workaround to stay within Formik value state manager.
               value={undefined}
             />
           </div>
