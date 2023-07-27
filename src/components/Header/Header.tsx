@@ -33,6 +33,8 @@ const Header = () => {
     setShowLoginMenu(!showLoginMenu);
   };
 
+  // TODO: refactor this to be more DRY.
+
   const handleMouseEnter = () => {
     if (delayTimeout !== null) {
       clearTimeout(delayTimeout);
@@ -67,7 +69,7 @@ const Header = () => {
         clearTimeout(delayTimeout);
       }
     };
-  }, []);
+  }, [delayTimeout]);
 
   return (
     <header className="w-full items-center fixed">

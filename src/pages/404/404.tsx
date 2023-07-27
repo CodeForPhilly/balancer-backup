@@ -3,6 +3,8 @@ import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 import styles from "./404.module.css";
 import Layout from "../Layout/Layout";
 
+// TODO: redesign this page + add official copy?
+
 export default function RouteError() {
   const error = useRouteError();
   console.error(error);

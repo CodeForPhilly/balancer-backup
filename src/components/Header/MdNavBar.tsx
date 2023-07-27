@@ -83,9 +83,6 @@ const MdNavBar = () => {
               to="/login"
               className="mr-9 text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
               Features
-              {/* <span className="absolute ml-1.5 transition-transform duration-300 hover:rotate-180">
-                  &#8593;
-                </span> */}
             </Link>
           </li>
           <li className="p-4 border-b border-gray-300">
@@ -93,9 +90,6 @@ const MdNavBar = () => {
               to="/register"
               className="mr-9 text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
               Information
-              {/* <span className="absolute ml-1.5 transition-transform duration-300 hover:rotate-180">
-                  &#8593;
-                </span> */}
             </Link>
           </li>
         </ul>
