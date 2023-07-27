@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
+import { object, string, mixed } from "yup";
 
 import Summary from "./Summary";
 
@@ -10,6 +11,20 @@ interface FormValues {
   url: string;
   pdf: File | null;
 }
+
+const DrugSummaryValidation = object().shape({
+  url: string().url("Please enter a valid URL."),
+  pdf: mixed()
+    .notRequired()
+    .nullable()
+    .test("pdf", "The file is too large", (value) => {
+      if (value == null) return true; // pdf is optional
+      if (value && value instanceof File) {
+        console.log("value", value);
+        return value?.size <= 2000;
+      }
+    }),
+});
 
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
@@ -59,31 +74,39 @@ const DrugSummaryForm = () => {
     }
   );
 
-  const { handleChange, handleSubmit, resetForm, setFieldValue, values } =
-    useFormik<FormValues>({
-      initialValues: {
-        url: "",
-        pdf: null,
-      },
-      onSubmit: (values) => {
-        setSummary("");
-        mutate(values, {
-          onSuccess: (response) => {
-            const message =
-              response?.data?.message?.choices?.[0]?.message?.content;
-            if (message) {
-              setSummary(message);
-            }
-          },
-          onError: () => {
-            setErrorMessage("An error occured while submitting the form");
-          },
-          onSettled: () => {
-            resetForm();
-          },
-        });
-      },
-    });
+  const {
+    errors,
+    handleChange,
+    handleSubmit,
+    resetForm,
+    setFieldValue,
+    touched,
+    values,
+  } = useFormik<FormValues>({
+    initialValues: {
+      url: "",
+      pdf: null,
+    },
+    onSubmit: (values) => {
+      setSummary("");
+      mutate(values, {
+        onSuccess: (response) => {
+          const message =
+            response?.data?.message?.choices?.[0]?.message?.content;
+          if (message) {
+            setSummary(message);
+          }
+        },
+        onError: () => {
+          setErrorMessage("An error occured while submitting the form");
+        },
+        onSettled: () => {
+          resetForm();
+        },
+      });
+    },
+    validationSchema: DrugSummaryValidation,
+  });
 
   return (
     <>
@@ -106,6 +129,11 @@ const DrugSummaryForm = () => {
               value={values.url}
               className={` shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight disabled:bg-gray-200 focus:outline-none focus:shadow-outline`}
             />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.url && errors?.url && (
+                <p className="text-sm text-red-500">{errors.url}</p>
+              )}
+            </div>
           </div>
           <p className="font-bold mb-4 text-blue-600">OR</p>
           <div className="mb-4">
@@ -133,6 +161,11 @@ const DrugSummaryForm = () => {
               // TODO: Replace with custom input component. temporary workaround to stay within Formik value state manager.
               value={undefined}
             />
+            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+              {touched?.pdf && errors?.pdf && (
+                <p className="text-sm text-red-500">{errors.pdf}</p>
+              )}
+            </div>
           </div>
           <div className="flex items-center justify-end">
             <button
