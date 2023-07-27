@@ -42,8 +42,14 @@ const DrugSummaryForm = () => {
       } catch (e: unknown) {
         console.error(e);
         if (e instanceof AxiosError) {
-          const message = e?.response?.data?.error.includes("Invalid")
-            ? `Please enter a valid ${url ? "URL" : "PDF"}.`
+          const fileType =
+            e?.response?.data?.error &&
+            e?.response?.data?.error.includes("Invalid")
+              ? "URL"
+              : "PDF";
+
+          const message = fileType
+            ? `Please enter a valid ${fileType}.`
             : "Something went wrong. Please try again later.";
           setErrorMessage(message);
         } else {
@@ -96,7 +102,7 @@ const DrugSummaryForm = () => {
               name="url"
               type="text"
               onChange={handleChange}
-              disabled={!!values?.pdf}
+              disabled={Boolean(values.pdf)}
               value={values.url}
               className={` shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight disabled:bg-gray-200 focus:outline-none focus:shadow-outline`}
             />
