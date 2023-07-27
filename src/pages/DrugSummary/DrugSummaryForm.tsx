@@ -8,43 +8,51 @@ import HourglassSpinner from "../../components/HourglassSpinner/HourglassSpinner
 
 interface FormValues {
   url: string;
-  pdf_file: File | null;
+  pdf: File | null;
 }
 
 const DrugSummaryForm = () => {
   const [summary, setSummary] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { isLoading, mutate } = useMutation(async (values: FormValues) => {
-    const formData = new FormData();
-    if (values.url) formData.append("url", values.url);
-    if (values.pdf_file) formData.append("pdf", values.pdf_file);
+  const { isLoading, mutate } = useMutation(
+    async ({ url, pdf }: FormValues) => {
+      const formData = new FormData();
 
-    const contentType = values.url ? "application/json" : "application/pdf";
-    // TODO change this to actual endpoint url when ready
-    console.log("contentType", contentType);
-    console.log("formData", formData.get("pdf"));
-    try {
-      const res = await axios.post(
-        "http://localhost:3001/text_extraction/",
-        formData,
-        {
-          headers: {
-            "Content-Type": contentType,
-          },
-        }
-      );
-      return res;
-    } catch (e) {
-      console.error(e);
+      if (url) {
+        formData.append("url", url);
+      } else if (pdf) {
+        formData.append("pdf", pdf);
+      }
+
+      const contentType = url ? "application/json" : "multi-part/form";
+
+      try {
+        // TODO change this to actual endpoint url once hosted
+        const res = await axios.post(
+          "http://localhost:3001/text_extraction/",
+          formData,
+          {
+            headers: {
+              "Content-Type": contentType,
+            },
+          }
+        );
+        return res;
+      } catch (e: any) {
+        const message = e?.response?.data?.error.includes("Invalid")
+          ? `Please enter a valid ${url ? "URL" : "PDF"}.`
+          : "Something went wrong. Please try again later.";
+        setErrorMessage(message);
+      }
     }
-  });
+  );
 
   const { handleChange, handleSubmit, resetForm, setFieldValue, values } =
     useFormik<FormValues>({
       initialValues: {
         url: "",
-        pdf_file: null,
+        pdf: null,
       },
       onSubmit: (values) => {
         setSummary("");
@@ -81,7 +89,7 @@ const DrugSummaryForm = () => {
               name="url"
               type="text"
               onChange={handleChange}
-              disabled={!!values?.pdf_file}
+              disabled={!!values?.pdf}
               value={values.url}
               className={`disabled:bg-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
             />
@@ -90,26 +98,26 @@ const DrugSummaryForm = () => {
           <div className="mb-4">
             <label
               id="pdf-label"
-              htmlFor="pdf_file"
+              htmlFor="pdf"
               className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer mb-4 leading-tight transition ease-in-out ${
-                values.pdf_file
+                values.pdf
                   ? "bg-green-200 hover:bg-green-200"
                   : values.url
                   ? "bg-gray-200 hover:cursor-default hover:bg-gray-200"
                   : "bg-white hover:bg-green-100"
               } rounded-md`}>
-              {values?.pdf_file?.name || `Upload a PDF`}
+              {values?.pdf?.name || `Upload a PDF`}
             </label>
             <input
-              id="pdf_file"
-              name="pdf_file"
+              id="pdf"
+              name="pdf"
               type="file"
               disabled={!!values.url}
               hidden
               onChange={(event) => {
-                setFieldValue("pdf_file", event?.currentTarget?.files?.[0]);
+                setFieldValue("pdf", event?.currentTarget?.files?.[0]);
               }}
-              // TODO: Replace with custom input component. temporary hack to stay within Formik value state manager. TODO: Replace with custom input component.
+              // TODO: Replace with custom input component. temporary hack to stay within Formik value state manager.
               value={undefined}
             />
           </div>
@@ -117,7 +125,7 @@ const DrugSummaryForm = () => {
             <button
               className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
               type="submit"
-              disabled={(!values.url && !values.pdf_file) || isLoading}>
+              disabled={(!values.url && !values.pdf) || isLoading}>
               Submit
             </button>
           </div>
@@ -127,16 +135,14 @@ const DrugSummaryForm = () => {
             <HourglassSpinner />
           </div>
         )}
-        {errorMessage && (
-          <p className="text-center">Please enter a valid URL.</p>
-        )}
+        {errorMessage && <p className="text-center">{errorMessage}</p>}
       </section>
       {!isLoading && summary && (
-        <section className="w-9/12">
+        <section className="w-6/12">
           <h2
             style={{ fontSize: "2rem" }}
             className="text-center font-bold my-6">
-            URL Summary
+            Summary
           </h2>
           <p>{summary}</p>
         </section>
