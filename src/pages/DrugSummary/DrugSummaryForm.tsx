@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
 
@@ -39,11 +39,16 @@ const DrugSummaryForm = () => {
           }
         );
         return res;
-      } catch (e: any) {
-        const message = e?.response?.data?.error.includes("Invalid")
-          ? `Please enter a valid ${url ? "URL" : "PDF"}.`
-          : "Something went wrong. Please try again later.";
-        setErrorMessage(message);
+      } catch (e: unknown) {
+        console.error(e);
+        if (e instanceof AxiosError) {
+          const message = e?.response?.data?.error.includes("Invalid")
+            ? `Please enter a valid ${url ? "URL" : "PDF"}.`
+            : "Something went wrong. Please try again later.";
+          setErrorMessage(message);
+        } else {
+          setErrorMessage("Something went wrong. Please try again later.");
+        }
       }
     }
   );
@@ -60,7 +65,9 @@ const DrugSummaryForm = () => {
           onSuccess: (response) => {
             const message =
               response?.data?.message?.choices?.[0]?.message?.content;
-            if (message) setSummary(message);
+            if (message) {
+              setSummary(message);
+            }
           },
           onError: () => {
             setErrorMessage("An error occured while submitting the form");
