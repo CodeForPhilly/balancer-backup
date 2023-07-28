@@ -27,11 +27,11 @@ const PatientManager = () => {
   // TODO: add error and loading state guards
 
   return (
-    <div className="mt-16 w-full max-w-2xl">
-      <h1 className="head_text">
-        {/* AI-powered Bipolar Medication: <br className="max-md:hidden" /> */}
+    <div className="mt-28 w-full max-w-2xl">
+      {/* AI-powered Bipolar Medication: <br className="max-md:hidden" /> */}
+      {/* <h1 className="head_text">
         <span className="orange_gradient">Balancer</span>
-      </h1>
+      </h1> */}
       <h2 className="desc">Designed to assist prescribers</h2>
       <h2 className="desc1">
         Balancer is a powerful tool for selecting bipolar medication for

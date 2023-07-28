@@ -2,13 +2,17 @@ import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
+import chatbubble from "../../assets/chatbubble.svg";
+import searchIcon from "../../assets/askme.svg";
 import "../../components/Header/header.css";
 // import Typed from "react-typed";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import MdNavBar from "./MdNavBar";
 import LoginMenuDropDown from "./LoginMenuDropDown";
+import Chat from "./Chat";
 import { FeatureMenuDropDown } from "./FeatureMenuDropDown";
 import { ResearchMenuDropDown } from "./ResearchMenuDropDown";
+import { DarkModeContext } from "../../contexts/DarkModeContext";
 
 const Header = () => {
   // const { pathname } = useLocation();
@@ -18,9 +22,15 @@ const Header = () => {
   const dropdownResearchRef = useRef(null);
   let delayTimeout: number | null = null;
   const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
   const handleLoginMenu = () => {
     setShowLoginMenu(!showLoginMenu);
+  };
+
+  const handleChat = () => {
+    setShowChat(!showChat);
   };
 
   const handleMouseEnter = () => {
@@ -71,10 +81,19 @@ const Header = () => {
         }
       >
         <nav className="w-full flex font-satoshi items-center text-sm">
-          <Link to="/">
-            <img src={logo} alt="logo" className="object-contain w-28 mr-9  " />
-          </Link>
+          {/* <Link to="/">
+            <img src={logo} alt="logo" className="object-contain w-28 mr-5  " />
+          </Link> */}
+          <span className="orange_gradient mr-8 font-bold text-xl">
+            Balancer
+          </span>
           <>
+            <Link
+              to="/login"
+              className="mr-5  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+            >
+              Our Mission
+            </Link>
             <div
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -132,16 +151,23 @@ const Header = () => {
         </nav>
 
         <nav className=" flex font-satoshi justify-end w-full items-center text-sm">
+          <form action="">
+            <div className="mr-5 flex items-center text-gray-400 focus-within:text-gray-600 ">
+              <img
+                src={searchIcon}
+                alt="logo"
+                className="w-5 h-5 absolute ml-3 pointer-events-none"
+              />
+              <input
+                placeholder="Ask me something"
+                className="pr-3 pl-10 py-2 font-semibold border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
+              ></input>
+            </div>
+          </form>
           <>
             <Link
-              to="/login"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-            >
-              About Balancer
-            </Link>
-            <Link
               to="/register"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+              className="mr-5  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
             >
               Support
             </Link>
@@ -149,13 +175,27 @@ const Header = () => {
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2"
+                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-5"
               />
             </div>
             <LoginMenuDropDown
               showLoginMenu={showLoginMenu}
               handleLoginMenu={handleLoginMenu}
             />
+            <div onClick={handleChat}>
+              <img
+                src={chatbubble}
+                alt="logo"
+                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-6  "
+              />
+            </div>
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="px-4 py-2 border border-gray-300 rounded"
+            >
+              {isDarkMode ? "Light Mode" : "Dark Mode"}
+            </button>
+            <Chat showChat={showChat} handleChat={handleChat} />
           </>
         </nav>
       </div>

@@ -51,6 +51,16 @@
   top: 0;
 }
 
+.dark .main:before {
+  background: #000;
+  position: absolute;
+  content: "";
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
 .main:after {
   content: "";
   background-image: url("/src/assets/grid.svg");
@@ -61,6 +71,11 @@
   top: 0;
   opacity: 0.4;
   filter: invert(1);
+}
+
+.dark .main:after {
+  opacity: 0.7; /* Just an example: change the opacity in dark mode */
+  background-image: none;
 }
 
 .gradient {
@@ -109,7 +124,7 @@
 }
 
 .orange_gradient {
-  @apply bg-gradient-to-r from-blue-600 via-blue-400 to-blue-600 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-blue-600 via-blue-700 to-blue-600 bg-clip-text text-transparent;
 }
 
 .desc {
@@ -120,7 +135,7 @@
   line-height: 1;
 }
 .desc1 {
-  @apply mt-5 text-lg text-gray-800 sm:text-xl text-center max-w-2xl font-sans;
+  @apply mt-5 text-lg text-gray-400 sm:text-xl text-center max-w-[75%] font-sans  mx-auto;
   font-size: 100%;
   letter-spacing: 0.03em;
 }

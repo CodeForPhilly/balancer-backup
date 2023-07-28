@@ -1,12 +1,15 @@
 import "./App.css";
 import Summary from "./pages/PatientManager/PatientManager";
 import Layout from "./pages/Layout/Layout";
+import { DarkModeProvider } from "./contexts/DarkModeContext";
 
 const App = () => {
   return (
-    <Layout>
-      <Summary />
-    </Layout>
+    <DarkModeProvider>
+      <Layout>
+        <Summary />
+      </Layout>
+    </DarkModeProvider>
   );
 };
 

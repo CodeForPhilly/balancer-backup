@@ -139,13 +139,13 @@ const NewPatientForm = ({
               <img
                 src={minLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="w-7 h-7 sm:w-7 sm:h-7 hover:border-blue-600 hover:border-b-2"
               />
             ) : (
               <img
                 src={maxLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="w-7 h-7 md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
               />
             )}
           </div>
