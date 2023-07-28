@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
 import chatbubble from "../../assets/chatbubble.svg";
 import searchIcon from "../../assets/askme.svg";
+import dark from "../../assets/dark.svg";
+import light from "../../assets/light.svg";
 import "../../components/Header/header.css";
 // import Typed from "react-typed";
 import { useState, useRef, useEffect, useContext } from "react";
@@ -186,14 +188,18 @@ const Header = () => {
               <img
                 src={chatbubble}
                 alt="logo"
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-6  "
+                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
             </div>
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="px-4 py-2 border border-gray-300 rounded"
+              className="px-4 py-2  rounded"
             >
-              {isDarkMode ? "Light Mode" : "Dark Mode"}
+              <img
+                src={isDarkMode ? light : dark}
+                alt={isDarkMode ? "Light Mode" : "Dark Mode"}
+                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
+              />
             </button>
             <Chat showChat={showChat} handleChat={handleChat} />
           </>
