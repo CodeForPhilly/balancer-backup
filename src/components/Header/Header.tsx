@@ -2,7 +2,7 @@ import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
-import chatbubble from "../../assets/chatbubble.svg";
+import chatBubble from "../../assets/chatbubble.svg";
 import searchIcon from "../../assets/askme.svg";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
@@ -11,6 +11,7 @@ import "../../components/Header/header.css";
 import { useState, useRef, useEffect, useContext } from "react";
 import MdNavBar from "./MdNavBar";
 import LoginMenuDropDown from "./LoginMenuDropDown";
+import SearchMenu from "./SearchMenu";
 import Chat from "./Chat";
 import { FeatureMenuDropDown } from "./FeatureMenuDropDown";
 import { ResearchMenuDropDown } from "./ResearchMenuDropDown";
@@ -24,11 +25,15 @@ const Header = () => {
   const dropdownResearchRef = useRef(null);
   let delayTimeout: number | null = null;
   const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const [showSearchMenu, setShowSearchMenu] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
   const handleLoginMenu = () => {
     setShowLoginMenu(!showLoginMenu);
+  };
+  const handleSearchMenu = () => {
+    setShowSearchMenu(!showSearchMenu);
   };
 
   const handleChat = () => {
@@ -153,23 +158,55 @@ const Header = () => {
         </nav>
 
         <nav className=" flex font-satoshi justify-end w-full items-center text-sm">
-          <form action="">
-            <div className="mr-5 flex items-center text-gray-400 focus-within:text-gray-600 ">
-              <img
+          <div className="mr-5" onClick={handleSearchMenu}>
+            {/* <img
                 src={searchIcon}
                 alt="logo"
                 className="w-5 h-5 absolute ml-3 pointer-events-none"
               />
               <input
                 placeholder="Ask me something"
-                className="pr-3 pl-10 py-2 font-semibold border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
-              ></input>
-            </div>
-          </form>
+                className="pr-3 pl-10 py-2 border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
+              ></input> */}
+            <button
+              type="button"
+              className="hidden sm:flex items-center w-64 text-left space-x-3 px-4 h-9 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
+            >
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="flex-none text-slate-300 dark:text-slate-400"
+                aria-hidden="true"
+              >
+                <path d="m19 19-3.5-3.5"></path>
+                <circle cx="11" cy="11" r="6"></circle>
+              </svg>
+              <span className="flex-auto">Quick search...</span>
+              <kbd className="font-sans font-semibold dark:text-slate-500">
+                <abbr
+                  title="Control"
+                  className="no-underline text-slate-300 dark:text-slate-500"
+                >
+                  Ctrl{" "}
+                </abbr>{" "}
+                K
+              </kbd>
+            </button>
+          </div>
+          <SearchMenu
+            showSearchMenu={showSearchMenu}
+            handleSearchMenu={handleSearchMenu}
+          />
+
           <>
             <Link
               to="/register"
-              className="mr-5  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+              className="mr-5 hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
             >
               Support
             </Link>
@@ -177,7 +214,7 @@ const Header = () => {
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-5"
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-5"
               />
             </div>
             <LoginMenuDropDown
@@ -186,9 +223,9 @@ const Header = () => {
             />
             <div onClick={handleChat}>
               <img
-                src={chatbubble}
+                src={chatBubble}
                 alt="logo"
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
             </div>
             <button
@@ -198,7 +235,7 @@ const Header = () => {
               <img
                 src={isDarkMode ? light : dark}
                 alt={isDarkMode ? "Light Mode" : "Dark Mode"}
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
             </button>
             <Chat showChat={showChat} handleChat={handleChat} />
