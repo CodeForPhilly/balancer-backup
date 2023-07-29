@@ -24,7 +24,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
   const handleSearch = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3001/drugReviewSearch",
+        "http://localhost:3001/drugReviewSearch/",
         {
           drugReviewSearch: inputValue,
         }
