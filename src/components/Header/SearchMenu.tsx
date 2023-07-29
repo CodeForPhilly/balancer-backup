@@ -52,7 +52,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
         }
       >
         <div className="flex flex-col justify-center items-center">
-          <div className="relative sm:flex items-center w-[100%] h-14 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus-within:ring-2 focus-within:ring-sky-500 shadow-sm rounded-t-md text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700">
+          <div className="relative sm:flex items-center w-[100%] h-14 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus-within:ring-2 focus-within:ring-sky-500 shadow-sm rounded-t-md text-slate-800 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700">
             <svg
               width="24"
               height="24"
@@ -61,7 +61,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-300 dark:text-slate-400 hover:cursor-pointer"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:cursor-pointer"
               aria-hidden="true"
               onClick={handleSearch}
             >
@@ -70,8 +70,8 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
             </svg>
             <input
               type="text"
-              className="pl-10 pr-3 py-2 w-full h-full bg-transparent focus:outline-none border-none rounded-t-md"
-              placeholder="Quick search..."
+              className="pl-16 pr-3 py-2 w-full h-full bg-transparent text-lg focus:outline-none border-none rounded-t-md"
+              placeholder="Discover what others think about.."
               value={inputValue}
               onChange={handleInputChange}
             />
@@ -80,28 +80,58 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
             <kbd className="absolute right-3 top-1/2 transform -translate-y-1/2 font-sans font-semibold dark:text-slate-500">
               <abbr
                 title="Control"
-                className="no-underline text-slate-300 dark:text-slate-500"
+                className="no-underline text-slate-500 dark:text-slate-500"
               >
                 ESC{" "}
               </abbr>{" "}
             </kbd>
           </div>
 
-          <div className="font-satoshi text-xl h-14 flex flex-col justify-center items-center text-center">
-            <p>See what others are saying</p>
+          <div className="font-satoshi text-xl h-20 flex flex-col justify-center items-center text-center">
+            <p>Let's find out what others are saying</p>
           </div>
-          <div className="h-18 w-[75%] flex flex-col justify-center items-center text-center">
+          <div className="h-18 p-5 w-[75%] flex flex-col justify-center items-center text-center">
             <p>
               The search results are from a database of over 5000 reviews. You
               can ask me anything and I will summarize what others are saying.
             </p>
           </div>
           <div className="w-[75%] mt-4">
-            {message && <p className="font-bold mb-4">{message}</p>}
+            {message && (
+              <h2 className="p-5 font-satoshi font-bold text-gray-600 text-lg">
+                Summary of<span className="blue_gradient"> Results</span>
+              </h2>
+            )}
+            <div>{message && <p className=" mb-4">{message}</p>}</div>
+            {/* <div>
+              {message && (
+                <pre
+                  style={{
+                    // display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    maxWidth: "100%",
+                    overflow: "auto",
+                    whiteSpace: "pre-wrap",
+                    wordWrap: "break-word",
+                  }}
+                  className="mb-4"
+                  dangerouslySetInnerHTML={{
+                    __html: message,
+                  }}
+                ></pre>
+              )}
+            </div> */}
+            {message && (
+              <h2 className="p-5 font-satoshi font-bold text-gray-600 text-lg">
+                List of<span className="blue_gradient"> Results</span>
+              </h2>
+            )}
             {searchResults.map((result, index) => (
-              <div key={index} className="mb-4">
+              <div key={index} className="mb-4 text-sm">
                 <h3 className="font-bold">{result.drugName}</h3>
                 <p>{result.review}</p>
+                <p>{result.date}</p>
                 {/* Other fields like result.condition, result.date can be rendered similarly if desired */}
               </div>
             ))}

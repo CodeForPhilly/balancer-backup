@@ -141,7 +141,7 @@
 }
 
 .url_input {
-  @apply block w-full rounded-md border border-gray-300 bg-white py-2.5 pl-5 pr-5 text-sm shadow-lg font-satoshi font-medium focus:border-black focus:outline-none focus:ring-0;
+  @apply block w-full rounded-md border  bg-white ring-1 py-2.5 pl-5 pr-5 text-sm shadow-sm rounded-lg hover:ring-slate-300  font-satoshi font-medium focus:outline-none focus:ring-2;
 }
 
 .url_input_loading {

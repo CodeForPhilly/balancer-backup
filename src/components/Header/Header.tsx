@@ -91,9 +91,12 @@ const Header = () => {
           {/* <Link to="/">
             <img src={logo} alt="logo" className="object-contain w-28 mr-5  " />
           </Link> */}
-          <span className="orange_gradient mr-8 font-bold text-xl">
-            Balancer
-          </span>
+          <Link to="/">
+            <span className="orange_gradient mr-8 font-bold text-xl">
+              Balancer
+            </span>
+          </Link>
+
           <>
             <Link
               to="/login"

@@ -81,68 +81,63 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
       <div
         className={`fixed bottom-4 right-4 rounded ${
           showChat
-            ? "w-[25%] h-[50%] bg-white border-1bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
+            ? "w-[25%] h-[50%]  bg-white border-1bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
             : "h-12 "
         } transition-all shadow`}
       >
         {showChat && (
           <div
             id="chat_container"
-            className="h-full overflow-auto mx-auto container overscroll-none"
+            className=" overflow-auto mx-auto  flex flex-col h-full "
           >
-            <div className="flex flex-col h-screen ">
-              <div className="flex-grow p-3 ">
-                <div className="flex flex-col space-y-2">
-                  {chatLog.map((message, index) => (
-                    <div
-                      key={index}
-                      className={`flex ${
-                        message.type === "user"
-                          ? "justify-end"
-                          : "justify-start"
-                      }`}
-                    >
-                      <div
-                        className={`${
-                          message.type === "user"
-                            ? "bg-blue-200 text-black "
-                            : " text-black border-2 "
-                        } rounded-lg p-2  max-w-[400px]`}
-                      >
-                        {message.message}
-                      </div>
-                    </div>
-                  ))}
-                  {isLoading && (
-                    <div key={chatLog.length} className="flex justify-between">
-                      <div className="bg-gray-800 rounded-lg p-4 text-white max-w-sm">
-                        <TypingAnimation />
-                      </div>
-                    </div>
-                  )}
+            <div className="flex flex-col space-y-2 pb-20 p-5 flex-grow">
+              {chatLog.map((message, index) => (
+                <div
+                  key={index}
+                  className={`flex ${
+                    message.type === "user" ? "justify-end" : "justify-start"
+                  }`}
+                >
+                  <div
+                    className={`${
+                      message.type === "user"
+                        ? "bg-blue-200 text-black "
+                        : " text-black border-2 "
+                    } rounded-lg p-2  max-h-[100%] max-w-[500px]`}
+                  >
+                    {message.message}
+                  </div>
                 </div>
-              </div>
-              <div className="  relative p-3  ">
-                <form onSubmit={handleSubmit} className="">
-                  <div className="">
-                    <input
-                      type="text"
-                      className="pl-3  py-2 px-28 font-semibold border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
-                      placeholder="Talk to me..."
-                      value={inputValue}
-                      onChange={(e) => setInputValue(e.target.value)}
-                    />
+              ))}
+              {isLoading && (
+                <div key={chatLog.length} className="flex justify-between">
+                  <div className="bg-gray-800 rounded-lg p-4 text-white max-w-sm">
+                    <TypingAnimation />
                   </div>
-                  <div className="mr-5">
-                    <button
-                      type="submit"
-                      className="bg-blue-500 rounded-2xl px-4 py-2 text-white font-semibold focus:outline-none hover:text-black transition-colors duration-300 absolute top-1/2 transform -translate-y-1/2 right-2"
-                    >
-                      Send
-                    </button>
-                  </div>
-                </form>
-              </div>
+                </div>
+              )}
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 p-3 border-t">
+              <form onSubmit={handleSubmit} className="flex">
+                <div className="flex-grow ml-2">
+                  <input
+                    type="text"
+                    className="pl-3 py-2 px-2 w-full font-semibold border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
+                    placeholder="Talk to me..."
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
+                  />
+                </div>
+                <div className="ml-5">
+                  <button
+                    type="submit"
+                    className="bg-blue-500 rounded-2xl px-4 py-2 text-white font-semibold focus:outline-none hover:text-black transition-colors duration-300"
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
