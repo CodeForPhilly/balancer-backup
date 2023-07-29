@@ -8,20 +8,24 @@ import { object, string, mixed } from "yup";
 import Summary from "./Summary";
 
 interface FormValues {
-  url: string;
   pdf: File | null;
+  url: string;
 }
 
 const DrugSummaryValidation = object().shape({
   url: string().url("Please enter a valid URL."),
   pdf: mixed()
-    .notRequired()
     .nullable()
-    .test("pdf", "The file is too large", (value) => {
+    .test("pdf", "Maximum file size is 25MB.", (value) => {
       if (value == null) return true; // pdf is optional
       if (value && value instanceof File) {
-        console.log("value", value);
-        return value?.size <= 2000;
+        return value?.size <= 2.5e7; // 25MB limit
+      }
+    })
+    .test("pdf", "File type must be PDF.", (value) => {
+      if (value == null) return true; // pdf is optional
+      if (value && value instanceof File) {
+        return value.type.includes("pdf");
       }
     }),
 });
@@ -56,19 +60,21 @@ const DrugSummaryForm = () => {
         return res;
       } catch (e: unknown) {
         console.error(e);
+        const defaultErrorMessage =
+          "Something went wrong. Please try again later.";
         if (e instanceof AxiosError) {
+          const resErrorMessage = e?.response?.data?.error;
           const fileType =
-            e?.response?.data?.error &&
-            e?.response?.data?.error.includes("Invalid")
+            resErrorMessage && resErrorMessage.includes("Invalid")
               ? "URL"
               : "PDF";
+          const message = !resErrorMessage
+            ? defaultErrorMessage
+            : `Please enter a valid ${fileType}.`;
 
-          const message = fileType
-            ? `Please enter a valid ${fileType}.`
-            : "Something went wrong. Please try again later.";
           setErrorMessage(message);
         } else {
-          setErrorMessage("Something went wrong. Please try again later.");
+          setErrorMessage(defaultErrorMessage);
         }
       }
     }
@@ -140,7 +146,7 @@ const DrugSummaryForm = () => {
             <label
               id="pdf-label"
               htmlFor="pdf"
-              className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer mb-4 leading-tight transition ease-in-out ${
+              className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer leading-tight transition ease-in-out ${
                 values.pdf
                   ? "bg-green-200 hover:bg-green-200"
                   : values.url
