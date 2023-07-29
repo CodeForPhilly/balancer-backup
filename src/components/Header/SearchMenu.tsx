@@ -61,7 +61,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-300 dark:text-slate-400"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-300 dark:text-slate-400 hover:cursor-pointer"
               aria-hidden="true"
               onClick={handleSearch}
             >

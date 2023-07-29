@@ -21,7 +21,8 @@ const PatientHistory = ({
         <div
           key={`link-${index}`}
           onClick={() => setPatientInfo(item)}
-          className="link_card">
+          className="link_card"
+        >
           <div className="copy_btn">
             <img
               src={copy}
