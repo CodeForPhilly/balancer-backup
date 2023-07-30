@@ -19,6 +19,11 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
   const [inputValue, setInputValue] = useState("");
   const [chatLog, setChatLog] = useState<ChatLogItem[]>([]); // Specify the type as ChatLogItem[]
   const [isLoading, setIsLoading] = useState(false);
+  const suggestionPrompts = [
+    "Tell me about treatment options.",
+    "What are the common side effects?",
+    "How to manage medication schedule?",
+  ];
 
   useEffect(() => {
     const chatContainer = document.getElementById("chat_container");
@@ -90,35 +95,60 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
             id="chat_container"
             className=" overflow-auto mx-auto  flex flex-col h-full "
           >
-            <div className="flex flex-col space-y-2 pb-20 p-5 flex-grow">
-              {chatLog.map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex ${
-                    message.type === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`${
-                      message.type === "user"
-                        ? "bg-blue-200 text-black "
-                        : " text-black border-2 "
-                    } rounded-lg p-2  max-h-[100%] max-w-[500px]`}
-                  >
-                    {message.message}
-                  </div>
+            <div className="flex flex-col space-y-2 pb-40 p-5 flex-grow">
+              {chatLog.length === 0 ? (
+                <div className="text-gray-500">
+                  Welcome to Balancer! <br />
+                  <br />
+                  Balancer is a powerful open-source tool available for free
+                  use. Simply start typing your questions or concerns, and we'll
+                  do our best to assist you. <br />
+                  <br />
+                  {/* <br />
+                  <br /> Balancer is an assistive tool and cannot be used as a replacement for a real human prescriber. */}
                 </div>
-              ))}
+              ) : (
+                chatLog.map((message, index) => (
+                  <div
+                    key={index}
+                    className={`flex ${
+                      message.type === "user" ? "justify-end" : "justify-start"
+                    }`}
+                  >
+                    <div
+                      className={`${
+                        message.type === "user"
+                          ? "bg-blue-200 text-black "
+                          : "text-black bg-gray-200 border-2 "
+                      }rounded-lg p-2 max-h-[100%] max-w-[500px]`}
+                    >
+                      {message.message}
+                    </div>
+                  </div>
+                ))
+              )}
               {isLoading && (
                 <div key={chatLog.length} className="flex justify-between">
-                  <div className=" rounded-lg p-4 text-white max-w-sm">
+                  <div className="rounded-lg p-4 text-white max-w-sm">
                     <TypingAnimation />
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 p-3 border-t">
+            <div className="absolute bottom-0 left-0 right-0 p-2 border-t">
+              <div className=" space-x-2  p-2 flex ">
+                {suggestionPrompts.map((suggestion, index) => (
+                  <button
+                    type="button"
+                    key={index}
+                    className="rounded-md border  hover:bg-blue-200 p-2"
+                    onClick={() => setInputValue(suggestion)}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
               <form onSubmit={handleSubmit} className="flex">
                 <div className="flex-grow ml-2">
                   <input

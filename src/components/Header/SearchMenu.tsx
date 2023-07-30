@@ -90,19 +90,25 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
           <div className="font-satoshi text-xl h-20 flex flex-col justify-center items-center text-center">
             <p>Let's find out what others are saying</p>
           </div>
-          <div className="h-18 p-5 w-[75%] flex flex-col justify-center items-center text-center">
+          <div className="h-18 p-5 w-[90%] flex flex-col justify-center items-center text-center">
             <p>
               The search results are from a database of over 5000 reviews. You
               can ask me anything and I will summarize what others are saying.
             </p>
           </div>
-          <div className="w-[75%] mt-4">
+          <div className="w-[85%] mt-4">
             {message && (
               <h2 className="p-5 font-satoshi font-bold text-gray-600 text-lg">
                 Summary of<span className="blue_gradient"> Results</span>
               </h2>
             )}
-            <div>{message && <p className=" mb-4">{message}</p>}</div>
+            <div>
+              {message && (
+                <p className="mb-4 text-sm p-4 rounded-lg divide-gray-900/5 bg-gray-50 divide-x hover:bg-gray-100 ">
+                  {message}
+                </p>
+              )}
+            </div>
             {/* <div>
               {message && (
                 <pre
@@ -123,13 +129,17 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               )}
             </div> */}
             {message && (
-              <h2 className="p-5 font-satoshi font-bold text-gray-600 text-lg">
+              <h2 className="p-5 font-satoshi font-bold  text-gray-600 text-lg">
                 List of<span className="blue_gradient"> Results</span>
               </h2>
             )}
             {searchResults.map((result, index) => (
-              <div key={index} className="mb-4 text-sm">
+              <div
+                key={index}
+                className="mb-4 text-sm p-4 rounded-lg divide-gray-900/5 bg-gray-50 divide-x hover:bg-gray-100"
+              >
                 <h3 className="font-bold">{result.drugName}</h3>
+                <br />
                 <p>{result.review}</p>
                 <p>{result.date}</p>
                 {/* Other fields like result.condition, result.date can be rendered similarly if desired */}

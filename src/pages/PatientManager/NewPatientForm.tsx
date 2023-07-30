@@ -185,7 +185,7 @@ const NewPatientForm = ({
                 className={
                   isLoading
                     ? " url_input_loading peer w-1/2"
-                    : "url_input peer w-1/2"
+                    : "url_input peer w-1/2 "
                 }
               >
                 <option value="Other">Select a Patient Current State:</option>
