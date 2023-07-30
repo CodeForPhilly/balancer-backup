@@ -115,8 +115,8 @@
   @apply relative z-10 flex items-center flex-col w-full mx-auto;
 }
 
-.black_btn {
-  @apply rounded-full border border-black bg-blue-500 py-2.5 px-6 text-sm text-white transition-all hover:bg-white hover:text-black;
+.btn {
+  @apply rounded-md   border bg-blue-500 px-3 py-1.5 text-sm font-semibold text-white  hover:bg-blue-400;
 }
 
 .head_text {

@@ -151,13 +151,13 @@ const NewPatientForm = ({
           </div>
         </div>
         {enterNewPatient && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="mt-5">
             <div>
               <label
                 htmlFor="name"
                 className="block font-latoBold text-sm pb-2"
               >
-                Patient ID:{" "}
+                {/* Patient ID:{" "} */}
               </label>
               <input
                 type="text"
@@ -176,7 +176,7 @@ const NewPatientForm = ({
                 htmlFor="diagnosis"
                 className="block font-latoBold text-sm pb-2"
               >
-                Patient Current State:
+                {/* Patient Current State: */}
               </label>
               <select
                 value={patientInfo.Diagnosis}
@@ -188,7 +188,7 @@ const NewPatientForm = ({
                     : "url_input peer w-1/2"
                 }
               >
-                <option value="Other">Select a state</option>
+                <option value="Other">Select a Patient Current State:</option>
                 <option value="Bipolar I mania">Bipolar I mania</option>
                 <option value="Bipolar I depression">
                   Bipolar I depression
@@ -227,7 +227,7 @@ const NewPatientForm = ({
                 htmlFor="currentMedications"
                 className="block font-latoBold text-sm pb-2"
               >
-                Current Medications:
+                {/* Current Medications: */}
               </label>
               <input
                 id="currentMedications"
@@ -240,6 +240,7 @@ const NewPatientForm = ({
                   })
                 }
                 required
+                placeholder="Enter Current Medications"
                 className={
                   isLoading
                     ? " url_input_loading peer w-1/2"
@@ -248,13 +249,12 @@ const NewPatientForm = ({
               />
             </div>
 
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center mt-7">
               <button
                 type="submit"
-                className={`black_btn peer-focus:border-gray-700 peer-focus:text-gray-700 ${
-                  isPressed
-                    ? ""
-                    : "transition-transform hover:scale-105 focus:outline-none focus:ring focus:ring-blue-500"
+                className={`btn w-full ${
+                  isPressed &&
+                  "transition-transform focus:outline-none focus:ring focus:ring-blue-200"
                 }${
                   isLoading
                     ? "transition-transform bg-white-600 scale-105 focus:outline-none focus:ring focus:ring-blue-500"

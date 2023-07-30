@@ -1,11 +1,13 @@
+import React from "react";
+import "./TypingAnimation.css";
+
 const TypingAnimation = () => {
   return (
-    <div className="flex items-center space-x-2">
-      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-gray-400 to-gray-600 animate-pulse"></div>
-      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-gray-400 to-gray-600 animate-pulse delay-75"></div>
-      <div className="w-4 h-4 rounded-full bg-gradient-to-r from-gray-400 to-gray-600 animate-pulse delay-150"></div>
+    <div className="flex items-center justify-center h-full">
+      <div className="animate-spin rounded-full h-4 w-4 border-t-4 border-slate-500"></div>
     </div>
   );
 };
 
 export default TypingAnimation;
+// ring-1 ring-slate-1000/10
