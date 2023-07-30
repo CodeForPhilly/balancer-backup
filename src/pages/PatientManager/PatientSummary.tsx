@@ -2,7 +2,9 @@ import { PatientInfo } from "./PatientTypes";
 // import { loader } from "../../assets";
 import minLogo from "../../assets/min.svg";
 import maxLogo from "../../assets/max.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import TypingAnimation from "../../components/Header/components/TypingAnimation";
 
 interface PatientSummaryProps {
   patientInfo: PatientInfo;
@@ -16,9 +18,28 @@ const PatientSummary = ({
   loader,
 }: PatientSummaryProps) => {
   const [showSummary, setShowSummary] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [riskData, setRiskData] = useState<any>(null);
+  const [clickedMedication, setClickedMedication] = useState<string | null>(
+    null
+  );
 
   const handleClickSummary = () => {
     setShowSummary(!showSummary);
+  };
+
+  const handleMedicationClick = async (medication: string) => {
+    setClickedMedication(medication);
+    setLoading(true);
+    try {
+      const response = await axios.post("http://localhost:3001/risk", {
+        diagnosis: medication,
+      });
+      setRiskData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
   };
 
   return (
@@ -42,7 +63,7 @@ const PatientSummary = ({
             <div className="flex justify-between">
               <div>
                 <h2 className="font-satoshi font-bold text-gray-600 text-xl">
-                  Patient <span className="blue_gradient">Summary</span>
+                  <span className="blue_gradient">Summary</span>
                 </h2>
               </div>
               <div onClick={handleClickSummary}>
@@ -62,56 +83,153 @@ const PatientSummary = ({
               </div>
             </div>
             {showSummary && (
-              <div className="summary_box">
-                <p className="font-inter font-medium text-sm text-gray-700">
-                  <label
-                    htmlFor="patientID"
-                    className="block font-latoBold text-sm pb-2"
-                  >
-                    {" "}
-                    <b>Patient ID: </b> {patientInfo.ID}
-                  </label>
-                  <label
-                    htmlFor="diagnosis"
-                    className="block font-latoBold text-sm pb-2"
-                  >
-                    <b>Current State: </b> {patientInfo.Diagnosis}{" "}
-                    {patientInfo.OtherDiagnosis}
-                  </label>
-                  <label
-                    htmlFor="ageInput"
-                    className="block font-latoBold text-sm pb-2"
-                  >
-                    {" "}
-                    <b>Current Medications: </b>
-                    {patientInfo.CurrentMedications}
-                  </label>
-                  <label
-                    htmlFor="currentMedications"
-                    className="block font-latoBold text-sm pb-2"
-                  >
-                    <b>Possible Medications: </b>
-                    <br />
-                    <br />
-                    <p className="font-inter font-medium text-sm text-gray-700 whitespace-pre-wrap">
-                      <pre
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          maxWidth: "100%",
-                          overflow: "auto",
-                          whiteSpace: "pre-wrap",
-                          wordWrap: "break-word",
-                        }}
-                        dangerouslySetInnerHTML={{
-                          __html: patientInfo.Description,
-                        }}
-                      ></pre>
-                      {/* {patientInfo.Description} */}
-                    </p>
-                  </label>
-                </p>
+              <div className="summary_box border-1bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300">
+                <div className="px-4 sm:px-0">
+                  <h3 className="text-base font-semibold leading-7 text-gray-900">
+                    Information
+                  </h3>
+                  <p className="mt-1 max-w-2xl text-sm leading-6  text-gray-500">
+                    Patient details and application.
+                  </p>
+                </div>
+                <div className="mt-6 border-t border-gray-100">
+                  <dl className="divide-y divide-gray-100">
+                    <div className="flex space-between ">
+                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 w-[50%]">
+                        <dt className="text-sm font-medium leading-6 text-gray-900 ">
+                          Patient ID:
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                          {patientInfo.ID}
+                        </dd>
+                      </div>
+                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 w-[50%]">
+                        <dt className="text-sm font-medium leading-6 text-gray-900">
+                          Current State:
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                          {patientInfo.Diagnosis}
+                        </dd>
+                      </div>
+                    </div>
+                    <div className="flex px-4 py-6 sm:grid sm:gap-4 sm:px-0 ">
+                      <dt className="text-sm font-medium leading-6 text-gray-900">
+                        Current Medications:
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        {patientInfo.CurrentMedications}
+                      </dd>
+                    </div>
+                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                      <dt className="text-sm font-medium leading-6 flex text-gray-900">
+                        Possible Medications:
+                        <div className="flex items-start ml-3 mt-1 text-white max-w-sm">
+                          {loading ? <TypingAnimation /> : null}
+                        </div>
+                      </dt>
+                      <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                        <ul
+                          role="list"
+                          className="divide-y divide-gray-100 rounded-md border border-gray-200"
+                        >
+                          {patientInfo.PossibleMedications &&
+                            patientInfo.PossibleMedications.drugs?.map(
+                              (medication) => (
+                                <li
+                                  className={`flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-4 
+                                ${
+                                  medication === clickedMedication
+                                    ? "bg-indigo-100"
+                                    : ""
+                                }`}
+                                >
+                                  <div className="flex w-0 flex-1 items-center">
+                                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
+                                      <span className="truncate font-medium">
+                                        {medication}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div className="ml-4 flex-shrink-0">
+                                    <button
+                                      onClick={() =>
+                                        handleMedicationClick(medication)
+                                      }
+                                      className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none"
+                                    >
+                                      Benefits and risks
+                                    </button>
+                                  </div>
+                                </li>
+                              )
+                            )}
+                        </ul>
+                      </dd>
+                    </div>
+
+                    {riskData && (
+                      <div className="px-4 py-6 sm:grid sm:gap-4 sm:px-0">
+                        <dt className="text-sm font-medium leading-6 text-gray-900">
+                          Benefits and risks
+                        </dt>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                          <div className="flex">
+                            <div className="p-2">
+                              <div>
+                                <h4 className="text-sm font-medium">
+                                  Benefits:
+                                </h4>
+                              </div>
+                              <div>
+                                <ul>
+                                  {riskData.benefits.map((benefit: string) => (
+                                    <li className="text-sm">{benefit}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                            <div className="p-2">
+                              <div>
+                                <h4 className="text-sm font-medium">Risks:</h4>
+                              </div>
+                              <div>
+                                <ul>
+                                  {riskData.risks.map((risk: string) => (
+                                    <li className="text-sm">{risk}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </dd>
+                      </div>
+                    )}
+                    {/* <label htmlFor="PossibleMedications" className="">
+                      <dt className="text-sm font-medium leading-6 text-gray-900">
+                        Benefits and risks
+                      </dt>
+                      <br />
+
+                      <p className="font-inter font-medium text-sm text-gray-700 whitespace-pre-wrap">
+                        <pre
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            maxWidth: "100%",
+                            overflow: "auto",
+                            whiteSpace: "pre-wrap",
+                            wordWrap: "break-word",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: patientInfo.Description,
+                          }}
+                        ></pre>
+             
+                      </p>
+                    </label> */}
+                  </dl>
+                </div>
               </div>
             )}
           </div>

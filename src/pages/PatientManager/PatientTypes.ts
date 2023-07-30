@@ -4,4 +4,7 @@ export interface PatientInfo {
   OtherDiagnosis: string;
   Description: string;
   CurrentMedications: string;
+  PossibleMedications: {
+    drugs: string[];
+  };
 }

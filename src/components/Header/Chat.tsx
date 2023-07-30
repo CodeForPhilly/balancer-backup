@@ -153,7 +153,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
               )}
             </div>
 
-            <div className="absolute bottom-2 left-0 right-0 p-2 border-t bg-white">
+            <div className="absolute bottom-0 left-0 right-0 p-4 rounded-lg border-t bg-white">
               <div className=" space-x-2  p-2 flex ">
                 {suggestionPrompts.map((suggestion, index) => (
                   <button
@@ -183,6 +183,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
                 </div>
               </form>
             </div>
+            {/* <div className="bg-white  bottom-0 w-[100%] text-white">.</div> */}
           </div>
         )}
       </div>

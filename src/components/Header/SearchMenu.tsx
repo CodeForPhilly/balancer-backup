@@ -71,7 +71,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
             <input
               type="text"
               className="pl-16 pr-3 py-2 w-full h-full bg-transparent text-lg focus:outline-none border-none rounded-t-md"
-              placeholder="Discover what others think about.."
+              placeholder="Let's find out what others are saying"
               value={inputValue}
               onChange={handleInputChange}
             />

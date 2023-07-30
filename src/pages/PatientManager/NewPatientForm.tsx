@@ -61,6 +61,20 @@ const NewPatientForm = ({
         "http://localhost:3001/diagnosis",
         payload
       );
+      console.log("Ersssror occurred:", payload);
+      const drugsResponse = await axios.post(
+        "http://localhost:3001/listDrugs",
+        payload
+      );
+      console.log("Error occurred:", payload);
+      const possibleMedications = drugsResponse.data;
+
+      if (possibleMedications && Array.isArray(possibleMedications)) {
+        setPatientInfo((prev) => ({
+          ...prev,
+          PossibleMedications: possibleMedications,
+        }));
+      }
 
       const generatedGuid = uuidv4();
       const firstFiveCharacters = generatedGuid.substring(0, 5);
@@ -74,6 +88,7 @@ const NewPatientForm = ({
           ...patientInfo,
           Description: description,
           ID: firstFiveCharacters,
+          PossibleMedications: possibleMedications,
         };
 
         const updatedAllPatientInfo = [newDescription, ...allPatientInfo];
@@ -152,13 +167,15 @@ const NewPatientForm = ({
         </div>
         {enterNewPatient && (
           <form onSubmit={handleSubmit} className="mt-5">
-            <div>
-              <label
-                htmlFor="name"
-                className="block font-latoBold text-sm pb-2"
-              >
-                {/* Patient ID:{" "} */}
-              </label>
+            <div className="flex items-center">
+              {patientInfo.ID && (
+                <label
+                  htmlFor="name"
+                  className=" font-latoBold text-sm mr-3 text-gray-500"
+                >
+                  Patient ID:
+                </label>
+              )}
               <input
                 type="text"
                 placeholder="Patient ID will be randomly generated on submit"
@@ -167,7 +184,7 @@ const NewPatientForm = ({
                 className={
                   isLoading
                     ? " url_input_loading peer w-1/2"
-                    : "url_input peer w-1/2"
+                    : "text-sm leading-6   w-2/3"
                 }
               />
             </div>
