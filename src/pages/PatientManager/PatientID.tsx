@@ -19,7 +19,7 @@ function PatientIDInput({ patientInfo, setPatientInfo }: PatientIDInputProps) {
 
   return (
     <div className="">
-      <label htmlFor="name" className="block font-latoBold text-sm pb-2">
+      <label htmlFor="name" className="font-latoBold block pb-2 text-sm">
         Patient ID:{" "}
       </label>
       <input

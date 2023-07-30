@@ -118,13 +118,13 @@ const NewPatientForm = ({
         <div className="flex justify-between">
           {enterNewPatient ? (
             <div>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl">
+              <h2 className="font-satoshi text-xl font-bold text-gray-600">
                 Enter New <span className="blue_gradient">Patient</span>
               </h2>
             </div>
           ) : (
             <div onClick={handleClickSummary}>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl hover:border-blue-600 hover:border-b-2">
+              <h2 className="font-satoshi text-xl font-bold text-gray-600 hover:border-b-2 hover:border-blue-600">
                 Click To Enter New
                 <span className="blue_gradient"> Patient</span>
               </h2>
@@ -135,13 +135,13 @@ const NewPatientForm = ({
               <img
                 src={minLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
               />
             ) : (
               <img
                 src={maxLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
               />
             )}
           </div>
@@ -151,7 +151,7 @@ const NewPatientForm = ({
             <div>
               <label
                 htmlFor="name"
-                className="block font-latoBold text-sm pb-2">
+                className="font-latoBold block pb-2 text-sm">
                 Patient ID:{" "}
               </label>
               <input
@@ -169,7 +169,7 @@ const NewPatientForm = ({
             <div className="mt-5">
               <label
                 htmlFor="diagnosis"
-                className="block font-latoBold text-sm pb-2">
+                className="font-latoBold block pb-2 text-sm">
                 Diagnosis:
               </label>
               <select
@@ -215,10 +215,10 @@ const NewPatientForm = ({
                 />
               )} */}
             </div>
-            <div className="items-center mt-5">
+            <div className="mt-5 items-center">
               <label
                 htmlFor="currentMedications"
-                className="block font-latoBold text-sm pb-2">
+                className="font-latoBold block pb-2 text-sm">
                 Current Medications:
               </label>
               <input
@@ -240,7 +240,7 @@ const NewPatientForm = ({
               />
             </div>
 
-            <div className="flex justify-center mt-5">
+            <div className="mt-5 flex justify-center">
               <button
                 type="submit"
                 className={`black_btn peer-focus:border-gray-700 peer-focus:text-gray-700 ${
@@ -249,7 +249,7 @@ const NewPatientForm = ({
                     : "transition-transform hover:scale-105 focus:outline-none focus:ring focus:ring-blue-500"
                 }${
                   isLoading
-                    ? "transition-transform bg-white-600 scale-105 focus:outline-none focus:ring focus:ring-blue-500"
+                    ? "bg-white-600 scale-105 transition-transform focus:outline-none focus:ring focus:ring-blue-500"
                     : ""
                 }`}
                 onMouseDown={handleMouseDown}
@@ -258,7 +258,7 @@ const NewPatientForm = ({
               >
                 {isLoading ? ( // Render loading icon if loading
                   <div className="flex items-center">
-                    <div className="w-4 h-4 rounded-full bg-white animate-ping mr-2"></div>
+                    <div className="mr-2 h-4 w-4 animate-ping rounded-full bg-white"></div>
                     <p>Loading...</p>
                   </div>
                 ) : (

@@ -42,21 +42,21 @@ const LoginForm = () => {
 
   return (
     <>
-      <section className="mt-12 mx-auto w-full max-w-xs">
-        <h2 className="font-satoshi font-bold text-gray-600 text-xl blue_gradient mb-6">
+      <section className="mx-auto mt-12 w-full max-w-xs">
+        <h2 className="blue_gradient mb-6 font-satoshi text-xl font-bold text-gray-600">
           Register
         </h2>
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md">
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-gray-700 text-sm font-bold mb-2">
+              className="mb-2 block text-sm font-bold text-gray-700">
               Email
             </label>
             <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
               id="email"
               name="email"
               onBlur={handleBlur}
@@ -64,7 +64,7 @@ const LoginForm = () => {
               type="email"
               value={values.email}
             />
-            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+            <div className="form-error-container">
               {touched?.email && errors?.email && (
                 <p className="text-sm text-red-500">{errors.email}</p>
               )}
@@ -73,7 +73,7 @@ const LoginForm = () => {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-gray-700 text-sm font-bold mb-2">
+              className="mb-2 block text-sm font-bold text-gray-700">
               Password
             </label>
             <input
@@ -83,9 +83,9 @@ const LoginForm = () => {
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             />
-            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+            <div className="form-error-container">
               {touched?.password && errors?.password && (
                 <p className="text-sm text-red-500">{errors.password}</p>
               )}
@@ -94,7 +94,7 @@ const LoginForm = () => {
           <div className="mb-6">
             <label
               htmlFor="passwordConfirmation"
-              className="block text-gray-700 text-sm font-bold mb-2">
+              className="mb-2 block text-sm font-bold text-gray-700">
               Password Confirmation
             </label>
             <input
@@ -104,9 +104,9 @@ const LoginForm = () => {
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.passwordConfirmation}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
             />
-            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+            <div className="form-error-container">
               {touched?.passwordConfirmation &&
                 errors?.passwordConfirmation && (
                   <p className="text-sm text-red-500">

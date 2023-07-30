@@ -72,17 +72,17 @@ const Header = () => {
   }, [delayTimeout]);
 
   return (
-    <header className="w-full items-center fixed">
+    <header className="fixed w-full items-center">
       {/* <div className="flex bg-blue-500 text-center font-light text-white w-full h-8 items-center justify-center text-sm">
         WELCOME! STAY TUNE FOR OUR FIRST RELEASE! -
       </div> */}
       <div
         className={
-          "hidden lg:flex items-center border-b border-gray-300 h-20 mx-auto bg-white justify-between  px-4 sm:px-6 md:px-8 lg:px-8 xl:px-50 2xl:px-56"
+          "xl:px-50 mx-auto hidden h-20 items-center justify-between border-b border-gray-300 bg-white  px-4 sm:px-6 md:px-8 lg:flex lg:px-8 2xl:px-56"
         }>
-        <nav className="w-full flex font-satoshi items-center text-sm">
+        <nav className="flex w-full items-center font-satoshi text-sm">
           <Link to="/">
-            <img src={logo} alt="logo" className="object-contain w-28 mr-9  " />
+            <img src={logo} alt="logo" className="mr-9 w-28 object-contain  " />
           </Link>
           <>
             <div
@@ -93,14 +93,14 @@ const Header = () => {
               <span
                 className={` mr-9 text-black ${
                   showFeaturesMenu
-                    ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
-                    : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
+                    ? "cursor-pointer border-b-2 border-blue-600 hover:border-b-2 hover:border-blue-600 hover:no-underline"
+                    : "cursor-pointer hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
                 }`}>
                 Features
                 <span
                   className={` ${
                     showFeaturesMenu
-                      ? "absolute ml-1.5 transition-transform duration-300 rotate-180"
+                      ? "absolute ml-1.5 rotate-180 transition-transform duration-300"
                       : "absolute ml-1.5 "
                   }`}>
                   &#8593;
@@ -117,14 +117,14 @@ const Header = () => {
               <span
                 className={`mr-9 text-black ${
                   showResearchMenu
-                    ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
-                    : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
+                    ? "cursor-pointer border-b-2 border-blue-600 hover:border-b-2 hover:border-blue-600 hover:no-underline"
+                    : "cursor-pointer hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
                 }`}>
                 Research Information
                 <span
                   className={` ${
                     showResearchMenu
-                      ? "absolute ml-1.5 transition-transform duration-300 rotate-180"
+                      ? "absolute ml-1.5 rotate-180 transition-transform duration-300"
                       : "absolute ml-1.5 "
                   }`}>
                   &#8593;
@@ -135,23 +135,23 @@ const Header = () => {
           </>
         </nav>
 
-        <nav className=" flex font-satoshi justify-end w-full items-center text-sm">
+        <nav className=" flex w-full items-center justify-end font-satoshi text-sm">
           <>
             <Link
               to="/login"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
+              className="mr-9  text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline">
               About Balancer
             </Link>
             <Link
               to="/register"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600">
+              className="mr-9  text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline">
               Support
             </Link>
             <div onClick={handleLoginMenu}>
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover:fill-current hover:border-blue-600 hover:border-b-2 hover:cursor-pointer"
+                className="object-contain hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:fill-current"
               />
             </div>
             <LoginMenuDropDown

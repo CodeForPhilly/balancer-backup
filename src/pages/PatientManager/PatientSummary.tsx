@@ -23,11 +23,11 @@ const PatientSummary = ({
   };
 
   return (
-    <div className="my-1 max-w-full flex items-center">
+    <div className="my-1 flex max-w-full items-center">
       {getMedicationInfo.isFetching ? (
-        <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
+        <img src={loader} alt="loader" className="h-20 w-20 object-contain" />
       ) : getMedicationInfo.error ? (
-        <p className="font-inter font-bold text-black text-center">
+        <p className="text-center font-inter font-bold text-black">
           Well, that wasn't supposed to happen...
           <br />
           <span className="font-satoshi font-normal text-gray-700">
@@ -41,7 +41,7 @@ const PatientSummary = ({
             style={{ width: "670px" }}>
             <div className="flex justify-between">
               <div>
-                <h2 className="font-satoshi font-bold text-gray-600 text-xl">
+                <h2 className="font-satoshi text-xl font-bold text-gray-600">
                   Patient <span className="blue_gradient">Summary</span>
                 </h2>
               </div>
@@ -50,46 +50,46 @@ const PatientSummary = ({
                   <img
                     src={minLogo}
                     alt="logo"
-                    className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                    className="hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
                   />
                 ) : (
                   <img
                     src={maxLogo}
                     alt="logo"
-                    className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                    className="hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
                   />
                 )}
               </div>
             </div>
             {showSummary && (
               <div className="summary_box">
-                <p className="font-inter font-medium text-sm text-gray-700">
+                <p className="font-inter text-sm font-medium text-gray-700">
                   <label
                     htmlFor="patientID"
-                    className="block font-latoBold text-sm pb-2">
+                    className="font-latoBold block pb-2 text-sm">
                     {" "}
                     <b>Patient ID: </b> {patientInfo.ID}
                   </label>
                   <label
                     htmlFor="diagnosis"
-                    className="block font-latoBold text-sm pb-2">
+                    className="font-latoBold block pb-2 text-sm">
                     <b>Diagnosis: </b> {patientInfo.Diagnosis}{" "}
                     {patientInfo.OtherDiagnosis}
                   </label>
                   <label
                     htmlFor="ageInput"
-                    className="block font-latoBold text-sm pb-2">
+                    className="font-latoBold block pb-2 text-sm">
                     {" "}
                     <b>Current Medications: </b>
                     {patientInfo.CurrentMedications}
                   </label>
                   <label
                     htmlFor="currentMedications"
-                    className="block font-latoBold text-sm pb-2">
+                    className="font-latoBold block pb-2 text-sm">
                     <b>Possible Medications: </b>
                     <br />
                     <br />
-                    <p className="font-inter font-medium text-sm text-gray-700 whitespace-pre-wrap">
+                    <p className="whitespace-pre-wrap font-inter text-sm font-medium text-gray-700">
                       <pre
                         style={{
                           display: "flex",

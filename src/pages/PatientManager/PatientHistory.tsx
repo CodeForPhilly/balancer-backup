@@ -12,9 +12,9 @@ const PatientHistory = ({
   copy,
 }: PatientHistoryProps) => {
   return (
-    <div className="flex flex-col gap-2 max-h-100 overflow-y-auto mb-12">
+    <div className="max-h-100 mb-12 flex flex-col gap-2 overflow-y-auto">
       <br />
-      <h2 className="font-satoshi font-bold text-gray-600 text-xl">
+      <h2 className="font-satoshi text-xl font-bold text-gray-600">
         List of <span className="blue_gradient">Patients</span>
       </h2>
       {allPatientInfo.reverse().map((item, index) => (
@@ -26,10 +26,10 @@ const PatientHistory = ({
             <img
               src={copy}
               alt="copy_icon"
-              className="w-[40%] h-[40%] object-contain"
+              className="h-[40%] w-[40%] object-contain"
             />
           </div>
-          <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
+          <p className="flex-1 truncate font-satoshi text-sm font-medium text-blue-700">
             {item.ID}
           </p>
         </div>

@@ -116,14 +116,14 @@ const DrugSummaryForm = () => {
 
   return (
     <>
-      <section className="mt-12 mx-auto w-full max-w-xs">
+      <section className="mx-auto mt-12 w-full max-w-xs">
         <form
           onSubmit={handleSubmit}
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md">
           <div className="mb-4">
             <label
               htmlFor="url"
-              className="block text-gray-700 text-sm font-bold mb-2">
+              className="mb-2 block text-sm font-bold text-gray-700">
               Enter a URL
             </label>
             <input
@@ -133,20 +133,20 @@ const DrugSummaryForm = () => {
               onChange={handleChange}
               disabled={Boolean(values.pdf)}
               value={values.url}
-              className={` shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight disabled:bg-gray-200 focus:outline-none focus:shadow-outline`}
+              className={` focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none disabled:bg-gray-200`}
             />
-            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+            <div className="form-error-container">
               {touched?.url && errors?.url && (
                 <p className="text-sm text-red-500">{errors.url}</p>
               )}
             </div>
           </div>
-          <p className="font-bold mb-4 text-blue-600">OR</p>
+          <p className="mb-4 font-bold text-blue-600">OR</p>
           <div className="mb-4">
             <label
               id="pdf-label"
               htmlFor="pdf"
-              className={`py-2 px-3 w-full text-gray-700 shadow border appearance-none inline-block focus:outline-none hover:cursor-pointer leading-tight transition ease-in-out ${
+              className={`inline-block w-full appearance-none border px-3 py-2 leading-tight text-gray-700 shadow transition ease-in-out hover:cursor-pointer focus:outline-none ${
                 values.pdf
                   ? "bg-green-200 hover:bg-green-200"
                   : values.url
@@ -167,7 +167,7 @@ const DrugSummaryForm = () => {
               // TODO: Replace with custom input component. temporary workaround to stay within Formik value state manager.
               value={undefined}
             />
-            <div style={{ height: "1.2rem", paddingTop: ".25rem" }}>
+            <div className="form-error-container">
               {touched?.pdf && errors?.pdf && (
                 <p className="text-sm text-red-500">{errors.pdf}</p>
               )}
@@ -175,7 +175,7 @@ const DrugSummaryForm = () => {
           </div>
           <div className="flex items-center justify-end">
             <button
-              className="black_btn disabled:bg-gray-300 disabled:text-gray-600 disabled:border-gray-300"
+              className="black_btn disabled:border-gray-300 disabled:bg-gray-300 disabled:text-gray-600"
               type="submit"
               disabled={(!values.url && !values.pdf) || isLoading}>
               Submit

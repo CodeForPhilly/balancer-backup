@@ -153,3 +153,7 @@
   @apply rounded-xl border border-gray-300 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] p-4 max-w-[670px];
   /* backdrop-blur */
 }
+
+.form-error-container {
+  @apply pt-1 h-5;
+}

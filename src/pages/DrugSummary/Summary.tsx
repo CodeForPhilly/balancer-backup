@@ -37,7 +37,7 @@ function Summary({ errorMessage, isLoading, summary }: SummaryProps) {
   if (!isLoading && summary) {
     return (
       <section className="w-6/12">
-        <h2 style={{ fontSize: "2rem" }} className="text-center font-bold my-6">
+        <h2 style={{ fontSize: "2rem" }} className="my-6 text-center font-bold">
           Summary
         </h2>
         <p>{summary}</p>
