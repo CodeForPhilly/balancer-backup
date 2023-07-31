@@ -174,28 +174,30 @@ const PatientSummary = ({
                         </dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           <div className="flex">
-                            <div className="p-2">
+                            <div className=" w-[50%]">
                               <div>
-                                <h4 className="text-sm font-medium">
+                                <h4 className="text-sm font-medium mb-3">
                                   Benefits:
                                 </h4>
                               </div>
                               <div>
                                 <ul>
                                   {riskData.benefits.map((benefit: string) => (
-                                    <li className="text-sm">{benefit}</li>
+                                    <li className="text-sm mb-2">{benefit}</li>
                                   ))}
                                 </ul>
                               </div>
                             </div>
-                            <div className="p-2">
+                            <div className="w-[50%]">
                               <div>
-                                <h4 className="text-sm font-medium">Risks:</h4>
+                                <h4 className="text-sm font-medium mb-3">
+                                  Risks:
+                                </h4>
                               </div>
-                              <div>
-                                <ul>
+                              <div className="">
+                                <ul className="">
                                   {riskData.risks.map((risk: string) => (
-                                    <li className="text-sm">{risk}</li>
+                                    <li className="text-sm mb-2">{risk}</li>
                                   ))}
                                 </ul>
                               </div>
