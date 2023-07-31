@@ -61,21 +61,25 @@ const NewPatientForm = ({
         "http://localhost:3001/diagnosis",
         payload
       );
-      console.log("Ersssror occurred:", payload);
+
       const drugsResponse = await axios.post(
         "http://localhost:3001/listDrugs",
         payload
       );
-      console.log("Error occurred:", payload);
-      const possibleMedications = drugsResponse.data;
 
-      if (possibleMedications && Array.isArray(possibleMedications)) {
+      const possibleMedicationsData = drugsResponse.data;
+
+      if (possibleMedicationsData && Array.isArray(possibleMedicationsData)) {
+        // Extract drugs property from each object and flatten it into a single array
+        const possibleMedicationNames = possibleMedicationsData
+          .map((medication: { drugs: string[] }) => medication.drugs)
+          .flat();
+
         setPatientInfo((prev) => ({
           ...prev,
-          PossibleMedications: possibleMedications,
+          PossibleMedications: { drugs: possibleMedicationNames },
         }));
       }
-
       const generatedGuid = uuidv4();
       const firstFiveCharacters = generatedGuid.substring(0, 5);
 
@@ -88,7 +92,7 @@ const NewPatientForm = ({
           ...patientInfo,
           Description: description,
           ID: firstFiveCharacters,
-          PossibleMedications: possibleMedications,
+          PossibleMedications: possibleMedicationsData,
         };
 
         const updatedAllPatientInfo = [newDescription, ...allPatientInfo];

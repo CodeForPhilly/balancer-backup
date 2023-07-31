@@ -1,9 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "../../components/Header/chat.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import TypingAnimation from "./components/typinganimation";
+import TypingAnimation from "./components/TypingAnimation";
 
 interface ChatLogItem {
   type: string;
@@ -12,10 +12,9 @@ interface ChatLogItem {
 
 interface ChatDropDownProps {
   showChat: boolean;
-  handleChat: () => void;
 }
 
-const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
+const Chat: React.FC<ChatDropDownProps> = ({ showChat }) => {
   const [inputValue, setInputValue] = useState("");
   const [chatLog, setChatLog] = useState<ChatLogItem[]>([]); // Specify the type as ChatLogItem[]
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +58,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
 
     const apiMessages = message.map((messageObject) => {
       let role = "";
-      if (messageObject.role === "user") {
+      if (messageObject.type === "user") {
         role = "user";
       } else {
         role = "assistant";
@@ -102,9 +101,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
       )} */}
       <div
         className={`fixed bottom-3 right-4 rounded ${
-          showChat
-            ? "w-[25%] h-[70%]  bg-white border-1bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
-            : "h-12 "
+          showChat ? "show_chat border-1bg-white ring-slate-1000/10" : "h-12 "
         } transition-all shadow`}
       >
         {showChat && (
@@ -170,7 +167,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, handleChat }) => {
                 <div className="flex-grow ml-2">
                   <input
                     type="text"
-                    className="pl-3 py-2 px-2 w-full font-semibold placeholder-gray-500 text-black  bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg  text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
+                    className="input_chat ring-slate-1000/10 dark:highlight-white/5"
                     placeholder="Talk to me..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}

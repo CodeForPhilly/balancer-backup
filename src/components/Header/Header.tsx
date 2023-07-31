@@ -1,9 +1,7 @@
-import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
 import chatBubble from "../../assets/chatbubble.svg";
-import searchIcon from "../../assets/askme.svg";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
 import "../../components/Header/header.css";
@@ -241,7 +239,7 @@ const Header = () => {
                 className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
             </button>
-            <Chat showChat={showChat} handleChat={handleChat} />
+            <Chat showChat={showChat} />
           </>
         </nav>
       </div>

@@ -2,7 +2,7 @@ import { PatientInfo } from "./PatientTypes";
 // import { loader } from "../../assets";
 import minLogo from "../../assets/min.svg";
 import maxLogo from "../../assets/max.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import TypingAnimation from "../../components/Header/components/TypingAnimation";
 
@@ -134,7 +134,7 @@ const PatientSummary = ({
                         >
                           {patientInfo.PossibleMedications &&
                             patientInfo.PossibleMedications.drugs?.map(
-                              (medication) => (
+                              (medication: string) => (
                                 <li
                                   className={`flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-4 
                                 ${

@@ -1,5 +1,4 @@
-import React from "react";
-import "./TypingAnimation.css";
+import "./typingAnimation.css";
 
 const TypingAnimation = () => {
   return (
@@ -10,4 +9,3 @@ const TypingAnimation = () => {
 };
 
 export default TypingAnimation;
-// ring-1 ring-slate-1000/10

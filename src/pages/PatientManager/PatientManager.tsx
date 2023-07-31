@@ -9,12 +9,13 @@ import PatientSummary from "./PatientSummary.tsx";
 import { PatientInfo } from "./PatientTypes.ts";
 
 const PatientManager = () => {
-  const [patientInfo, setPatientInfo] = useState({
+  const [patientInfo, setPatientInfo] = useState<PatientInfo>({
     ID: "",
     Diagnosis: "",
     OtherDiagnosis: "",
     Description: "",
     CurrentMedications: "",
+    PossibleMedications: { drugs: [] },
   });
 
   const [allPatientInfo, setAllPatientInfo] = useState<PatientInfo[]>([]);

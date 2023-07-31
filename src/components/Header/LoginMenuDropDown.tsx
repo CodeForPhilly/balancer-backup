@@ -1,6 +1,5 @@
 import React from "react";
 import closeLogo from "../../assets/close.svg";
-import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 
 interface LoginMenuDropDownProps {
