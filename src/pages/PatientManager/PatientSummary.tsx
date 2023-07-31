@@ -180,11 +180,15 @@ const PatientSummary = ({
                                   Benefits:
                                 </h4>
                               </div>
-                              <div>
-                                <ul>
-                                  {riskData.benefits.map((benefit: string) => (
-                                    <li className="text-sm mb-2">{benefit}</li>
-                                  ))}
+                              <div className="">
+                                <ul className="">
+                                  {riskData.benefits.map(
+                                    (benefit: string, index: number) => (
+                                      <li key={index} className="text-sm mb-2">
+                                        {benefit}
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                             </div>
@@ -196,9 +200,13 @@ const PatientSummary = ({
                               </div>
                               <div className="">
                                 <ul className="">
-                                  {riskData.risks.map((risk: string) => (
-                                    <li className="text-sm mb-2">{risk}</li>
-                                  ))}
+                                  {riskData.risks.map(
+                                    (risk: string, index: number) => (
+                                      <li key={index} className="text-sm mb-2">
+                                        {risk}
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                             </div>
