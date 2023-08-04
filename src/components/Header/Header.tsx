@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
-import chatBubble from "../../assets/chatbubble.svg";
+// import chatBubble from "../../assets/chatbubble.svg";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
 import "../../components/Header/header.css";
 // import Typed from "react-typed";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext, useCallback } from "react";
 import MdNavBar from "./MdNavBar";
 import LoginMenuDropDown from "./LoginMenuDropDown";
 import SearchMenu from "./SearchMenu";
@@ -30,13 +30,13 @@ const Header = () => {
   const handleLoginMenu = () => {
     setShowLoginMenu(!showLoginMenu);
   };
-  const handleSearchMenu = () => {
-    setShowSearchMenu(!showSearchMenu);
-  };
+  const handleSearchMenu = useCallback(() => {
+    setShowSearchMenu((prev) => !prev);
+  }, []);
 
-  const handleChat = () => {
-    setShowChat(!showChat);
-  };
+  // const handleChat = () => {
+  //   setShowChat(!showChat);
+  // };
 
   const handleMouseEnter = () => {
     if (delayTimeout !== null) {
@@ -74,6 +74,21 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "m" && e.ctrlKey) {
+        handleSearchMenu(); // This activates/deactivates the search.
+      }
+    };
+
+    // Attach the event listener
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup - remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleSearchMenu]);
   return (
     <header className="w-full items-center fixed">
       {/* <div className="flex bg-blue-500 text-center font-light text-white w-full h-8 items-center justify-center text-sm">
@@ -171,7 +186,7 @@ const Header = () => {
               ></input> */}
             <button
               type="button"
-              className="hidden sm:flex items-center w-64 text-left space-x-3 px-4 h-9 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
+              className="hidden sm:flex items-center w-76 text-left space-x-3 px-4 h-9 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
             >
               <svg
                 width="24"
@@ -187,15 +202,15 @@ const Header = () => {
                 <path d="m19 19-3.5-3.5"></path>
                 <circle cx="11" cy="11" r="6"></circle>
               </svg>
-              <span className="flex-auto">Quick search...</span>
+              <span className="flex-auto">See what others are saying...</span>
               <kbd className="font-sans font-semibold dark:text-slate-500">
                 <abbr
                   title="Control"
                   className="no-underline text-slate-300 dark:text-slate-500"
                 >
-                  Ctrl{" "}
-                </abbr>{" "}
-                K
+                  Ctrl
+                </abbr>
+                +m
               </kbd>
             </button>
           </div>
@@ -215,20 +230,20 @@ const Header = () => {
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-5"
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-1"
               />
             </div>
             <LoginMenuDropDown
               showLoginMenu={showLoginMenu}
               handleLoginMenu={handleLoginMenu}
             />
-            <div onClick={handleChat}>
+            {/* <div onClick={handleChat}>
               <img
                 src={chatBubble}
                 alt="logo"
                 className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
-            </div>
+            </div> */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="px-4 py-2  rounded"
@@ -239,7 +254,7 @@ const Header = () => {
                 className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
             </button>
-            <Chat showChat={showChat} />
+            <Chat showChat={showChat} setShowChat={setShowChat} />
           </>
         </nav>
       </div>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 // import closeLogo from "../../assets/close.svg";
 // import logo from "../../assets/balancer.png";
 // import { Link } from "react-router-dom";
+import TypingAnimation from "../../components/Header/components/TypingAnimation";
 
 interface SearchMenuProps {
   showSearchMenu: boolean;
@@ -16,13 +17,15 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
   const [inputValue, setInputValue] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     try {
+      setLoading(true);
       const response = await axios.post(
         "http://localhost:3001/drugReviewSearch/",
         {
@@ -31,10 +34,37 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
       );
       setMessage(response.data.gpt_message.content);
       setSearchResults(response.data.results);
+      setLoading(false);
     } catch (error) {
       console.error("Failed to fetch results:", error);
     }
-  };
+  }, [inputValue]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter") {
+        handleSearch(); // This activates/deactivates the search.
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleSearch]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        handleSearchMenu(); // This activates/deactivates the search.
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleSearchMenu]);
 
   return (
     <>
@@ -61,7 +91,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:cursor-pointer"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:cursor-pointer hover:text-slate-900"
               aria-hidden="true"
               onClick={handleSearch}
             >
@@ -77,7 +107,10 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
             />
             {/* <button onClick={handleSearch}>Search</button> */}
 
-            <kbd className="absolute right-3 top-1/2 transform -translate-y-1/2 font-sans font-semibold dark:text-slate-500">
+            <kbd
+              onClick={() => handleSearchMenu()}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer font-sans font-semibold dark:text-slate-500"
+            >
               <abbr
                 title="Control"
                 className="no-underline text-slate-500 dark:text-slate-500"
@@ -89,6 +122,9 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
 
           <div className="font-satoshi text-xl h-20 flex flex-col justify-center items-center text-center">
             <p>Let's find out what others are saying</p>
+          </div>
+          <div className="flex items-start ml-3 mt-1 text-white max-w-sm">
+            {loading ? <TypingAnimation /> : null}
           </div>
           <div className="h-18 p-5 w-[90%] flex flex-col justify-center items-center text-center">
             <p>
@@ -140,8 +176,10 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               >
                 <h3 className="font-bold">{result.drugName}</h3>
                 <br />
-                <p>{result.review}</p>
-                <p>{result.date}</p>
+                <p>Review: {result.review}</p>
+                <p>Date: {result.date}</p>
+                <p>Useful Count: {result.usefulCount}</p>
+                <p>Condition: {result.condition}</p>
                 {/* Other fields like result.condition, result.date can be rendered similarly if desired */}
               </div>
             ))}

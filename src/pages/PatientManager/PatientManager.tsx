@@ -1,14 +1,15 @@
 import { useState } from "react";
 import NewPatientForm from "./NewPatientForm.tsx";
 import PatientHistory from "./PatientHistory.tsx";
-import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { copy, loader } from "../../assets/index.js";
+import { copy } from "../../assets/index.js";
 import PatientSummary from "./PatientSummary.tsx";
 import { PatientInfo } from "./PatientTypes.ts";
 
 const PatientManager = () => {
+  const [isPatientDeleted, setIsPatientDeleted] = useState<boolean>(false);
+
   const [patientInfo, setPatientInfo] = useState<PatientInfo>({
     ID: "",
     Diagnosis: "",
@@ -18,12 +19,24 @@ const PatientManager = () => {
     PossibleMedications: { drugs: [] },
   });
 
+  const handlePatientDeleted = (deletedId: string) => {
+    if (patientInfo.ID === deletedId) {
+      setPatientInfo({
+        ID: "",
+        Diagnosis: "",
+        OtherDiagnosis: "",
+        Description: "",
+        CurrentMedications: "",
+        PossibleMedications: { drugs: [] },
+      });
+      setIsPatientDeleted(true);
+    }
+  };
+
   const [allPatientInfo, setAllPatientInfo] = useState<PatientInfo[]>([]);
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const [getMedicationInfo, { error, isFetching }] =
-    useLazyGetMedicationInfoQuery();
 
   // TODO: add error and loading state guards
 
@@ -41,20 +54,20 @@ const PatientManager = () => {
       <div className="mt-16 flex flex-col w-full gap-2">
         <PatientSummary
           patientInfo={patientInfo}
-          getMedicationInfo={getMedicationInfo}
-          loader={loader}
+          isPatientDeleted={isPatientDeleted}
         />
         <NewPatientForm
           patientInfo={patientInfo}
           setPatientInfo={setPatientInfo}
           allPatientInfo={allPatientInfo}
           setAllPatientInfo={setAllPatientInfo}
-          getMedicationInfo={getMedicationInfo}
         />
         <PatientHistory
           allPatientInfo={allPatientInfo}
+          setAllPatientInfo={setAllPatientInfo}
           setPatientInfo={setPatientInfo}
           copy={copy}
+          onPatientDeleted={handlePatientDeleted}
         />
       </div>
     </div>

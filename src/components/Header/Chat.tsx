@@ -4,6 +4,7 @@ import "../../components/Header/chat.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TypingAnimation from "./components/TypingAnimation";
+import chatBubble from "../../assets/chatbubble.svg";
 
 interface ChatLogItem {
   type: string;
@@ -12,9 +13,10 @@ interface ChatLogItem {
 
 interface ChatDropDownProps {
   showChat: boolean;
+  setShowChat: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Chat: React.FC<ChatDropDownProps> = ({ showChat }) => {
+const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
   const [inputValue, setInputValue] = useState("");
   const [chatLog, setChatLog] = useState<ChatLogItem[]>([]); // Specify the type as ChatLogItem[]
   const [isLoading, setIsLoading] = useState(false);
@@ -104,16 +106,40 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat }) => {
           showChat ? "show_chat border-1bg-white ring-slate-1000/10" : "h-12 "
         } transition-all shadow`}
       >
-        {showChat && (
+        {showChat ? (
           <div
             id="chat_container"
-            className=" overflow-auto mx-auto  flex flex-col h-full "
+            className=" overflow-auto mx-auto rounded  flex flex-col h-full "
           >
+            <div
+              className="flex flex-row justify-between p-1 mt-1 h-8 items-center bg-white border-b  "
+              style={{ borderBottomColor: "#abcdef" }}
+            >
+              <div className=" ml-4 text-black">
+                Welcome to Balancer! <br />
+              </div>
+              <div
+                className="mr-2 text-black delete flex items-center justify-center cursor-pointer w-8 h-6 rounded-full bg-white hover:bg-red-500"
+                onClick={() => setShowChat(false)}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M15.293 4.293a1 1 0 011.414 1.414L11.414 12l5.293 5.293a1 1 0 01-1.414 1.414L10 13.414l-5.293 5.293a1 1 0 01-1.414-1.414L8.586 12 3.293 6.707a1 1 0 111.414-1.414L10 10.586l5.293-5.293z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </div>
+            </div>
             <div className="flex flex-col space-y-2 pb-44 p-5 flex-grow">
               {chatLog.length === 0 ? (
                 <div className="text-gray-500">
-                  Welcome to Balancer! <br />
-                  <br />
                   Balancer is a powerful open-source tool available for free
                   use. Simply start typing your questions or concerns, and we'll
                   do our best to assist you. <br />
@@ -150,20 +176,20 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat }) => {
               )}
             </div>
 
-            <div className="absolute bottom-0 left-0 right-0 p-4 rounded-lg border-t bg-white">
-              <div className=" space-x-2  p-2 flex ">
+            <div className="inside_chat absolute bottom-0 left-0 right-0 p-4 rounded-lg bg-white">
+              <div className="space-x-2  p-2 flex ">
                 {suggestionPrompts.map((suggestion, index) => (
                   <button
                     type="button"
                     key={index}
-                    className="rounded-md border  hover:bg-blue-200 p-2"
+                    className="rounded-md border text-black hover:bg-blue-200 p-2"
                     onClick={() => setInputValue(suggestion)}
                   >
                     {suggestion}
                   </button>
                 ))}
               </div>
-              <form onSubmit={handleSubmit} className="flex">
+              <form onSubmit={handleSubmit} className="flex mb-1">
                 <div className="flex-grow ml-2">
                   <input
                     type="text"
@@ -180,7 +206,13 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat }) => {
                 </div>
               </form>
             </div>
-            {/* <div className="bg-white  bottom-0 w-[100%] text-white">.</div> */}
+          </div>
+        ) : (
+          <div
+            onClick={() => setShowChat(true)}
+            className=" absolute bottom-20 w-8 h-6 right-20 object-contain rounded-full  hover: hover:border-blue-600 hover:border-b-2 hover:bg-gray-200 cursor-pointer hover:cursor-pointer "
+          >
+            <img src={chatBubble} alt="logo" className="   " />
           </div>
         )}
       </div>

@@ -15,7 +15,6 @@ export interface NewPatientFormProps {
   setPatientInfo: React.Dispatch<React.SetStateAction<PatientInfo>>;
   allPatientInfo: PatientInfo[];
   setAllPatientInfo: React.Dispatch<React.SetStateAction<PatientInfo[]>>;
-  getMedicationInfo: any;
 }
 
 const NewPatientForm = ({
@@ -35,6 +34,7 @@ const NewPatientForm = ({
     setIsPressed(false);
   };
   const [enterNewPatient, setEnterNewPatient] = useState(true);
+
   useEffect(() => {
     const patientInfoFromLocalStorage = JSON.parse(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -109,6 +109,14 @@ const NewPatientForm = ({
     } catch (error) {
       console.log("Error occurred:", error);
     } finally {
+      // setPatientInfo((prevPatientInfo) => ({
+      //   ...prevPatientInfo,
+      //   Diagnosis: "Other",
+      //   OtherDiagnosis: "",
+      //   CurrentMedications: "",
+      //   ID: "",
+      // }));
+      setEnterNewPatient(false);
       setIsLoading(false); // Stop loading
     }
   };
@@ -130,7 +138,24 @@ const NewPatientForm = ({
   };
 
   const handleClickSummary = () => {
+    setPatientInfo((prevPatientInfo) => ({
+      ...prevPatientInfo,
+      Diagnosis: "Other",
+      OtherDiagnosis: "",
+      CurrentMedications: "",
+      ID: "",
+    }));
     setEnterNewPatient(!enterNewPatient);
+  };
+
+  const handleClickNewPatient = () => {
+    setPatientInfo((prevPatientInfo) => ({
+      ...prevPatientInfo,
+      Diagnosis: "Other",
+      OtherDiagnosis: "",
+      CurrentMedications: "",
+      ID: "",
+    }));
   };
 
   return (
@@ -140,14 +165,14 @@ const NewPatientForm = ({
         <br />
         <div className="flex justify-between">
           {enterNewPatient ? (
-            <div>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl">
+            <div onClick={handleClickNewPatient}>
+              <h2 className="font-satoshi font-bold cursor-pointer text-gray-600 text-xl  hover:text-blue-600 ">
                 Enter New <span className="blue_gradient">Patient</span>
               </h2>
             </div>
           ) : (
             <div onClick={handleClickSummary}>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl hover:border-blue-600 hover:border-b-2">
+              <h2 className="font-satoshi font-bold cursor-pointer text-gray-600 text-xl hover:text-blue-600 ">
                 Click To Enter New
                 <span className="blue_gradient"> Patient</span>
               </h2>
@@ -158,39 +183,53 @@ const NewPatientForm = ({
               <img
                 src={minLogo}
                 alt="logo"
-                className="w-7 h-7 sm:w-7 sm:h-7 hover:border-blue-600 hover:border-b-2"
+                className="w-7 h-7 sm:w-7 sm:h-7 cursor-pointer hover:border-blue-600 hover:border-b-2"
               />
             ) : (
               <img
                 src={maxLogo}
                 alt="logo"
-                className="w-7 h-7 md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="w-7 h-7 md:w-7 md:h-7 cursor-pointer hover:border-blue-600 hover:border-b-2"
               />
             )}
           </div>
         </div>
         {enterNewPatient && (
           <form onSubmit={handleSubmit} className="mt-5">
-            <div className="flex items-center">
-              {patientInfo.ID && (
-                <label
-                  htmlFor="name"
-                  className=" font-latoBold text-sm mr-3 text-gray-500"
-                >
-                  Patient ID:
+            <div className="flex flex-row justify-between">
+              <div className="w-full">
+                {patientInfo.ID && (
+                  <label
+                    htmlFor="name"
+                    className=" font-latoBold text-sm mr-3 text-gray-500"
+                  >
+                    Patient ID:
+                  </label>
+                )}
+                <input
+                  type="text"
+                  placeholder={
+                    isLoading
+                      ? "Generating patient record"
+                      : "Patient ID will be randomly generated on submit"
+                  }
+                  value={patientInfo.ID}
+                  readOnly
+                  className={
+                    isLoading
+                      ? " url_input_loading peer w-full"
+                      : "text-sm leading-6  font-latoBold  w-full"
+                  }
+                />
+              </div>
+              <div
+                onClick={handleClickNewPatient}
+                className="w-full flex justify-end"
+              >
+                <label className=" font-latoBold cursor-pointer text-gray-600 text-sm   hover:text-blue-600 ">
+                  Clear Form
                 </label>
-              )}
-              <input
-                type="text"
-                placeholder="Patient ID will be randomly generated on submit"
-                value={patientInfo.ID}
-                readOnly
-                className={
-                  isLoading
-                    ? " url_input_loading peer w-1/2"
-                    : "text-sm leading-6   w-2/3"
-                }
-              />
+              </div>
             </div>
             <div className="mt-5">
               <label
@@ -209,7 +248,7 @@ const NewPatientForm = ({
                     : "url_input peer w-1/2 "
                 }
               >
-                <option value="Other">Select a Patient Current State:</option>
+                <option value="None">Select a Patient Current State:</option>
                 <option value="Bipolar I mania">Bipolar I mania</option>
                 <option value="Bipolar I depression">
                   Bipolar I depression
@@ -278,7 +317,7 @@ const NewPatientForm = ({
                   "transition-transform focus:outline-none focus:ring focus:ring-blue-200"
                 }${
                   isLoading
-                    ? "transition-transform bg-white-600 scale-105 focus:outline-none focus:ring focus:ring-blue-500"
+                    ? "transition-transform bg-white-600 focus:outline-none focus:ring focus:ring-blue-500"
                     : ""
                 }`}
                 onMouseDown={handleMouseDown}
@@ -286,7 +325,7 @@ const NewPatientForm = ({
                 disabled={isLoading} // Disable the button while loading
               >
                 {isLoading ? ( // Render loading icon if loading
-                  <div className="flex items-center">
+                  <div className="flex justify-center  items-center">
                     <div className="w-4 h-4 rounded-full bg-white animate-ping mr-2"></div>
                     <p>Loading...</p>
                   </div>
