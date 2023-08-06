@@ -112,7 +112,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
             className=" overflow-auto mx-auto rounded  flex flex-col h-full "
           >
             <div
-              className="flex flex-row justify-between p-1 mt-1 h-8 items-center bg-white border-b  "
+              className="flex flex-row absolute rounded-t-lg justify-between p-1 mt-0 w-full h-8 items-center bg-white border-b  "
               style={{ borderBottomColor: "#abcdef" }}
             >
               <div className=" ml-4 text-black">
@@ -176,7 +176,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
               )}
             </div>
 
-            <div className="inside_chat absolute bottom-0 left-0 right-0 p-4 rounded-lg bg-white">
+            <div className="inside_chat absolute bottom-0 left-0 right-0 p-4 rounded-b-lg bg-white">
               <div className="space-x-2  p-2 flex ">
                 {suggestionPrompts.map((suggestion, index) => (
                   <button
