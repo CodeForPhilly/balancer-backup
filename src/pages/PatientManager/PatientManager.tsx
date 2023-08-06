@@ -55,6 +55,7 @@ const PatientManager = () => {
         <PatientSummary
           patientInfo={patientInfo}
           isPatientDeleted={isPatientDeleted}
+          setPatientInfo={setPatientInfo}
         />
         <NewPatientForm
           patientInfo={patientInfo}

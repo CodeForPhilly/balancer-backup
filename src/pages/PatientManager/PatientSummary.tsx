@@ -8,7 +8,13 @@ import TypingAnimation from "../../components/Header/components/TypingAnimation"
 interface PatientSummaryProps {
   patientInfo: PatientInfo;
   isPatientDeleted: boolean;
+  setPatientInfo: React.Dispatch<React.SetStateAction<PatientInfo>>;
 }
+
+type RiskData = {
+  benefits: string[];
+  risks: string[];
+};
 
 const PatientSummary = ({
   patientInfo,
@@ -16,7 +22,7 @@ const PatientSummary = ({
 }: PatientSummaryProps) => {
   const [showSummary, setShowSummary] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [riskData, setRiskData] = useState<any>(null);
+  const [riskData, setRiskData] = useState<RiskData | null>(null);
   const [clickedMedication, setClickedMedication] = useState<string | null>(
     null
   );

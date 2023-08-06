@@ -91,10 +91,13 @@ const Header = () => {
   }, [handleSearchMenu]);
   return (
     <header className="w-full items-center fixed">
-      {/* <div className="flex bg-blue-500 text-center font-light text-white w-full h-8 items-center justify-center text-sm">
-        WELCOME! STAY TUNE FOR OUR FIRST RELEASE! -
-        <Typed strings={["  JULY 30th"]} typeSpeed={200} backSpeed={200} loop />
-      </div> */}
+      <div className="flex bg-blue-100 text-center border-b border-gray-300 font-light text-gray-500 w-full h-8 items-center justify-center text-sm">
+        This app is currently in its beta testing phase. The information and
+        tools provided herein are intended for general informational purposes
+        only and should NOT be construed as medical or therapeutic advice or be
+        used as a substitute for professional medical or mental health advice,
+        diagnosis, or treatment.
+      </div>
       <div
         className={
           "hidden lg:flex items-center border-b border-gray-300 h-20 mx-auto bg-white justify-between  px-4 sm:px-6 md:px-8 lg:px-8 xl:px-50 2xl:px-56"

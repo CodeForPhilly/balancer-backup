@@ -32,7 +32,7 @@ const PatientHistory = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 max-h-100 overflow-y-auto mb-12">
+    <div className="flex flex-col gap-2  mb-10">
       <br />
       <h2 className="font-satoshi font-bold text-gray-600 text-xl">
         List of <span className="blue_gradient">Patients</span>
@@ -40,8 +40,11 @@ const PatientHistory = ({
       {allPatientInfo.reverse().map((item, index) => (
         <div
           key={`link-${index}`}
-          onClick={() => setPatientInfo(item)}
-          className="link_card  hover:bg-indigo-100"
+          onClick={() => {
+            setPatientInfo(item);
+            window.scrollTo(0, 0); // This line makes the page scroll to the top
+          }}
+          className="link_card "
         >
           <div className="copy_btn">
             <img
@@ -50,12 +53,29 @@ const PatientHistory = ({
               className="w-[40%] h-[40%] object-contain"
             />
           </div>
-          <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
-            ID: {item.ID} -{item.Diagnosis}
-          </p>
+          <div className="px-2  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm  font-medium leading-6 text-gray-900">
+              Patient ID:
+            </dt>
+            <dt className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {item.ID}
+            </dt>
+          </div>
+          <div className="px-2  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">
+              Current State:
+            </dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              {item.Diagnosis}
+            </dd>
+          </div>
           <div
             className="delete flex items-center justify-center w-8 h-6 rounded-full bg-white text-black hover:bg-red-500"
-            onClick={(event) => handleDeletePatient(item.ID, event)}
+            onClick={(event) => {
+              if (item.ID) {
+                handleDeletePatient(item.ID, event);
+              }
+            }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

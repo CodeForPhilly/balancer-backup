@@ -1,7 +1,7 @@
 import { FormEvent, ChangeEvent, useEffect, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { loader } from "../../assets";
+// import { loader } from "../../assets";
 import { v4 as uuidv4 } from "uuid";
 import { PatientInfo } from "./PatientTypes";
 import axios from "axios";
@@ -18,13 +18,21 @@ export interface NewPatientFormProps {
 }
 
 const NewPatientForm = ({
-  patientInfo,
   setPatientInfo,
   allPatientInfo,
   setAllPatientInfo,
 }: NewPatientFormProps) => {
   const [isPressed, setIsPressed] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Added loading state
+
+  const [newPatientInfo, setNewPatientInfo] = useState<PatientInfo>({
+    ID: "",
+    Diagnosis: "",
+    OtherDiagnosis: "",
+    Description: "",
+    CurrentMedications: "",
+    PossibleMedications: { drugs: [] },
+  });
 
   const handleMouseDown = () => {
     setIsPressed(true);
@@ -53,7 +61,7 @@ const NewPatientForm = ({
     setIsLoading(true); // Start loading
 
     const payload = {
-      diagnosis: patientInfo.Diagnosis,
+      diagnosis: newPatientInfo.Diagnosis,
     };
 
     try {
@@ -83,13 +91,13 @@ const NewPatientForm = ({
       const generatedGuid = uuidv4();
       const firstFiveCharacters = generatedGuid.substring(0, 5);
 
-      setPatientInfo({ ...patientInfo, ID: firstFiveCharacters });
+      setPatientInfo({ ...newPatientInfo, ID: firstFiveCharacters });
 
       if (data) {
         const description = data.message.choices[0].message.content;
 
         const newDescription = {
-          ...patientInfo,
+          ...newPatientInfo,
           Description: description,
           ID: firstFiveCharacters,
           PossibleMedications: possibleMedicationsData,
@@ -118,19 +126,20 @@ const NewPatientForm = ({
       // }));
       setEnterNewPatient(false);
       setIsLoading(false); // Stop loading
+      handleClickNewPatient();
     }
   };
 
   const handleDiagnosisChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Other") {
-      setPatientInfo({
-        ...patientInfo,
+      setNewPatientInfo({
+        ...newPatientInfo,
         Diagnosis: selectedValue,
       });
     } else {
-      setPatientInfo({
-        ...patientInfo,
+      setNewPatientInfo({
+        ...newPatientInfo,
         Diagnosis: selectedValue,
         OtherDiagnosis: "", // Reset the OtherDiagnosis value
       });
@@ -138,7 +147,7 @@ const NewPatientForm = ({
   };
 
   const handleClickSummary = () => {
-    setPatientInfo((prevPatientInfo) => ({
+    setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
       Diagnosis: "Other",
       OtherDiagnosis: "",
@@ -149,7 +158,7 @@ const NewPatientForm = ({
   };
 
   const handleClickNewPatient = () => {
-    setPatientInfo((prevPatientInfo) => ({
+    setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
       Diagnosis: "Other",
       OtherDiagnosis: "",
@@ -198,7 +207,7 @@ const NewPatientForm = ({
           <form onSubmit={handleSubmit} className="mt-5">
             <div className="flex flex-row justify-between">
               <div className="w-full">
-                {patientInfo.ID && (
+                {newPatientInfo.ID && (
                   <label
                     htmlFor="name"
                     className=" font-latoBold text-sm mr-3 text-gray-500"
@@ -213,7 +222,7 @@ const NewPatientForm = ({
                       ? "Generating patient record"
                       : "Patient ID will be randomly generated on submit"
                   }
-                  value={patientInfo.ID}
+                  value={newPatientInfo.ID}
                   readOnly
                   className={
                     isLoading
@@ -239,7 +248,7 @@ const NewPatientForm = ({
                 {/* Patient Current State: */}
               </label>
               <select
-                value={patientInfo.Diagnosis}
+                value={newPatientInfo.Diagnosis}
                 onChange={handleDiagnosisChange}
                 required
                 className={
@@ -292,10 +301,10 @@ const NewPatientForm = ({
               <input
                 id="currentMedications"
                 type="string"
-                value={patientInfo.CurrentMedications}
+                value={newPatientInfo.CurrentMedications}
                 onChange={(e) =>
-                  setPatientInfo({
-                    ...patientInfo,
+                  setNewPatientInfo({
+                    ...newPatientInfo,
                     CurrentMedications: String(e.target.value),
                   })
                 }
