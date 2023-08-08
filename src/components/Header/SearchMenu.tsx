@@ -26,12 +26,11 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
   const handleSearch = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        "http://localhost:3001/drugReviewSearch/",
-        {
-          drugReviewSearch: inputValue,
-        }
-      );
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+      const response = await axios.post(`${baseUrl}/drugReviewSearch/`, {
+        drugReviewSearch: inputValue,
+      });
       setMessage(response.data.gpt_message.content);
       setSearchResults(response.data.results);
       setLoading(false);

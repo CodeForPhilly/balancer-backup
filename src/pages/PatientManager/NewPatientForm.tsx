@@ -65,15 +65,11 @@ const NewPatientForm = ({
     };
 
     try {
-      const { data } = await axios.post(
-        "http://localhost:3001/diagnosis",
-        payload
-      );
+      const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
-      const drugsResponse = await axios.post(
-        "http://localhost:3001/listDrugs",
-        payload
-      );
+      const { data } = await axios.post(`${baseUrl}/diagnosis`, payload);
+
+      const drugsResponse = await axios.post(`${baseUrl}/listDrugs`, payload);
 
       const possibleMedicationsData = drugsResponse.data;
 
@@ -170,7 +166,7 @@ const NewPatientForm = ({
   return (
     <section>
       {/* {search} */}
-      <div>
+      <div className="p-3 md:p-0">
         <br />
         <div className="flex justify-between">
           {enterNewPatient ? (
@@ -215,27 +211,25 @@ const NewPatientForm = ({
                     Patient ID:
                   </label>
                 )}
-                <input
-                  type="text"
-                  placeholder={
-                    isLoading
-                      ? "Generating patient record"
-                      : "Patient ID will be randomly generated on submit"
-                  }
-                  value={newPatientInfo.ID}
-                  readOnly
-                  className={
-                    isLoading
-                      ? " url_input_loading peer w-full"
-                      : "font-latoBold w-full  text-sm  leading-6"
-                  }
-                />
+                {isLoading && (
+                  <input
+                    type="text"
+                    placeholder={isLoading ? "Generating record" : ""}
+                    value={newPatientInfo.ID}
+                    readOnly
+                    className={
+                      isLoading
+                        ? " url_input_loading peer w-full"
+                        : "font-latoBold w-full text-sm leading-6"
+                    }
+                  />
+                )}
               </div>
               <div
                 onClick={handleClickNewPatient}
                 className="flex w-full justify-end"
               >
-                <label className=" font-latoBold cursor-pointer text-sm text-gray-600   hover:text-blue-600 ">
+                <label className=" font-latoBold cursor-pointer text-sm text-gray-400   hover:text-blue-600 ">
                   Clear Form
                 </label>
               </div>

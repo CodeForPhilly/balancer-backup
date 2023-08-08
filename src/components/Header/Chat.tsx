@@ -56,7 +56,8 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
   };
 
   const sendMessage = (message: ChatLogItem[]) => {
-    const url = "http://localhost:3001/chatgpt";
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
+    const url = `${baseUrl}/chatgpt`;
 
     const apiMessages = message.map((messageObject) => {
       let role = "";
@@ -102,7 +103,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
         ></div>
       )} */}
       <div
-        className={`fixed bottom-3 right-4 rounded ${
+        className={`fixed bottom-0 right-0 rounded md:bottom-3 md:right-4 ${
           showChat ? "show_chat border-1bg-white ring-slate-1000/10" : "h-12 "
         } shadow transition-all`}
       >
@@ -182,7 +183,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
                   <button
                     type="button"
                     key={index}
-                    className="rounded-md border p-2 text-black hover:bg-blue-200"
+                    className="rounded-md border p-2 text-sm text-black hover:bg-blue-200"
                     onClick={() => setInputValue(suggestion)}
                   >
                     {suggestion}
@@ -193,7 +194,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
                 <div className="ml-2 flex-grow">
                   <input
                     type="text"
-                    className="input_chat ring-slate-1000/10 dark:highlight-white/5"
+                    className="input_chat ring-slate-1000/10 dark:highlight-white/5 text-sm"
                     placeholder="Talk to me..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -210,7 +211,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
         ) : (
           <div
             onClick={() => setShowChat(true)}
-            className=" hover: absolute bottom-20 right-20 h-6 w-6 cursor-pointer  rounded-full object-contain hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:bg-gray-200 "
+            className="  absolute bottom-5 right-5 h-6 w-6 cursor-pointer rounded-full object-contain  hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:bg-gray-200 md:bottom-20 md:right-20 "
           >
             <img src={chatBubble} alt="logo" className="   " />
           </div>

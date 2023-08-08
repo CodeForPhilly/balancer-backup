@@ -32,7 +32,7 @@ const PatientHistory = ({
   };
 
   return (
-    <div className="mb-10 flex flex-col  gap-2">
+    <div className="mb-10 flex flex-col gap-2 p-3 md:p-0">
       <br />
       {allPatientInfo.length > 0 && (
         <h2 className="font-satoshi text-xl font-bold text-gray-600">
@@ -55,19 +55,19 @@ const PatientHistory = ({
               className="h-[40%] w-[40%] object-contain"
             />
           </div>
-          <div className="px-2  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <div className="grid  grid-cols-3 gap-4 px-0 px-2">
             <dt className="text-sm  font-medium leading-6 text-gray-900">
-              Patient ID:
+              ID:
             </dt>
-            <dt className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            <dt className="text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {item.ID}
             </dt>
           </div>
           <div className="px-2  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <dt className="hidden text-sm font-medium leading-6 text-gray-900 md:block">
               Current State:
             </dt>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            <dd className="text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {item.Diagnosis}
             </dd>
           </div>

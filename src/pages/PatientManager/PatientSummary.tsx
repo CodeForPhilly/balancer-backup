@@ -70,7 +70,7 @@ const PatientSummary = ({
   };
 
   return (
-    <div className="my-1 flex max-w-full items-center">
+    <div className="my-5 flex max-w-full items-center p-3 md:p-0">
       {patientInfo.Description && (
         <div
           className="flex flex-col gap-3 whitespace-normal break-words"
@@ -87,13 +87,13 @@ const PatientSummary = ({
                 <img
                   src={minLogo}
                   alt="logo"
-                  className="cursor-pointer hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
+                  className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600"
                 />
               ) : (
                 <img
                   src={maxLogo}
                   alt="logo"
-                  className="cursor-pointer hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
+                  className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600"
                 />
               )}
             </div>
@@ -128,11 +128,11 @@ const PatientSummary = ({
                       </dd>
                     </div>
                   </div>
-                  <div className="flex flex-row px-4 py-3 sm:gap-4 sm:px-0 ">
+                  <div className="flex flex-row gap-4 px-4 py-3 sm:px-0 ">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
                       Current Medications:
                     </dt>
-                    <dt className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                    <dt className=" text-sm  leading-6 text-gray-700">
                       {patientInfo.CurrentMedications}
                     </dt>
                   </div>
@@ -182,7 +182,7 @@ const PatientSummary = ({
                   </div>
 
                   {riskData && (
-                    <div className="px-4 py-1 sm:grid sm:gap-4 sm:px-0">
+                    <div className="grid gap-4 px-0 px-4 py-1">
                       {/* <dt className="text-sm font-medium leading-6 text-gray-900">
                           Benefits and risks
                         </dt> */}
@@ -200,7 +200,7 @@ const PatientSummary = ({
                                   (benefit: string, index: number) => (
                                     <li
                                       key={index}
-                                      className="mb-3 mr-1 h-10 text-sm hover:bg-indigo-100"
+                                      className="my-8  mr-1 h-10 text-sm hover:bg-indigo-100 md:my-0 md:mb-3"
                                     >
                                       {benefit}
                                     </li>
@@ -221,7 +221,7 @@ const PatientSummary = ({
                                   (risk: string, index: number) => (
                                     <li
                                       key={index}
-                                      className="mb-3 mr-1 h-10 text-sm hover:bg-indigo-100"
+                                      className=" my-8 mr-1 h-10 text-sm hover:bg-indigo-100 md:my-0 md:mb-3"
                                     >
                                       {risk}
                                     </li>
