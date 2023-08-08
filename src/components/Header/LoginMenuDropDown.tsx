@@ -1,6 +1,5 @@
 import React from "react";
 import closeLogo from "../../assets/close.svg";
-import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 
 interface LoginMenuDropDownProps {
@@ -36,20 +35,16 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
               <img
                 src={closeLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2 hover:cursor-pointer"
               />
             )}
           </div>
         </div>
         <div className="h-44"></div>
-        <div className="h-20 flex justify-self-center">
-          <div className="mx-auto">
-            <img
-              src={logo}
-              alt="logo"
-              className=" w-28 object-contain hover:bg-gray-100"
-            />
-          </div>
+        <div className="h-20 flex flex-col justify-self-center  items-center">
+          <span className="orange_gradient mr-8 font-bold text-xl">
+            Balancer
+          </span>
         </div>
         <div className="font-satoshi text-xl h-14 flex flex-col justify-center items-center text-center">
           <p>Log into your Balance account</p>

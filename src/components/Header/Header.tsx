@@ -1,14 +1,19 @@
-import logo from "../../assets/balancer.png";
 import { Link } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 import accountLogo from "../../assets/account.svg";
+// import chatBubble from "../../assets/chatbubble.svg";
+import dark from "../../assets/dark.svg";
+import light from "../../assets/light.svg";
 import "../../components/Header/header.css";
 // import Typed from "react-typed";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext, useCallback } from "react";
 import MdNavBar from "./MdNavBar";
 import LoginMenuDropDown from "./LoginMenuDropDown";
+import SearchMenu from "./SearchMenu";
+import Chat from "./Chat";
 import { FeatureMenuDropDown } from "./FeatureMenuDropDown";
 import { ResearchMenuDropDown } from "./ResearchMenuDropDown";
+import { DarkModeContext } from "../../contexts/DarkModeContext";
 
 const Header = () => {
   // const { pathname } = useLocation();
@@ -18,10 +23,20 @@ const Header = () => {
   const dropdownResearchRef = useRef(null);
   let delayTimeout: number | null = null;
   const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const [showSearchMenu, setShowSearchMenu] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(DarkModeContext);
 
   const handleLoginMenu = () => {
     setShowLoginMenu(!showLoginMenu);
   };
+  const handleSearchMenu = useCallback(() => {
+    setShowSearchMenu((prev) => !prev);
+  }, []);
+
+  // const handleChat = () => {
+  //   setShowChat(!showChat);
+  // };
 
   const handleMouseEnter = () => {
     if (delayTimeout !== null) {
@@ -59,22 +74,52 @@ const Header = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "m" && e.ctrlKey) {
+        handleSearchMenu(); // This activates/deactivates the search.
+      }
+    };
+
+    // Attach the event listener
+    document.addEventListener("keydown", handleKeyDown);
+
+    // Cleanup - remove the event listener when the component unmounts
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleSearchMenu]);
   return (
     <header className="w-full items-center fixed">
-      {/* <div className="flex bg-blue-500 text-center font-light text-white w-full h-8 items-center justify-center text-sm">
-        WELCOME! STAY TUNE FOR OUR FIRST RELEASE! -
-        <Typed strings={["  JULY 30th"]} typeSpeed={200} backSpeed={200} loop />
-      </div> */}
+      <div className="flex bg-blue-100 text-center border-b border-gray-300 font-light text-gray-500 w-full h-8 items-center justify-center text-sm">
+        This app is currently in its beta testing phase. The information and
+        tools provided herein are intended for general informational purposes
+        only and should NOT be construed as medical or therapeutic advice or be
+        used as a substitute for professional medical or mental health advice,
+        diagnosis, or treatment.
+      </div>
       <div
         className={
           "hidden lg:flex items-center border-b border-gray-300 h-20 mx-auto bg-white justify-between  px-4 sm:px-6 md:px-8 lg:px-8 xl:px-50 2xl:px-56"
         }
       >
         <nav className="w-full flex font-satoshi items-center text-sm">
+          {/* <Link to="/">
+            <img src={logo} alt="logo" className="object-contain w-28 mr-5  " />
+          </Link> */}
           <Link to="/">
-            <img src={logo} alt="logo" className="object-contain w-28 mr-9  " />
+            <span className="orange_gradient mr-8 font-bold text-xl">
+              Balancer
+            </span>
           </Link>
+
           <>
+            <Link
+              to="/login"
+              className="mr-5  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+            >
+              Our Mission
+            </Link>
             <div
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
@@ -132,16 +177,55 @@ const Header = () => {
         </nav>
 
         <nav className=" flex font-satoshi justify-end w-full items-center text-sm">
+          <div className="mr-5" onClick={handleSearchMenu}>
+            {/* <img
+                src={searchIcon}
+                alt="logo"
+                className="w-5 h-5 absolute ml-3 pointer-events-none"
+              />
+              <input
+                placeholder="Ask me something"
+                className="pr-3 pl-10 py-2 border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
+              ></input> */}
+            <button
+              type="button"
+              className="hidden sm:flex items-center w-76 text-left space-x-3 px-4 h-9 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
+            >
+              <svg
+                width="24"
+                height="24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                className="flex-none text-slate-300 dark:text-slate-400"
+                aria-hidden="true"
+              >
+                <path d="m19 19-3.5-3.5"></path>
+                <circle cx="11" cy="11" r="6"></circle>
+              </svg>
+              <span className="flex-auto">See what others are saying...</span>
+              <kbd className="font-sans font-semibold dark:text-slate-500">
+                <abbr
+                  title="Control"
+                  className="no-underline text-slate-300 dark:text-slate-500"
+                >
+                  Ctrl
+                </abbr>
+                +m
+              </kbd>
+            </button>
+          </div>
+          <SearchMenu
+            showSearchMenu={showSearchMenu}
+            handleSearchMenu={handleSearchMenu}
+          />
+
           <>
             <Link
-              to="/login"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
-            >
-              About Balancer
-            </Link>
-            <Link
               to="/register"
-              className="mr-9  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+              className="mr-5 hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
             >
               Support
             </Link>
@@ -149,13 +233,31 @@ const Header = () => {
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover:bg-gray-100 hover:border-blue-600 hover:border-b-2"
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-1"
               />
             </div>
             <LoginMenuDropDown
               showLoginMenu={showLoginMenu}
               handleLoginMenu={handleLoginMenu}
             />
+            {/* <div onClick={handleChat}>
+              <img
+                src={chatBubble}
+                alt="logo"
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
+              />
+            </div> */}
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="px-4 py-2  rounded"
+            >
+              <img
+                src={isDarkMode ? light : dark}
+                alt={isDarkMode ? "Light Mode" : "Dark Mode"}
+                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
+              />
+            </button>
+            <Chat showChat={showChat} setShowChat={setShowChat} />
           </>
         </nav>
       </div>

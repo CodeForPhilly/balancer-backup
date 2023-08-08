@@ -1,7 +1,7 @@
 import { FormEvent, ChangeEvent, useEffect, useState } from "react";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { loader } from "../../assets";
+// import { loader } from "../../assets";
 import { v4 as uuidv4 } from "uuid";
 import { PatientInfo } from "./PatientTypes";
 import axios from "axios";
@@ -15,17 +15,24 @@ export interface NewPatientFormProps {
   setPatientInfo: React.Dispatch<React.SetStateAction<PatientInfo>>;
   allPatientInfo: PatientInfo[];
   setAllPatientInfo: React.Dispatch<React.SetStateAction<PatientInfo[]>>;
-  getMedicationInfo: any;
 }
 
 const NewPatientForm = ({
-  patientInfo,
   setPatientInfo,
   allPatientInfo,
   setAllPatientInfo,
 }: NewPatientFormProps) => {
   const [isPressed, setIsPressed] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Added loading state
+
+  const [newPatientInfo, setNewPatientInfo] = useState<PatientInfo>({
+    ID: "",
+    Diagnosis: "",
+    OtherDiagnosis: "",
+    Description: "",
+    CurrentMedications: "",
+    PossibleMedications: { drugs: [] },
+  });
 
   const handleMouseDown = () => {
     setIsPressed(true);
@@ -35,6 +42,7 @@ const NewPatientForm = ({
     setIsPressed(false);
   };
   const [enterNewPatient, setEnterNewPatient] = useState(true);
+
   useEffect(() => {
     const patientInfoFromLocalStorage = JSON.parse(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -53,7 +61,7 @@ const NewPatientForm = ({
     setIsLoading(true); // Start loading
 
     const payload = {
-      diagnosis: patientInfo.Diagnosis,
+      diagnosis: newPatientInfo.Diagnosis,
     };
 
     try {
@@ -62,18 +70,37 @@ const NewPatientForm = ({
         payload
       );
 
+      const drugsResponse = await axios.post(
+        "http://localhost:3001/listDrugs",
+        payload
+      );
+
+      const possibleMedicationsData = drugsResponse.data;
+
+      if (possibleMedicationsData && Array.isArray(possibleMedicationsData)) {
+        // Extract drugs property from each object and flatten it into a single array
+        const possibleMedicationNames = possibleMedicationsData
+          .map((medication: { drugs: string[] }) => medication.drugs)
+          .flat();
+
+        setPatientInfo((prev) => ({
+          ...prev,
+          PossibleMedications: { drugs: possibleMedicationNames },
+        }));
+      }
       const generatedGuid = uuidv4();
       const firstFiveCharacters = generatedGuid.substring(0, 5);
 
-      setPatientInfo({ ...patientInfo, ID: firstFiveCharacters });
+      setPatientInfo({ ...newPatientInfo, ID: firstFiveCharacters });
 
       if (data) {
         const description = data.message.choices[0].message.content;
 
         const newDescription = {
-          ...patientInfo,
+          ...newPatientInfo,
           Description: description,
           ID: firstFiveCharacters,
+          PossibleMedications: possibleMedicationsData,
         };
 
         const updatedAllPatientInfo = [newDescription, ...allPatientInfo];
@@ -90,20 +117,29 @@ const NewPatientForm = ({
     } catch (error) {
       console.log("Error occurred:", error);
     } finally {
+      // setPatientInfo((prevPatientInfo) => ({
+      //   ...prevPatientInfo,
+      //   Diagnosis: "Other",
+      //   OtherDiagnosis: "",
+      //   CurrentMedications: "",
+      //   ID: "",
+      // }));
+      setEnterNewPatient(false);
       setIsLoading(false); // Stop loading
+      handleClickNewPatient();
     }
   };
 
   const handleDiagnosisChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
     if (selectedValue === "Other") {
-      setPatientInfo({
-        ...patientInfo,
+      setNewPatientInfo({
+        ...newPatientInfo,
         Diagnosis: selectedValue,
       });
     } else {
-      setPatientInfo({
-        ...patientInfo,
+      setNewPatientInfo({
+        ...newPatientInfo,
         Diagnosis: selectedValue,
         OtherDiagnosis: "", // Reset the OtherDiagnosis value
       });
@@ -111,7 +147,24 @@ const NewPatientForm = ({
   };
 
   const handleClickSummary = () => {
+    setNewPatientInfo((prevPatientInfo) => ({
+      ...prevPatientInfo,
+      Diagnosis: "Other",
+      OtherDiagnosis: "",
+      CurrentMedications: "",
+      ID: "",
+    }));
     setEnterNewPatient(!enterNewPatient);
+  };
+
+  const handleClickNewPatient = () => {
+    setNewPatientInfo((prevPatientInfo) => ({
+      ...prevPatientInfo,
+      Diagnosis: "Other",
+      OtherDiagnosis: "",
+      CurrentMedications: "",
+      ID: "",
+    }));
   };
 
   return (
@@ -121,14 +174,14 @@ const NewPatientForm = ({
         <br />
         <div className="flex justify-between">
           {enterNewPatient ? (
-            <div>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl">
+            <div onClick={handleClickNewPatient}>
+              <h2 className="cursor-pointer font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
                 Enter New <span className="blue_gradient">Patient</span>
               </h2>
             </div>
           ) : (
             <div onClick={handleClickSummary}>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl hover:border-blue-600 hover:border-b-2">
+              <h2 className="cursor-pointer font-satoshi text-xl font-bold text-gray-600 hover:text-blue-600 ">
                 Click To Enter New
                 <span className="blue_gradient"> Patient</span>
               </h2>
@@ -139,56 +192,72 @@ const NewPatientForm = ({
               <img
                 src={minLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600 sm:h-7 sm:w-7"
               />
             ) : (
               <img
                 src={maxLogo}
                 alt="logo"
-                className="md:w-7 md:h-7 hover:border-blue-600 hover:border-b-2"
+                className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
               />
             )}
           </div>
         </div>
         {enterNewPatient && (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label
-                htmlFor="name"
-                className="block font-latoBold text-sm pb-2"
+          <form onSubmit={handleSubmit} className="mt-5">
+            <div className="flex flex-row justify-between">
+              <div className="w-full">
+                {newPatientInfo.ID && (
+                  <label
+                    htmlFor="name"
+                    className=" font-latoBold mr-3 text-sm text-gray-500"
+                  >
+                    Patient ID:
+                  </label>
+                )}
+                <input
+                  type="text"
+                  placeholder={
+                    isLoading
+                      ? "Generating patient record"
+                      : "Patient ID will be randomly generated on submit"
+                  }
+                  value={newPatientInfo.ID}
+                  readOnly
+                  className={
+                    isLoading
+                      ? " url_input_loading peer w-full"
+                      : "font-latoBold w-full  text-sm  leading-6"
+                  }
+                />
+              </div>
+              <div
+                onClick={handleClickNewPatient}
+                className="flex w-full justify-end"
               >
-                Patient ID:{" "}
-              </label>
-              <input
-                type="text"
-                placeholder="Patient ID will be created on submit"
-                value={patientInfo.ID}
-                readOnly
-                className={
-                  isLoading
-                    ? " url_input_loading peer w-1/2"
-                    : "url_input peer w-1/2"
-                }
-              />
+                <label className=" font-latoBold cursor-pointer text-sm text-gray-600   hover:text-blue-600 ">
+                  Clear Form
+                </label>
+              </div>
             </div>
             <div className="mt-5">
               <label
                 htmlFor="diagnosis"
-                className="block font-latoBold text-sm pb-2"
+                className="font-latoBold block pb-2 text-sm"
               >
-                Diagnosis:
+                {/* Patient Current State: */}
               </label>
               <select
-                value={patientInfo.Diagnosis}
+                value={newPatientInfo.Diagnosis}
                 onChange={handleDiagnosisChange}
                 required
                 className={
                   isLoading
                     ? " url_input_loading peer w-1/2"
-                    : "url_input peer w-1/2"
+                    : "url_input peer w-1/2 "
                 }
               >
-                <option value="Other">Select a diagnosis</option>
+                <option value="None">Select a Patient Current State:</option>
                 <option value="Bipolar I mania">Bipolar I mania</option>
                 <option value="Bipolar I depression">
                   Bipolar I depression
@@ -222,24 +291,25 @@ const NewPatientForm = ({
                 />
               )} */}
             </div>
-            <div className="items-center mt-5">
+            <div className="mt-5 items-center">
               <label
                 htmlFor="currentMedications"
-                className="block font-latoBold text-sm pb-2"
+                className="font-latoBold block pb-2 text-sm"
               >
-                Current Medications:
+                {/* Current Medications: */}
               </label>
               <input
                 id="currentMedications"
                 type="string"
-                value={patientInfo.CurrentMedications}
+                value={newPatientInfo.CurrentMedications}
                 onChange={(e) =>
-                  setPatientInfo({
-                    ...patientInfo,
+                  setNewPatientInfo({
+                    ...newPatientInfo,
                     CurrentMedications: String(e.target.value),
                   })
                 }
                 required
+                placeholder="Enter Current Medications"
                 className={
                   isLoading
                     ? " url_input_loading peer w-1/2"
@@ -248,16 +318,15 @@ const NewPatientForm = ({
               />
             </div>
 
-            <div className="flex justify-center mt-5">
+            <div className="mt-7 flex justify-center">
               <button
                 type="submit"
-                className={`black_btn peer-focus:border-gray-700 peer-focus:text-gray-700 ${
-                  isPressed
-                    ? ""
-                    : "transition-transform hover:scale-105 focus:outline-none focus:ring focus:ring-blue-500"
+                className={`btn w-full ${
+                  isPressed &&
+                  "transition-transform focus:outline-none focus:ring focus:ring-blue-200"
                 }${
                   isLoading
-                    ? "transition-transform bg-white-600 scale-105 focus:outline-none focus:ring focus:ring-blue-500"
+                    ? "bg-white-600 transition-transform focus:outline-none focus:ring focus:ring-blue-500"
                     : ""
                 }`}
                 onMouseDown={handleMouseDown}
@@ -265,8 +334,8 @@ const NewPatientForm = ({
                 disabled={isLoading} // Disable the button while loading
               >
                 {isLoading ? ( // Render loading icon if loading
-                  <div className="flex items-center">
-                    <div className="w-4 h-4 rounded-full bg-white animate-ping mr-2"></div>
+                  <div className="flex items-center  justify-center">
+                    <div className="mr-2 h-4 w-4 animate-ping rounded-full bg-white"></div>
                     <p>Loading...</p>
                   </div>
                 ) : (
