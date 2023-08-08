@@ -32,11 +32,13 @@ const PatientHistory = ({
   };
 
   return (
-    <div className="flex flex-col gap-2  mb-10">
+    <div className="mb-10 flex flex-col  gap-2">
       <br />
-      <h2 className="font-satoshi font-bold text-gray-600 text-xl">
-        List of <span className="blue_gradient">Patients</span>
-      </h2>
+      {allPatientInfo.length > 0 && (
+        <h2 className="font-satoshi text-xl font-bold text-gray-600">
+          List of <span className="blue_gradient">Patients</span>
+        </h2>
+      )}
       {allPatientInfo.reverse().map((item, index) => (
         <div
           key={`link-${index}`}
@@ -50,7 +52,7 @@ const PatientHistory = ({
             <img
               src={accountLogo}
               alt="accountLogo_icon"
-              className="w-[40%] h-[40%] object-contain"
+              className="h-[40%] w-[40%] object-contain"
             />
           </div>
           <div className="px-2  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -70,7 +72,7 @@ const PatientHistory = ({
             </dd>
           </div>
           <div
-            className="delete flex items-center justify-center w-8 h-6 rounded-full bg-white text-black hover:bg-red-500"
+            className="delete flex h-6 w-8 items-center justify-center rounded-full bg-white text-black hover:bg-red-500"
             onClick={(event) => {
               if (item.ID) {
                 handleDeletePatient(item.ID, event);

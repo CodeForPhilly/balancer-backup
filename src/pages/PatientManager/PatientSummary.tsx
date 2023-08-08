@@ -70,7 +70,7 @@ const PatientSummary = ({
   };
 
   return (
-    <div className="my-1 max-w-full flex items-center">
+    <div className="my-1 flex max-w-full items-center">
       {patientInfo.Description && (
         <div
           className="flex flex-col gap-3 whitespace-normal break-words"
@@ -78,7 +78,7 @@ const PatientSummary = ({
         >
           <div className="flex justify-between">
             <div>
-              <h2 className="font-satoshi font-bold text-gray-600 text-xl">
+              <h2 className="font-satoshi text-xl font-bold text-gray-600">
                 <span className="blue_gradient">Summary</span>
               </h2>
             </div>
@@ -87,19 +87,19 @@ const PatientSummary = ({
                 <img
                   src={minLogo}
                   alt="logo"
-                  className="md:w-7 md:h-7 cursor-pointer hover:border-blue-600 hover:border-b-2"
+                  className="cursor-pointer hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
                 />
               ) : (
                 <img
                   src={maxLogo}
                   alt="logo"
-                  className="md:w-7 md:h-7 cursor-pointer hover:border-blue-600 hover:border-b-2"
+                  className="cursor-pointer hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
                 />
               )}
             </div>
           </div>
           {showSummary && (
-            <div className="summary_box border-1bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300">
+            <div className="summary_box border-1bg-white ring-slate-1000/10 ring-1 hover:ring-slate-300">
               <div className="px-4 sm:px-0">
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
                   Information
@@ -137,9 +137,9 @@ const PatientSummary = ({
                     </dt>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 flex text-gray-900">
+                    <dt className="flex text-sm font-medium leading-6 text-gray-900">
                       Possible Medications:
-                      <div className="flex items-start ml-3 mt-1 text-white max-w-sm">
+                      <div className="ml-3 mt-1 flex max-w-sm items-start text-white">
                         {loading ? <TypingAnimation /> : null}
                       </div>
                     </dt>
@@ -190,7 +190,7 @@ const PatientSummary = ({
                         <div className="flex">
                           <div className=" w-[50%]">
                             <div>
-                              <h4 className="text-sm font-medium text-indigo-600 mb-4 mt-4">
+                              <h4 className="mb-4 mt-4 text-sm font-medium text-indigo-600">
                                 Benefits:
                               </h4>
                             </div>
@@ -200,7 +200,7 @@ const PatientSummary = ({
                                   (benefit: string, index: number) => (
                                     <li
                                       key={index}
-                                      className="text-sm mb-3 mr-1 h-10 hover:bg-indigo-100"
+                                      className="mb-3 mr-1 h-10 text-sm hover:bg-indigo-100"
                                     >
                                       {benefit}
                                     </li>
@@ -211,7 +211,7 @@ const PatientSummary = ({
                           </div>
                           <div className="w-[50%]">
                             <div>
-                              <h4 className="text-sm font-medium  text-indigo-600 mb-4  mt-4">
+                              <h4 className="mb-4 mt-4  text-sm font-medium  text-indigo-600">
                                 Risks:
                               </h4>
                             </div>
@@ -221,7 +221,7 @@ const PatientSummary = ({
                                   (risk: string, index: number) => (
                                     <li
                                       key={index}
-                                      className="text-sm mb-3 mr-1 h-10 hover:bg-indigo-100"
+                                      className="mb-3 mr-1 h-10 text-sm hover:bg-indigo-100"
                                     >
                                       {risk}
                                     </li>

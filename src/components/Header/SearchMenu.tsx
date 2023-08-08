@@ -3,7 +3,7 @@ import axios from "axios";
 // import closeLogo from "../../assets/close.svg";
 // import logo from "../../assets/balancer.png";
 // import { Link } from "react-router-dom";
-import TypingAnimation from "../../components/Header/components/TypingAnimation";
+import TypingAnimation from "./components/TypingAnimation";
 
 interface SearchMenuProps {
   showSearchMenu: boolean;
@@ -70,19 +70,19 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
     <>
       {showSearchMenu && (
         <div
-          className="fixed inset-0 bg-gray-900 opacity-50 z-5"
+          className="z-5 fixed inset-0 bg-gray-900 opacity-50"
           onClick={handleSearchMenu}
         ></div>
       )}
       <div
         className={
           showSearchMenu
-            ? "fixed p-0 w-[45%] min-h-[30%] max-h-[80%] overflow-y-auto border-l bg-white  ease-in-out  z20 top-[10%] left-1/2 transform -translate-x-1/2 rounded-md"
+            ? "z20 fixed left-1/2 top-[10%] max-h-[80%] min-h-[30%] w-[45%] -translate-x-1/2  transform  overflow-y-auto rounded-md border-l bg-white p-0 ease-in-out"
             : "hidden"
         }
       >
-        <div className="flex flex-col justify-center items-center">
-          <div className="relative sm:flex items-center w-[100%] h-14 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus-within:ring-2 focus-within:ring-sky-500 shadow-sm rounded-t-md text-slate-800 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700">
+        <div className="flex flex-col items-center justify-center">
+          <div className="ring-slate-1000/10 dark:highlight-white/5 relative h-14 w-[100%] items-center rounded-t-md bg-white text-slate-800 shadow-sm ring-1 focus-within:ring-2 focus-within:ring-sky-500 hover:ring-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:ring-0 dark:hover:bg-slate-700 sm:flex">
             <svg
               width="24"
               height="24"
@@ -91,7 +91,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:cursor-pointer hover:text-slate-900"
+              className="absolute left-3 top-1/2 -translate-y-1/2 transform text-slate-500 hover:cursor-pointer hover:text-slate-900 dark:text-slate-400"
               aria-hidden="true"
               onClick={handleSearch}
             >
@@ -100,7 +100,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
             </svg>
             <input
               type="text"
-              className="pl-16 pr-3 py-2 w-full h-full bg-transparent text-lg focus:outline-none border-none rounded-t-md"
+              className="h-full w-full rounded-t-md border-none bg-transparent py-2 pl-16 pr-3 text-lg focus:outline-none"
               placeholder="Let's find out what others are saying"
               value={inputValue}
               onChange={handleInputChange}
@@ -109,38 +109,38 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
 
             <kbd
               onClick={() => handleSearchMenu()}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer font-sans font-semibold dark:text-slate-500"
+              className="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer font-sans font-semibold dark:text-slate-500"
             >
               <abbr
                 title="Control"
-                className="no-underline text-slate-500 dark:text-slate-500"
+                className="text-slate-500 no-underline dark:text-slate-500"
               >
                 ESC{" "}
               </abbr>{" "}
             </kbd>
           </div>
 
-          <div className="font-satoshi text-xl h-20 flex flex-col justify-center items-center text-center">
+          <div className="flex h-20 flex-col items-center justify-center text-center font-satoshi text-xl">
             <p>Let's find out what others are saying</p>
           </div>
-          <div className="flex items-start ml-3 mt-1 text-white max-w-sm">
+          <div className="ml-3 mt-1 flex max-w-sm items-start text-white">
             {loading ? <TypingAnimation /> : null}
           </div>
-          <div className="h-18 p-5 w-[90%] flex flex-col justify-center items-center text-center">
+          <div className="h-18 flex w-[90%] flex-col items-center justify-center p-5 text-center">
             <p>
               The search results are from a database of over 5000 reviews. You
               can ask me anything and I will summarize what others are saying.
             </p>
           </div>
-          <div className="w-[85%] mt-4">
+          <div className="mt-4 w-[85%]">
             {message && (
-              <h2 className="p-5 font-satoshi font-bold text-gray-600 text-lg">
+              <h2 className="p-5 font-satoshi text-lg font-bold text-gray-600">
                 Summary of<span className="blue_gradient"> Results</span>
               </h2>
             )}
             <div>
               {message && (
-                <p className="mb-4 text-sm p-4 rounded-lg divide-gray-900/5 bg-gray-50 divide-x hover:bg-gray-100 ">
+                <p className="mb-4 divide-x divide-gray-900/5 rounded-lg bg-gray-50 p-4 text-sm hover:bg-gray-100 ">
                   {message}
                 </p>
               )}
@@ -165,14 +165,14 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               )}
             </div> */}
             {message && (
-              <h2 className="p-5 font-satoshi font-bold  text-gray-600 text-lg">
+              <h2 className="p-5 font-satoshi text-lg  font-bold text-gray-600">
                 List of<span className="blue_gradient"> Results</span>
               </h2>
             )}
             {searchResults.map((result, index) => (
               <div
                 key={index}
-                className="mb-4 text-sm p-4 rounded-lg divide-gray-900/5 bg-gray-50 divide-x hover:bg-gray-100"
+                className="mb-4 divide-x divide-gray-900/5 rounded-lg bg-gray-50 p-4 text-sm hover:bg-gray-100"
               >
                 <h3 className="font-bold">{result.drugName}</h3>
                 <br />
