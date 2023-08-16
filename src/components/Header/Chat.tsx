@@ -211,7 +211,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
         ) : (
           <div
             onClick={() => setShowChat(true)}
-            className="  absolute bottom-5 right-5 h-6 w-6 cursor-pointer rounded-full object-contain  hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:bg-gray-200 md:bottom-20 md:right-20 "
+            className="  absolute bottom-9 right-5 h-6 w-6 cursor-pointer rounded-full object-contain  hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:bg-gray-200 md:bottom-20 md:right-20 "
           >
             <img src={chatBubble} alt="logo" className="   " />
           </div>

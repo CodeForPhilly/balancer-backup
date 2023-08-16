@@ -35,8 +35,9 @@ const PatientHistory = ({
     <div className="mb-10 flex flex-col gap-2 p-3 md:p-0">
       <br />
       {allPatientInfo.length > 0 && (
-        <h2 className="font-satoshi text-xl font-bold text-gray-600">
-          List of <span className="blue_gradient">Patients</span>
+        <h2 className="cursor-pointer header_logo font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
+          List of Patients
+          {/* <span className="blue_gradient">Patients</span> */}
         </h2>
       )}
       {allPatientInfo.reverse().map((item, index) => (
@@ -49,22 +50,18 @@ const PatientHistory = ({
           className="link_card "
         >
           <div className="copy_btn">
-            <img
-              src={accountLogo}
-              alt="accountLogo_icon"
-              className="h-[40%] w-[40%] object-contain"
-            />
+            <img src={accountLogo} alt="accountLogo_icon" className="h-3 w-3" />
           </div>
-          <div className="grid  grid-cols-3 gap-4 px-0 px-2">
-            <dt className="text-sm  font-medium leading-6 text-gray-900">
+          <div className=" justify-start  w-1/3 flex flex-row  px-2">
+            <dt className="text-sm mr-5  font-medium leading-6 text-gray-900">
               ID:
             </dt>
             <dt className="text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {item.ID}
             </dt>
           </div>
-          <div className="px-2  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="hidden text-sm font-medium leading-6 text-gray-900 md:block">
+          <div className="px-2 w-2/3  flex flex-row  sm:px-0">
+            <dt className="hidden text-sm mr-5 font-medium leading-6 text-gray-900 md:block">
               Current State:
             </dt>
             <dd className="text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">

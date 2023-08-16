@@ -1,7 +1,6 @@
 import closeLogo from "../../assets/close.svg";
 import hamburgerLogo from "../../assets/hamburger.svg";
 import { Link } from "react-router-dom";
-import logo from "../../assets/balancer.png";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import Chat from "./Chat";
@@ -22,9 +21,7 @@ const MdNavBar = () => {
     >
       <nav className="flex w-full items-center">
         <Link to="/">
-          <span className="orange_gradient mr-8 text-xl font-bold">
-            Balancer
-          </span>
+          <span className="header_logo mr-8 text-xl font-bold">Balancer</span>
         </Link>
       </nav>
       <div onClick={handleNav} className="">

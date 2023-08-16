@@ -5,8 +5,6 @@ import { FormEvent, ChangeEvent, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { PatientInfo } from "./PatientTypes";
 import axios from "axios";
-import minLogo from "../../assets/min.svg";
-import maxLogo from "../../assets/max.svg";
 
 // TODO: refactor with Formik
 
@@ -145,7 +143,7 @@ const NewPatientForm = ({
   const handleClickSummary = () => {
     setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
-      Diagnosis: "Other",
+      Diagnosis: "Bipolar I mania",
       OtherDiagnosis: "",
       CurrentMedications: "",
       ID: "",
@@ -156,7 +154,7 @@ const NewPatientForm = ({
   const handleClickNewPatient = () => {
     setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
-      Diagnosis: "Other",
+      Diagnosis: "Bipolar I mania",
       OtherDiagnosis: "",
       CurrentMedications: "",
       ID: "",
@@ -166,13 +164,14 @@ const NewPatientForm = ({
   return (
     <section>
       {/* {search} */}
-      <div className="p-3 md:p-0">
+      <div className="mx-3 md:mx-0 md:p-0">
         <br />
         <div className="flex justify-between">
           {enterNewPatient ? (
             <div onClick={handleClickNewPatient}>
-              <h2 className="cursor-pointer font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
-                Enter New <span className="blue_gradient">Patient</span>
+              <h2 className="cursor-pointer header_logo font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
+                Enter Patient Details
+                {/* <span className="blue_gradient">Details</span> */}
               </h2>
             </div>
           ) : (
@@ -183,159 +182,152 @@ const NewPatientForm = ({
               </h2>
             </div>
           )}
-          <div onClick={handleClickSummary}>
+          <div
+            onClick={handleClickSummary}
+            className="cursor-pointer items-center m-2"
+          >
             {enterNewPatient ? (
-              <img
-                src={minLogo}
-                alt="logo"
-                className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600 sm:h-7 sm:w-7"
-              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 12h12"
+                />
+              </svg>
             ) : (
-              <img
-                src={maxLogo}
-                alt="logo"
-                className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600 md:h-7 md:w-7"
-              />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                />
+              </svg>
             )}
           </div>
         </div>
         {enterNewPatient && (
-          <form onSubmit={handleSubmit} className="mt-5">
-            <div className="flex flex-row justify-between">
-              <div className="w-full">
-                {newPatientInfo.ID && (
-                  <label
-                    htmlFor="name"
-                    className=" font-latoBold mr-3 text-sm text-gray-500"
-                  >
-                    Patient ID:
-                  </label>
-                )}
-                {isLoading && (
-                  <input
-                    type="text"
-                    placeholder={isLoading ? "Generating record" : ""}
-                    value={newPatientInfo.ID}
-                    readOnly
-                    className={
-                      isLoading
-                        ? " url_input_loading peer w-full"
-                        : "font-latoBold w-full text-sm leading-6"
-                    }
-                  />
-                )}
-              </div>
-              <div
-                onClick={handleClickNewPatient}
-                className="flex w-full justify-end"
-              >
-                <label className=" font-latoBold cursor-pointer text-sm text-gray-400   hover:text-blue-600 ">
-                  Clear Form
+          <form onSubmit={handleSubmit} className="mt-2">
+            <div className="summary_box  ">
+              <div className="mt-5">
+                <label
+                  htmlFor="current-state"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Current state
                 </label>
+                <div className="mt-2 ">
+                  <select
+                    value={newPatientInfo.Diagnosis}
+                    onChange={handleDiagnosisChange}
+                    required
+                    autoComplete="current-state"
+                    className={
+                      isLoading ? " url_input_loading w-1/2" : "dropdown "
+                    }
+                  >
+                    <option value="Bipolar I mania">Bipolar I mania</option>
+                    <option value="Bipolar I depression">
+                      Bipolar I depression
+                    </option>
+                    <option value="Bipolar II hypomania">
+                      Bipolar II hypomania
+                    </option>
+                    <option value="Bipolar II depression">
+                      Bipolar II depression
+                    </option>
+                    <option value="Bipolar mixed episodes">
+                      Bipolar mixed episodes
+                    </option>
+                    <option value="Cyclothymic disorder">
+                      Cyclothymic disorder
+                    </option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div className="mt-5">
-              <label
-                htmlFor="diagnosis"
-                className="font-latoBold block pb-2 text-sm"
-              >
-                {/* Patient Current State: */}
-              </label>
-              <select
-                value={newPatientInfo.Diagnosis}
-                onChange={handleDiagnosisChange}
-                required
-                className={
-                  isLoading
-                    ? " url_input_loading peer w-1/2"
-                    : "url_input peer w-1/2 "
-                }
-              >
-                <option value="None">Select a Patient Current State:</option>
-                <option value="Bipolar I mania">Bipolar I mania</option>
-                <option value="Bipolar I depression">
-                  Bipolar I depression
-                </option>
-                <option value="Bipolar II hypomania">
-                  Bipolar II hypomania
-                </option>
-                <option value="Bipolar II depression">
-                  Bipolar II depression
-                </option>
-                <option value="Bipolar mixed episodes">
-                  Bipolar mixed episodes
-                </option>
-                <option value="Cyclothymic disorder">
-                  Cyclothymic disorder
-                </option>
-              </select>
-              {/* {patientInfo.Diagnosis === "Other" && (
+              <div className="mt-5 items-center  justify-center">
+                {/* <label
+                  htmlFor="currentMedications"
+                  className=" flex cursor-pointer"
+                > */}
+                {/* Current Medications: */}
+                <label
+                  htmlFor="current-state"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  Current medications
+                </label>
                 <input
-                  type="text"
-                  placeholder="Please specify"
-                  value={patientInfo.OtherDiagnosis}
+                  id="currentMedications"
+                  type="ani_input"
+                  value={newPatientInfo.CurrentMedications}
                   onChange={(e) =>
-                    setPatientInfo({
-                      ...patientInfo,
-                      OtherDiagnosis: e.target.value,
+                    setNewPatientInfo({
+                      ...newPatientInfo,
+                      CurrentMedications: String(e.target.value),
                     })
                   }
                   required
-                  className="url_input peer"
+                  placeholder=""
+                  className={
+                    isLoading
+                      ? " url_input_loading peer w-1/2"
+                      : "ani_input mt-2 peer w-1/2"
+                  }
                 />
-              )} */}
-            </div>
-            <div className="mt-5 items-center">
-              <label
-                htmlFor="currentMedications"
-                className="font-latoBold block pb-2 text-sm"
-              >
-                {/* Current Medications: */}
-              </label>
-              <input
-                id="currentMedications"
-                type="string"
-                value={newPatientInfo.CurrentMedications}
-                onChange={(e) =>
-                  setNewPatientInfo({
-                    ...newPatientInfo,
-                    CurrentMedications: String(e.target.value),
-                  })
-                }
-                required
-                placeholder="Enter Current Medications"
-                className={
-                  isLoading
-                    ? " url_input_loading peer w-1/2"
-                    : "url_input peer w-1/2"
-                }
-              />
-            </div>
+                {/* <span className="text-gray-500 font-satoshi text-sm font-medium  text-opacity-80 bg-white absolute left-4 top-2 px-1 transition duration-200 input-text">
+                    Current Medications
+                  </span> */}
+                {/* </label> */}
+              </div>
 
-            <div className="mt-7 flex justify-center">
-              <button
-                type="submit"
-                className={`btn w-full ${
-                  isPressed &&
-                  "transition-transform focus:outline-none focus:ring focus:ring-blue-200"
-                }${
-                  isLoading
-                    ? "bg-white-600 transition-transform focus:outline-none focus:ring focus:ring-blue-500"
-                    : ""
-                }`}
-                onMouseDown={handleMouseDown}
-                onMouseUp={handleMouseUp}
-                disabled={isLoading} // Disable the button while loading
-              >
-                {isLoading ? ( // Render loading icon if loading
-                  <div className="flex items-center  justify-center">
-                    <div className="mr-2 h-4 w-4 animate-ping rounded-full bg-white"></div>
-                    <p>Loading...</p>
-                  </div>
-                ) : (
-                  <p>Submit</p>
-                )}
-              </button>
+              <div className="mt-7 flex justify-end">
+                <div className="flex w-full justify-end">
+                  <button
+                    type="button"
+                    className="btnCancel mr-5"
+                    onClick={handleClickNewPatient}
+                  >
+                    Clear Form
+                  </button>
+                </div>
+                <button
+                  type="submit"
+                  className={`btn  ${
+                    isPressed &&
+                    "transition-transform focus:outline-none focus:ring focus:ring-blue-200"
+                  }${
+                    isLoading
+                      ? "bg-white-600 transition-transform focus:outline-none focus:ring focus:ring-blue-500"
+                      : ""
+                  }`}
+                  onMouseDown={handleMouseDown}
+                  onMouseUp={handleMouseUp}
+                  disabled={isLoading} // Disable the button while loading
+                >
+                  {isLoading ? ( // Render loading icon if loading
+                    <div className="flex items-center  justify-center">
+                      <div className="mr-2 h-4 w-4 animate-ping rounded-full bg-white"></div>
+                      <p>Loading...</p>
+                    </div>
+                  ) : (
+                    <p>Submit</p>
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         )}

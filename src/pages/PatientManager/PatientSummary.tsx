@@ -1,6 +1,4 @@
 import { PatientInfo } from "./PatientTypes";
-import minLogo from "../../assets/min.svg";
-import maxLogo from "../../assets/max.svg";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import TypingAnimation from "../../components/Header/components/TypingAnimation";
@@ -58,7 +56,8 @@ const PatientSummary = ({
       setClickedMedication(medication);
       setLoading(true);
       try {
-        const response = await axios.post("http://localhost:3001/risk", {
+        const baseUrl = import.meta.env.VITE_API_BASE_URL;
+        const response = await axios.post(`${baseUrl}/risk`, {
           diagnosis: medication,
         });
         setRiskData(response.data);
@@ -70,7 +69,7 @@ const PatientSummary = ({
   };
 
   return (
-    <div className="my-5 flex max-w-full items-center p-3 md:p-0">
+    <div className="my-2 md:my-5 flex max-w-full items-center p-3 md:p-0">
       {patientInfo.Description && (
         <div
           className="flex flex-col gap-3 whitespace-normal break-words"
@@ -78,28 +77,50 @@ const PatientSummary = ({
         >
           <div className="flex justify-between">
             <div>
-              <h2 className="font-satoshi text-xl font-bold text-gray-600">
-                <span className="blue_gradient">Summary</span>
+              <h2 className="cursor-pointer header_logo font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
+                Summary
+                {/* <span className="blue_gradient">Summary</span> */}
               </h2>
             </div>
-            <div onClick={handleClickSummary}>
+            <div
+              onClick={handleClickSummary}
+              className="cursor-pointer items-center m-2"
+            >
               {showSummary ? (
-                <img
-                  src={minLogo}
-                  alt="logo"
-                  className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600"
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 12h12"
+                  />
+                </svg>
               ) : (
-                <img
-                  src={maxLogo}
-                  alt="logo"
-                  className="h-7 w-7 cursor-pointer hover:border-b-2 hover:border-blue-600"
-                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                  />
+                </svg>
               )}
             </div>
           </div>
           {showSummary && (
-            <div className="summary_box border-1bg-white ring-slate-1000/10 ring-1 hover:ring-slate-300">
+            <div className="summary_box">
               <div className="px-4 sm:px-0">
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
                   Information
@@ -139,9 +160,6 @@ const PatientSummary = ({
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="flex text-sm font-medium leading-6 text-gray-900">
                       Possible Medications:
-                      <div className="ml-3 mt-1 flex max-w-sm items-start text-white">
-                        {loading ? <TypingAnimation /> : null}
-                      </div>
                     </dt>
                     <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                       <ul
@@ -167,6 +185,12 @@ const PatientSummary = ({
                                     <span className="truncate font-medium">
                                       {medication}
                                     </span>
+                                    <div className="ml-3 mt-0 flex max-w-sm items-start text-white">
+                                      {loading &&
+                                      medication === clickedMedication ? (
+                                        <TypingAnimation />
+                                      ) : null}
+                                    </div>
                                   </div>
                                 </div>
                                 <div className="ml-4 flex-shrink-0">
@@ -182,7 +206,7 @@ const PatientSummary = ({
                   </div>
 
                   {riskData && (
-                    <div className="grid gap-4 px-0 px-4 py-1">
+                    <div className="grid gap-4 px-4 py-3">
                       {/* <dt className="text-sm font-medium leading-6 text-gray-900">
                           Benefits and risks
                         </dt> */}
@@ -200,7 +224,7 @@ const PatientSummary = ({
                                   (benefit: string, index: number) => (
                                     <li
                                       key={index}
-                                      className="my-8  mr-1 h-10 text-sm hover:bg-indigo-100 md:my-0 md:mb-3"
+                                      className="my-8  mr-1 h-12 text-sm hover:bg-indigo-100 md:my-0 md:mb-3"
                                     >
                                       {benefit}
                                     </li>
@@ -221,7 +245,7 @@ const PatientSummary = ({
                                   (risk: string, index: number) => (
                                     <li
                                       key={index}
-                                      className=" my-8 mr-1 h-10 text-sm hover:bg-indigo-100 md:my-0 md:mb-3"
+                                      className=" my-8 mr-1 h-12 text-sm hover:bg-indigo-100 md:my-0 md:mb-3"
                                     >
                                       {risk}
                                     </li>

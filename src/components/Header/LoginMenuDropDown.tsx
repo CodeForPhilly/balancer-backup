@@ -64,18 +64,12 @@ const LoginMenuDropDown: React.FC<LoginMenuDropDownProps> = ({
         <div className="h-32 flex flex-col justify-center items-center text-center">
           {" "}
           <Link to="/login">
-            <button
-              type="submit"
-              className="mt-12 bg-blue-500 rounded-xl text-white py-2 px-24 hover:bg-blue-600"
-            >
+            <button type="submit" className="btn mt-12 py-2 px-24 w-52">
               <p>Login</p>
             </button>
           </Link>
           <Link to="/register">
-            <button
-              type="submit"
-              className="mt-1 bg-blue-500 rounded-xl text-white py-2 px-8 hover:bg-blue-600"
-            >
+            <button type="submit" className="btn mt-1 py-2 px-8 w-52">
               <p>Sign up for a new account</p>
             </button>
           </Link>

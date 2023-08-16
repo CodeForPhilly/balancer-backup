@@ -62,7 +62,7 @@ const Header = () => {
 
   const handleMouseLeaveResearch = () => {
     delayTimeout = setTimeout(() => {
-      setShowFeaturesMenu(false);
+      setShowResearchMenu(false);
     }, 300) as unknown as number; // Adjust the delay time as needed
   };
 
@@ -111,7 +111,7 @@ const Header = () => {
             <img src={logo} alt="logo" className="object-contain w-28 mr-5  " />
           </Link> */}
           <Link to="/">
-            <span className="orange_gradient mr-8 text-xl font-bold">
+            <span className="header_logo  mr-8 text-xl font-bold">
               Balancer
             </span>
           </Link>
@@ -157,7 +157,7 @@ const Header = () => {
               className=""
             >
               <span
-                className={` mr-9 text-black ${
+                className={` mr-10 text-black ${
                   showResearchMenu
                     ? "cursor-pointer border-b-2 border-blue-600 hover:border-b-2 hover:border-blue-600 hover:no-underline"
                     : "cursor-pointer hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"

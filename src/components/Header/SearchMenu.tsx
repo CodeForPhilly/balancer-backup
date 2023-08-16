@@ -76,7 +76,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
       <div
         className={
           showSearchMenu
-            ? "z20 fixed left-1/2 top-[10%] max-h-[80%] min-h-[30%] w-[45%] -translate-x-1/2  transform  overflow-y-auto rounded-md border-l bg-white p-0 ease-in-out"
+            ? "z20 fixed left-1/2 top-[10%] max-h-[80%] min-h-[80%] w-2/3 -translate-x-1/2  transform  overflow-y-auto rounded-md border-l bg-white p-0 ease-in-out"
             : "hidden"
         }
       >
@@ -97,6 +97,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
               <path d="m19 19-3.5-3.5"></path>
               <circle cx="11" cy="11" r="6"></circle>
             </svg>
+
             <input
               type="text"
               className="h-full w-full rounded-t-md border-none bg-transparent py-2 pl-16 pr-3 text-lg focus:outline-none"
@@ -108,8 +109,11 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
 
             <kbd
               onClick={() => handleSearchMenu()}
-              className="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer font-sans font-semibold dark:text-slate-500"
+              className="absolute right-3 flex top-1/2 -translate-y-1/2 transform cursor-pointer font-sans font-semibold dark:text-slate-500"
             >
+              <div className="ml-3 mt-1 flex  mr-5 max-w-sm items-start text-white">
+                {loading ? <TypingAnimation /> : null}
+              </div>
               <abbr
                 title="Control"
                 className="text-slate-500 no-underline dark:text-slate-500"
@@ -122,9 +126,7 @@ const SearchMenu: React.FC<SearchMenuProps> = ({
           <div className="flex h-20 flex-col items-center justify-center text-center font-satoshi text-xl">
             <p>Let's find out what others are saying</p>
           </div>
-          <div className="ml-3 mt-1 flex max-w-sm items-start text-white">
-            {loading ? <TypingAnimation /> : null}
-          </div>
+
           <div className="h-18 flex w-[90%] flex-col items-center justify-center p-5 text-center">
             <p>
               The search results are from a database of over 5000 reviews. You
