@@ -121,7 +121,7 @@ const Header = () => {
               to="/login"
               className="mr-5  text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
             >
-              Our Mission
+              About
             </Link>
             <div
               onMouseEnter={handleMouseEnter}
@@ -150,7 +150,7 @@ const Header = () => {
               {showFeaturesMenu && <FeatureMenuDropDown />}
             </div>
 
-            <div
+            {/* <div
               onMouseEnter={handleMouseEnterResearch}
               onMouseLeave={handleMouseLeaveResearch}
               ref={dropdownResearchRef}
@@ -175,7 +175,7 @@ const Header = () => {
                 </span>
                 {showResearchMenu && <ResearchMenuDropDown />}
               </span>
-            </div>
+            </div> */}
           </>
         </nav>
 
@@ -190,7 +190,7 @@ const Header = () => {
                 placeholder="Ask me something"
                 className="pr-3 pl-10 py-2 border-none placeholder-gray-500 text-black rounded-2xl ring-2 ring-gray-300 focus:ring-gray-500 focus:ring-2"
               ></input> */}
-            <button
+            {/* <button
               type="button"
               className="w-76 ring-slate-1000/10 dark:highlight-white/5 hidden h-9 items-center space-x-3 rounded-lg bg-white px-4 text-left text-slate-400 shadow-sm ring-1 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-800 dark:text-slate-300 dark:ring-0 dark:hover:bg-slate-700 sm:flex"
             >
@@ -218,7 +218,7 @@ const Header = () => {
                 </abbr>
                 +m
               </kbd>
-            </button>
+            </button> */}
           </div>
           <SearchMenu
             showSearchMenu={showSearchMenu}
@@ -232,7 +232,7 @@ const Header = () => {
             >
               Support
             </Link>
-            <div onClick={handleLoginMenu}>
+            {/* <div onClick={handleLoginMenu}>
               <img
                 src={accountLogo}
                 alt="logo"
@@ -242,7 +242,7 @@ const Header = () => {
             <LoginMenuDropDown
               showLoginMenu={showLoginMenu}
               handleLoginMenu={handleLoginMenu}
-            />
+            /> */}
             {/* <div onClick={handleChat}>
               <img
                 src={chatBubble}
@@ -250,7 +250,7 @@ const Header = () => {
                 className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
               />
             </div> */}
-            <button
+            {/* <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="rounded px-4  py-2"
             >
@@ -259,7 +259,7 @@ const Header = () => {
                 alt={isDarkMode ? "Light Mode" : "Dark Mode"}
                 className="hover: w-5 cursor-pointer object-contain hover:cursor-pointer hover:border-b-2 hover:border-blue-600  "
               />
-            </button>
+            </button> */}
             <Chat showChat={showChat} setShowChat={setShowChat} />
           </>
         </nav>

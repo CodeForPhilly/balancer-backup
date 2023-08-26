@@ -105,7 +105,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
       <div
         className={`fixed bottom-0 right-0 rounded md:bottom-3 md:right-4 ${
           showChat ? "show_chat border-1bg-white ring-slate-1000/10" : "h-12 "
-        } shadow transition-all`}
+        } shadow transition-all `}
       >
         {showChat ? (
           <div
@@ -117,7 +117,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
               style={{ borderBottomColor: "#abcdef" }}
             >
               <div className=" ml-4 text-black">
-                Welcome to Balancer! <br />
+                Questions for me? <br />
               </div>
               <div
                 className="delete mr-2 flex h-6 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-black hover:bg-red-500"
@@ -141,9 +141,9 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
             <div className="mt-6 flex flex-grow flex-col space-y-2 p-5 pb-44">
               {chatLog.length === 0 ? (
                 <div className="text-gray-500">
-                  Balancer is a powerful open-source tool available for free
-                  use. Simply start typing your questions or concerns, and we'll
-                  do our best to assist you. <br />
+                  Want to know more about a medication or have a question? Ask
+                  Balancer in this chat, and information will be pulled from all
+                  over the internet to assist you <br />
                   <br />
                   {/* <br />
                   <br /> Balancer is an assistive tool and cannot be used as a replacement for a real human prescriber. */}
@@ -178,7 +178,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
             </div>
 
             <div className="inside_chat absolute bottom-0 left-0 right-0 rounded-b-lg bg-white p-4">
-              <div className="flex  space-x-2 p-2 ">
+              {/* <div className="flex  space-x-2 p-2 ">
                 {suggestionPrompts.map((suggestion, index) => (
                   <button
                     type="button"
@@ -189,7 +189,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
                     {suggestion}
                   </button>
                 ))}
-              </div>
+              </div> */}
               <form onSubmit={handleSubmit} className="mb-1 flex">
                 <div className="ml-2 flex-grow">
                   <input
@@ -211,9 +211,9 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
         ) : (
           <div
             onClick={() => setShowChat(true)}
-            className="  absolute bottom-9 right-5 h-6 w-6 cursor-pointer rounded-full object-contain  hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:bg-gray-200 md:bottom-20 md:right-20 "
+            className="  absolute bottom-9 right-5 flex h-10 w-10  cursor-pointer items-center justify-center rounded-full border border-blue-600 bg-blue-100 object-contain hover:cursor-pointer hover:border-blue-600 hover:bg-blue-300 md:bottom-20 md:right-20 "
           >
-            <img src={chatBubble} alt="logo" className="   " />
+            <img src={chatBubble} alt="logo" className="h-6 w-6 " />
           </div>
         )}
       </div>

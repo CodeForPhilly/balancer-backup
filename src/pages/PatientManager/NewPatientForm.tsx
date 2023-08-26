@@ -25,10 +25,10 @@ const NewPatientForm = ({
 
   const [newPatientInfo, setNewPatientInfo] = useState<PatientInfo>({
     ID: "",
-    Diagnosis: "",
+    Diagnosis: "Bipolar I mania",
     OtherDiagnosis: "",
     Description: "",
-    CurrentMedications: "",
+    CurrentMedications: "None",
     PossibleMedications: { drugs: [] },
   });
 
@@ -126,24 +126,18 @@ const NewPatientForm = ({
 
   const handleDiagnosisChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const selectedValue = e.target.value;
-    if (selectedValue === "Other") {
-      setNewPatientInfo({
-        ...newPatientInfo,
-        Diagnosis: selectedValue,
-      });
-    } else {
-      setNewPatientInfo({
-        ...newPatientInfo,
-        Diagnosis: selectedValue,
-        OtherDiagnosis: "", // Reset the OtherDiagnosis value
-      });
-    }
+
+    setNewPatientInfo({
+      ...newPatientInfo,
+      Diagnosis: selectedValue,
+      OtherDiagnosis: "", // Reset the OtherDiagnosis value
+    });
   };
 
   const handleClickSummary = () => {
     setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
-      Diagnosis: "Bipolar I mania",
+      Diagnosis: "",
       OtherDiagnosis: "",
       CurrentMedications: "",
       ID: "",
@@ -154,7 +148,7 @@ const NewPatientForm = ({
   const handleClickNewPatient = () => {
     setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
-      Diagnosis: "Bipolar I mania",
+      Diagnosis: "",
       OtherDiagnosis: "",
       CurrentMedications: "",
       ID: "",
@@ -169,7 +163,7 @@ const NewPatientForm = ({
         <div className="flex justify-between">
           {enterNewPatient ? (
             <div onClick={handleClickNewPatient}>
-              <h2 className="cursor-pointer header_logo font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
+              <h2 className="header_logo cursor-pointer font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
                 Enter Patient Details
                 {/* <span className="blue_gradient">Details</span> */}
               </h2>
@@ -184,12 +178,12 @@ const NewPatientForm = ({
           )}
           <div
             onClick={handleClickSummary}
-            className="cursor-pointer items-center m-2"
+            className="m-2 cursor-pointer items-center"
           >
             {enterNewPatient ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
+                className="h-4 w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -204,7 +198,7 @@ const NewPatientForm = ({
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4"
+                className="h-4 w-4"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -239,7 +233,7 @@ const NewPatientForm = ({
                       isLoading ? " url_input_loading w-1/2" : "dropdown "
                     }
                   >
-                    <option value="Bipolar I mania">Bipolar I mania</option>
+                    <option value="Bipolar I mania"> Bipolar I mania </option>
                     <option value="Bipolar I depression">
                       Bipolar I depression
                     </option>
@@ -285,7 +279,7 @@ const NewPatientForm = ({
                   className={
                     isLoading
                       ? " url_input_loading peer w-1/2"
-                      : "ani_input mt-2 peer w-1/2"
+                      : "ani_input peer mt-2 w-1/2"
                   }
                 />
                 {/* <span className="text-gray-500 font-satoshi text-sm font-medium  text-opacity-80 bg-white absolute left-4 top-2 px-1 transition duration-200 input-text">
