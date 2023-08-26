@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import TypingAnimation from "./components/TypingAnimation";
 import chatBubble from "../../assets/chatbubble.svg";
+import { extractContentFromDOM } from "../../services/domExtraction";
 
 interface ChatLogItem {
   type: string;
@@ -25,11 +26,28 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
     "What are the common side effects?",
     "How to manage medication schedule?",
   ];
+  const [pageContent, setPageContent] = useState('');
 
   const systemMessage = {
     role: "system",
     content: "You are a bot please keep conversation going.",
   };
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      const content = extractContentFromDOM();
+      setPageContent(content);
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true
+    });
+
+    const extractedContent = extractContentFromDOM();
+    setPageContent(extractedContent);
+  }, []);
 
   useEffect(() => {
     const chatContainer = document.getElementById("chat_container");
