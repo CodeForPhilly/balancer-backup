@@ -1,10 +1,8 @@
 import { FormEvent, ChangeEvent, useEffect, useState } from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// import { loader } from "../../assets";
 import { v4 as uuidv4 } from "uuid";
 import { PatientInfo } from "./PatientTypes";
 import axios from "axios";
+import Tooltip from "./Tooltip";
 
 // TODO: refactor with Formik
 
@@ -25,10 +23,10 @@ const NewPatientForm = ({
 
   const [newPatientInfo, setNewPatientInfo] = useState<PatientInfo>({
     ID: "",
-    Diagnosis: "Bipolar I mania",
+    Diagnosis: "Manic",
     OtherDiagnosis: "",
     Description: "",
-    CurrentMedications: "None",
+    CurrentMedications: "",
     PossibleMedications: { drugs: [] },
   });
 
@@ -88,11 +86,11 @@ const NewPatientForm = ({
       setPatientInfo({ ...newPatientInfo, ID: firstFiveCharacters });
 
       if (data) {
-        const description = data.message.choices[0].message.content;
+        // const description = data.message.choices[0].message.content;
 
         const newDescription = {
           ...newPatientInfo,
-          Description: description,
+          // Description: description,
           ID: firstFiveCharacters,
           PossibleMedications: possibleMedicationsData,
         };
@@ -111,13 +109,6 @@ const NewPatientForm = ({
     } catch (error) {
       console.log("Error occurred:", error);
     } finally {
-      // setPatientInfo((prevPatientInfo) => ({
-      //   ...prevPatientInfo,
-      //   Diagnosis: "Other",
-      //   OtherDiagnosis: "",
-      //   CurrentMedications: "",
-      //   ID: "",
-      // }));
       setEnterNewPatient(false);
       setIsLoading(false); // Stop loading
       handleClickNewPatient();
@@ -152,6 +143,18 @@ const NewPatientForm = ({
       OtherDiagnosis: "",
       CurrentMedications: "",
       ID: "",
+    }));
+  };
+
+  const handleCheckboxChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    checkboxName: string
+  ) => {
+    const isChecked = e.target.checked;
+
+    setNewPatientInfo((prevInfo) => ({
+      ...prevInfo,
+      [checkboxName]: isChecked,
     }));
   };
 
@@ -216,48 +219,382 @@ const NewPatientForm = ({
         {enterNewPatient && (
           <form onSubmit={handleSubmit} className="mt-2">
             <div className="summary_box  ">
-              <div className="mt-5">
-                <label
-                  htmlFor="current-state"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Current state
-                </label>
-                <div className="mt-2 ">
+              <div className="mt-5 flex items-center justify-between">
+                <div>
+                  <label
+                    htmlFor="current-state"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Current state
+                  </label>
+                </div>
+                <div className="pr-16">
                   <select
                     value={newPatientInfo.Diagnosis}
                     onChange={handleDiagnosisChange}
                     required
                     autoComplete="current-state"
-                    className={
-                      isLoading ? " url_input_loading w-1/2" : "dropdown "
-                    }
+                    className={isLoading ? " url_input_loading" : "dropdown"}
                   >
-                    <option value="Bipolar I mania"> Bipolar I mania </option>
-                    <option value="Bipolar I depression">
-                      Bipolar I depression
-                    </option>
-                    <option value="Bipolar II hypomania">
-                      Bipolar II hypomania
-                    </option>
-                    <option value="Bipolar II depression">
-                      Bipolar II depression
-                    </option>
-                    <option value="Bipolar mixed episodes">
-                      Bipolar mixed episodes
-                    </option>
-                    <option value="Cyclothymic disorder">
-                      Cyclothymic disorder
-                    </option>
+                    <option value="Manic"> Manic </option>
+                    <option value="Depressed">Depressed</option>
+                    <option value="Hypomanic">Hypomanic</option>
+                    <option value="Euthymic">Euthymic</option>
+                    <option value="Mixed">Mixed</option>
                   </select>
                 </div>
               </div>
+
+              <div className="border-b border-gray-900/10 px-4 py-6 pb-12 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <div>
+                  <legend className="text-sm font-semibold leading-6 text-gray-900">
+                    Bipolar history
+                  </legend>
+                </div>
+                <div className="pl-24">
+                  <div className="justify-left  flex gap-x-3">
+                    <div className="flex h-6 items-center ">
+                      <input
+                        id="Mania"
+                        name="Mania"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        onChange={(e) => handleCheckboxChange(e, "Mania")}
+                      />
+                    </div>
+                    <div className="text-sm leading-6">
+                      <label
+                        htmlFor="Mania"
+                        className="font-medium text-gray-900"
+                      >
+                        Mania
+                      </label>
+                    </div>
+                  </div>
+                  <div className=" flex gap-x-3">
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="Depression"
+                        name="Depression"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        onChange={(e) => handleCheckboxChange(e, "Depression")}
+                      />
+                    </div>
+                    <div className="text-sm leading-6">
+                      <label
+                        htmlFor="Depression"
+                        className="font-medium text-gray-900"
+                      >
+                        Depression
+                      </label>
+                    </div>
+                  </div>
+                  <div className=" flex gap-x-3">
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="Hypomania"
+                        name="Hypomania"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                        onChange={(e) => handleCheckboxChange(e, "Hypomania")}
+                      />
+                    </div>
+                    <div className="text-sm leading-6">
+                      <label
+                        htmlFor="Hypomania"
+                        className="font-medium text-gray-900"
+                      >
+                        Hypomania
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="border-b border-gray-900/10 pb-12">
+                <p className="mt-6 text-sm leading-6 text-gray-600">
+                  Check if apply to patient
+                </p>
+                <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                    Currently psychotic
+                  </dt>
+
+                  <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <div className="flex items-center gap-x-3 pr-16">
+                      <input
+                        id="psychotic"
+                        name="psychotic"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="push-everything"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Yes
+                      </label>
+
+                      <input
+                        id="psychotic"
+                        name="psychotic"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="push-email"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </dd>
+                </fieldset>
+                <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                    Patient has attempted suicide
+                  </dt>
+
+                  <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <div className="flex items-center gap-x-3 pr-16">
+                      <input
+                        id="suicide"
+                        name="suicide"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="suicide"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Yes
+                      </label>
+
+                      <input
+                        id="suicide"
+                        name="suicide"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="suicide"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </dd>
+                </fieldset>
+                <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <div>
+                    <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                      At risk for Kidney disease
+                      <Tooltip text="Lithium can affect kidney function, so it will not be included in the suggested medication list for patients with a risk or history of kidney disease.">
+                        <span className="material-symbols-outlined">info</span>
+                      </Tooltip>
+                    </dt>
+                  </div>
+                  <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <div className="flex items-center gap-x-3 pr-16">
+                      <input
+                        id="Kidney"
+                        name="Kidney"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="Kidney"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Yes
+                      </label>
+
+                      <input
+                        id="Kidney"
+                        name="Kidney"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="Kidney"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </dd>
+                </fieldset>
+                <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                    At risk for Liver disease
+                    <Tooltip text="Depakote is processed through the liver, so it will not be included in the suggested medication list for patients with a risk or history of liver disease.">
+                      <span className="material-symbols-outlined">info</span>
+                    </Tooltip>
+                  </dt>
+
+                  <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <div className="flex items-center gap-x-3 pr-16">
+                      <input
+                        id="Liver"
+                        name="Liver"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="Liver"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Yes
+                      </label>
+
+                      <input
+                        id="Liver"
+                        name="Liver"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="Liver"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </dd>
+                </fieldset>
+                <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                    At risk for low blood pressure or concern for falls
+                    <Tooltip text="Second-generation antipsychotics can cause low blood pressure upon standing, putting the patient at risk of passing out and hitting their head, so they will not be included in suggested medication list for patients with a risk or history of low blood pressure.">
+                      <span className="material-symbols-outlined">info</span>
+                    </Tooltip>
+                  </dt>
+
+                  <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <div className="flex items-center gap-x-3 pr-16">
+                      <input
+                        id="blood_pressure"
+                        name="blood_pressure"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="blood_pressure"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Yes
+                      </label>
+
+                      <input
+                        id="blood_pressure"
+                        name="blood_pressure"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="blood_pressure"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </dd>
+                </fieldset>
+                <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                    Has weight gain concerns
+                    <Tooltip text="Seroquel, Risperdal, Abilify, and Zyprexa are known for causing weight gain, so they will not be included in the suggested medications list for patients with concerns about weight gain.">
+                      <span className="material-symbols-outlined">info</span>
+                    </Tooltip>
+                  </dt>
+
+                  <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                    <div className="flex items-center gap-x-3 pr-16">
+                      <input
+                        id="weight_gain"
+                        name="weight_gain"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="weight_gain"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        Yes
+                      </label>
+
+                      <input
+                        id="weight_gain"
+                        name="weight_gain"
+                        type="radio"
+                        className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                      <label
+                        htmlFor="weight_gain"
+                        className="block text-sm font-medium leading-6 text-gray-900"
+                      >
+                        No
+                      </label>
+                    </div>
+                  </dd>
+                </fieldset>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:px-0">
+                <div>
+                  <legend className="flex text-sm font-medium leading-6 text-gray-900">
+                    Reproductive Status
+                  </legend>
+                </div>
+                <div className="">
+                  <div className="  flex gap-x-3">
+                    <div className="flex h-6 items-center ">
+                      <input
+                        id="comments"
+                        name="comments"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                    </div>
+                    <div className="text-sm leading-6">
+                      <label
+                        htmlFor="comments"
+                        className="font-medium text-gray-900"
+                      >
+                        <Tooltip text="Depakote is known for causing birth defects and will not be included in the suggested medications list for patients at risk of pregnancy. Note: If the patient is on birth control, taking Depakote is less of a risk.">
+                          Any risk of pregnancy
+                          <span className="material-symbols-outlined ml-1">
+                            info
+                          </span>
+                        </Tooltip>
+                      </label>
+                    </div>
+                  </div>
+                  <div className=" mt-2 hidden gap-x-3 sm:flex">
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="candidates"
+                        name="candidates"
+                        type="checkbox"
+                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                      />
+                    </div>
+                    <div className="text-sm leading-6">
+                      <label
+                        htmlFor="candidates"
+                        className="font-medium text-gray-900"
+                      >
+                        <Tooltip text="Depakote is known for causing birth defects and will not be included in the suggested medications list for patients interested in becoming pregnant.">
+                          Wants to conceive in next 2 years
+                          <span className="material-symbols-outlined ml-1">
+                            info
+                          </span>
+                        </Tooltip>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="mt-5 items-center  justify-center">
-                {/* <label
-                  htmlFor="currentMedications"
-                  className=" flex cursor-pointer"
-                > */}
-                {/* Current Medications: */}
                 <label
                   htmlFor="current-state"
                   className="block text-sm font-medium leading-6 text-gray-900"
@@ -275,17 +612,42 @@ const NewPatientForm = ({
                     })
                   }
                   required
-                  placeholder=""
+                  placeholder="Separate multiple medications with commas"
                   className={
                     isLoading
                       ? " url_input_loading peer w-1/2"
                       : "ani_input peer mt-2 w-1/2"
                   }
                 />
-                {/* <span className="text-gray-500 font-satoshi text-sm font-medium  text-opacity-80 bg-white absolute left-4 top-2 px-1 transition duration-200 input-text">
-                    Current Medications
-                  </span> */}
-                {/* </label> */}
+              </div>
+              <div className="mt-5 items-center  justify-center">
+                <label
+                  htmlFor="current-state"
+                  className="block text-sm font-medium leading-6 text-gray-900"
+                >
+                  <Tooltip text="Any bipolar medications entered here will not appear in the list of suggested medications, as they have already been tried without success.">
+                    Prior medications
+                    <span className="material-symbols-outlined ml-1">info</span>
+                  </Tooltip>
+                </label>
+                <input
+                  id="currentMedications"
+                  type="ani_input"
+                  value={newPatientInfo.CurrentMedications}
+                  onChange={(e) =>
+                    setNewPatientInfo({
+                      ...newPatientInfo,
+                      CurrentMedications: String(e.target.value),
+                    })
+                  }
+                  required
+                  placeholder="Separate multiple medications with commas"
+                  className={
+                    isLoading
+                      ? " url_input_loading peer w-1/2"
+                      : "ani_input peer mt-2 w-1/2"
+                  }
+                />
               </div>
 
               <div className="mt-7 flex justify-end">
@@ -327,14 +689,6 @@ const NewPatientForm = ({
         )}
         <br />
       </div>
-
-      {/* {patientInfo.ID && (
-        <div>
-          <p>ID: {patientInfo.ID}</p>
-          <p>Diagnosis: {patientInfo.Diagnosis}</p>
-          <p>Description: {patientInfo.Description}</p>
-        </div>
-      )} */}
     </section>
   );
 };

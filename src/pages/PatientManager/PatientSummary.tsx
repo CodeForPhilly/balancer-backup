@@ -69,7 +69,7 @@ const PatientSummary = ({
   };
 
   return (
-    <div className="my-2 md:my-5 flex max-w-full items-center p-3 md:p-0">
+    <div className="my-2 flex max-w-full items-center p-3 md:my-5 md:p-0">
       {patientInfo.Description && (
         <div
           className="flex flex-col gap-3 whitespace-normal break-words"
@@ -77,19 +77,19 @@ const PatientSummary = ({
         >
           <div className="flex justify-between">
             <div>
-              <h2 className="cursor-pointer header_logo font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
+              <h2 className="header_logo cursor-pointer font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
                 Summary
                 {/* <span className="blue_gradient">Summary</span> */}
               </h2>
             </div>
             <div
               onClick={handleClickSummary}
-              className="cursor-pointer items-center m-2"
+              className="m-2 cursor-pointer items-center"
             >
               {showSummary ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -104,7 +104,7 @@ const PatientSummary = ({
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -133,7 +133,7 @@ const PatientSummary = ({
                 <dl className="divide-y divide-gray-100">
                   <div className="flex justify-between ">
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0 ">
-                      <dt className="text-sm font-medium leading-6 text-gray-900 ">
+                      <dt className="leading-1 text-sm font-medium text-gray-900 ">
                         Patient ID:
                       </dt>
                       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
