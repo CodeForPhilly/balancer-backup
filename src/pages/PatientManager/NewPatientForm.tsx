@@ -1,12 +1,14 @@
 import { FormEvent, ChangeEvent, useEffect, useState } from "react";
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 // import { loader } from "../../assets";
-import { v4 as uuidv4 } from "uuid";
-import { PatientInfo } from "./PatientTypes";
 import axios from "axios";
-import minLogo from "../../assets/min.svg";
+import { v4 as uuidv4 } from "uuid";
+
+import { PatientInfo } from "./PatientTypes";
 import maxLogo from "../../assets/max.svg";
+import minLogo from "../../assets/min.svg";
 
 // TODO: refactor with Formik
 
@@ -49,11 +51,14 @@ const NewPatientForm = ({
       // @ts-ignore
       localStorage.getItem("patientInfos")
     );
+  });
 
-    if (patientInfoFromLocalStorage) {
-      setAllPatientInfo(patientInfoFromLocalStorage);
+  useEffect(() => {
+    const patientInfos = localStorage.getItem("patientInfos");
+    if (patientInfos) {
+      setAllPatientInfo(JSON.parse(patientInfos));
     }
-  }, []);
+  }, [setAllPatientInfo]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

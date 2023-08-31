@@ -1,8 +1,10 @@
-import { PatientInfo } from "./PatientTypes";
-import minLogo from "../../assets/min.svg";
-import maxLogo from "../../assets/max.svg";
 import { useState, useEffect } from "react";
+
 import axios from "axios";
+
+import { PatientInfo } from "./PatientTypes";
+import maxLogo from "../../assets/max.svg";
+import minLogo from "../../assets/min.svg";
 import TypingAnimation from "../../components/Header/components/TypingAnimation";
 
 interface PatientSummaryProps {

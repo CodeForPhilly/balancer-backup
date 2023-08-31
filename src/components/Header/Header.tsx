@@ -1,22 +1,31 @@
+import "../../components/Header/header.css";
+import { useState, useRef, useEffect, useContext, useCallback } from "react";
+
 import { Link } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
+
+import Chat from "./Chat";
+import LoginMenuDropDown from "./LoginMenuDropDown";
+import MdNavBar from "./MdNavBar";
+import SearchMenu from "./SearchMenu";
 import accountLogo from "../../assets/account.svg";
-// import chatBubble from "../../assets/chatbubble.svg";
 import dark from "../../assets/dark.svg";
 import light from "../../assets/light.svg";
-import "../../components/Header/header.css";
-// import Typed from "react-typed";
-import { useState, useRef, useEffect, useContext, useCallback } from "react";
-import MdNavBar from "./MdNavBar";
-import LoginMenuDropDown from "./LoginMenuDropDown";
-import SearchMenu from "./SearchMenu";
-import Chat from "./Chat";
-import { FeatureMenuDropDown } from "./FeatureMenuDropDown";
-import { ResearchMenuDropDown } from "./ResearchMenuDropDown";
 import { DarkModeContext } from "../../contexts/DarkModeContext";
+import { DropDownMenu } from "../DropDownMenu/DropDownMenu";
+
+const featureLinks = [
+  { url: "/", title: "Diagnosis" },
+  { url: "/drug-summary", title: "Drug Summary and Comparison" },
+  { url: "/", title: "Drug Review Lookup" },
+];
+
+const researchLinks = [
+  { url: "/", title: "PubMed" },
+  { url: "/", title: "Google Scholar" },
+  { url: "/", title: "ScienceDirect" },
+];
 
 const Header = () => {
-  // const { pathname } = useLocation();
   const [showFeaturesMenu, setShowFeaturesMenu] = useState(false);
   const [showResearchMenu, setShowResearchMenu] = useState(false);
   const dropdownRef = useRef(null);
@@ -37,6 +46,8 @@ const Header = () => {
   // const handleChat = () => {
   //   setShowChat(!showChat);
   // };
+
+  // TODO: refactor this to be more DRY.
 
   const handleMouseEnter = () => {
     if (delayTimeout !== null) {
@@ -72,7 +83,7 @@ const Header = () => {
         clearTimeout(delayTimeout);
       }
     };
-  }, []);
+  }, [delayTimeout]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -90,8 +101,8 @@ const Header = () => {
     };
   }, [handleSearchMenu]);
   return (
-    <header className="w-full items-center fixed">
-      <div className="flex bg-blue-100 text-center border-b border-gray-300 font-light text-gray-500 w-full h-8 items-center justify-center text-sm">
+    <header className="fixed w-full items-center">
+      <div className="flex h-8 w-full items-center justify-center border-b border-gray-300 bg-blue-100 text-center text-sm font-light text-gray-500">
         This app is currently in its beta testing phase. The information and
         tools provided herein are intended for general informational purposes
         only and should NOT be construed as medical or therapeutic advice or be
@@ -100,15 +111,15 @@ const Header = () => {
       </div>
       <div
         className={
-          "hidden lg:flex items-center border-b border-gray-300 h-20 mx-auto bg-white justify-between  px-4 sm:px-6 md:px-8 lg:px-8 xl:px-50 2xl:px-56"
+          "xl:px-50 mx-auto hidden h-20 items-center justify-between border-b border-gray-300 bg-white  px-4 sm:px-6 md:px-8 lg:flex lg:px-8 2xl:px-56"
         }
       >
-        <nav className="w-full flex font-satoshi items-center text-sm">
+        <nav className="flex w-full items-center font-satoshi text-sm">
           {/* <Link to="/">
             <img src={logo} alt="logo" className="object-contain w-28 mr-5  " />
           </Link> */}
           <Link to="/">
-            <span className="orange_gradient mr-8 font-bold text-xl">
+            <span className="orange_gradient mr-8 text-xl font-bold">
               Balancer
             </span>
           </Link>
@@ -116,7 +127,7 @@ const Header = () => {
           <>
             <Link
               to="/login"
-              className="mr-5  text-black hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+              className="mr-5  text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
             >
               Our Mission
             </Link>
@@ -129,22 +140,22 @@ const Header = () => {
               <span
                 className={` mr-9 text-black ${
                   showFeaturesMenu
-                    ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
-                    : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
+                    ? "cursor-pointer border-b-2 border-blue-600 hover:border-b-2 hover:border-blue-600 hover:no-underline"
+                    : "cursor-pointer hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
                 }`}
               >
                 Features
                 <span
                   className={` ${
                     showFeaturesMenu
-                      ? "absolute ml-1.5 transition-transform duration-300 rotate-180"
+                      ? "absolute ml-1.5 rotate-180 transition-transform duration-300"
                       : "absolute ml-1.5 "
                   }`}
                 >
                   &#8593;
                 </span>
               </span>
-              {showFeaturesMenu && <FeatureMenuDropDown />}
+              {showFeaturesMenu && <DropDownMenu links={featureLinks} />}
             </div>
 
             <div
@@ -154,29 +165,29 @@ const Header = () => {
               className=""
             >
               <span
-                className={` mr-9 text-black ${
+                className={`mr-9 text-black ${
                   showResearchMenu
-                    ? "border-b-2 border-blue-600 hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
-                    : "hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600 cursor-pointer"
+                    ? "cursor-pointer border-b-2 border-blue-600 hover:border-b-2 hover:border-blue-600 hover:no-underline"
+                    : "cursor-pointer hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
                 }`}
               >
                 Research Information
                 <span
                   className={` ${
                     showResearchMenu
-                      ? "absolute ml-1.5 transition-transform duration-300 rotate-180"
+                      ? "absolute ml-1.5 rotate-180 transition-transform duration-300"
                       : "absolute ml-1.5 "
                   }`}
                 >
                   &#8593;
                 </span>
-                {showResearchMenu && <ResearchMenuDropDown />}
+                {showResearchMenu && <DropDownMenu links={researchLinks} />}
               </span>
             </div>
           </>
         </nav>
 
-        <nav className=" flex font-satoshi justify-end w-full items-center text-sm">
+        <nav className=" flex w-full items-center justify-end font-satoshi text-sm">
           <div className="mr-5" onClick={handleSearchMenu}>
             {/* <img
                 src={searchIcon}
@@ -189,7 +200,7 @@ const Header = () => {
               ></input> */}
             <button
               type="button"
-              className="hidden sm:flex items-center w-76 text-left space-x-3 px-4 h-9 bg-white ring-1 ring-slate-1000/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400 dark:bg-slate-800 dark:ring-0 dark:text-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700"
+              className="w-76 ring-slate-1000/10 dark:highlight-white/5 hidden h-9 items-center space-x-3 rounded-lg bg-white px-4 text-left text-slate-400 shadow-sm ring-1 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-800 dark:text-slate-300 dark:ring-0 dark:hover:bg-slate-700 sm:flex"
             >
               <svg
                 width="24"
@@ -209,7 +220,7 @@ const Header = () => {
               <kbd className="font-sans font-semibold dark:text-slate-500">
                 <abbr
                   title="Control"
-                  className="no-underline text-slate-300 dark:text-slate-500"
+                  className="text-slate-300 no-underline dark:text-slate-500"
                 >
                   Ctrl
                 </abbr>
@@ -225,7 +236,7 @@ const Header = () => {
           <>
             <Link
               to="/register"
-              className="mr-5 hover:text-black hover:no-underline hover:border-b-2 hover:border-blue-600"
+              className="mr-5 hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
             >
               Support
             </Link>
@@ -233,7 +244,7 @@ const Header = () => {
               <img
                 src={accountLogo}
                 alt="logo"
-                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer mr-1"
+                className="object-contain hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:fill-current"
               />
             </div>
             <LoginMenuDropDown
@@ -249,12 +260,12 @@ const Header = () => {
             </div> */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="px-4 py-2  rounded"
+              className="rounded px-4  py-2"
             >
               <img
                 src={isDarkMode ? light : dark}
                 alt={isDarkMode ? "Light Mode" : "Dark Mode"}
-                className="object-contain hover: hover:border-blue-600 hover:border-b-2 cursor-pointer hover:cursor-pointer w-5  "
+                className="hover: w-5 cursor-pointer object-contain hover:cursor-pointer hover:border-b-2 hover:border-blue-600  "
               />
             </button>
             <Chat showChat={showChat} setShowChat={setShowChat} />

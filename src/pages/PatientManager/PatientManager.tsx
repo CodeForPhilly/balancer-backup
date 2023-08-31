@@ -1,11 +1,14 @@
 import { useState } from "react";
+
 import NewPatientForm from "./NewPatientForm.tsx";
 import PatientHistory from "./PatientHistory.tsx";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import { copy } from "../../assets/index.js";
 import PatientSummary from "./PatientSummary.tsx";
 import { PatientInfo } from "./PatientTypes.ts";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { copy, loader } from "../../assets/index.js";
+import Welcome from "../../components/Welcome/Welcome.tsx";
+import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx";
 
 const PatientManager = () => {
   const [isPatientDeleted, setIsPatientDeleted] = useState<boolean>(false);
@@ -35,22 +38,17 @@ const PatientManager = () => {
 
   const [allPatientInfo, setAllPatientInfo] = useState<PatientInfo[]>([]);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
+  const [getMedicationInfo] = useLazyGetMedicationInfoQuery();
 
   // TODO: add error and loading state guards
 
   return (
     <div className="mt-28 w-full max-w-2xl">
-      {/* AI-powered Bipolar Medication: <br className="max-md:hidden" /> */}
-      {/* <h1 className="head_text">
-        <span className="orange_gradient">Balancer</span>
-      </h1> */}
-      <h2 className="desc">Designed to assist prescribers</h2>
-      <h2 className="desc1">
-        Balancer is a powerful tool for selecting bipolar medication for
-        patients. We are open-source and available for free use.
-      </h2>
+      <Welcome
+        subHeader="Designed to assist prescribers"
+        descriptionText="Balancer is an AI-powered tool for selecting bipolar medication for
+        patients. We are open-source and available for free use."
+      />
       <div className="mt-16 flex w-full flex-col gap-2">
         <PatientSummary
           patientInfo={patientInfo}

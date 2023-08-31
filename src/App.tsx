@@ -1,13 +1,13 @@
 import "./App.css";
-import Summary from "./pages/PatientManager/PatientManager";
-import Layout from "./pages/Layout/Layout";
 import { DarkModeProvider } from "./contexts/DarkModeContext";
+import Layout from "./pages/Layout/Layout";
+import PatientManager from "./pages/PatientManager/PatientManager";
 
 const App = () => {
   return (
     <DarkModeProvider>
       <Layout>
-        <Summary />
+        <PatientManager />
       </Layout>
     </DarkModeProvider>
   );
