@@ -405,7 +405,7 @@ const NewPatientForm = ({
                 </fieldset>
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
-                    Patient has attempted suicide
+                    History of suicide attempt(s)
                   </dt>
 
                   <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
@@ -444,7 +444,7 @@ const NewPatientForm = ({
                 </fieldset>
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
-                    At risk for Kidney disease
+                    History or risk of kidney disease
                     <Tooltip text="Lithium can affect kidney function, so it will not be included in the suggested medication list for patients with a risk or history of kidney disease.">
                       <span className="material-symbols-outlined  ml-1">
                         info
@@ -487,7 +487,7 @@ const NewPatientForm = ({
                 </fieldset>
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
-                    At risk for Liver disease
+                    History or risk of liver disease
                     <Tooltip text="Depakote is processed through the liver, so it will not be included in the suggested medication list for patients with a risk or history of liver disease.">
                       <span className="material-symbols-outlined  ml-1">
                         info
@@ -532,7 +532,7 @@ const NewPatientForm = ({
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
                     <Tooltip text="Second-generation antipsychotics can cause low blood pressure upon standing, putting the patient at risk of passing out and hitting their head, so they will not be included in suggested medication list for patients with a risk or history of low blood pressure.">
-                      At risk for low blood pressure or concern for falls
+                      History or risk of low blood pressure, or concern for falls
                       <span className="material-symbols-outlined  ml-1">
                         info
                       </span>
@@ -621,7 +621,7 @@ const NewPatientForm = ({
               <div className="flex border-b border-gray-900/10 py-6 ">
                 <div className="w-[300px]">
                   <legend className="flex text-sm font-medium leading-6 text-gray-900">
-                    Reproductive Status
+                    Reproductive status
                   </legend>
                 </div>
                 <div className="w-[500px] pl-16">
