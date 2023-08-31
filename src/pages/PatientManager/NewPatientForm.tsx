@@ -406,6 +406,11 @@ const NewPatientForm = ({
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
                     History of suicide attempt(s)
+                    <Tooltip text="Lithium is the only medication on the market that has been proven to reduce suicidality in patients with bipolar disorder, so it will be shown at the top of the suggested medications list.">
+                      <span className="material-symbols-outlined  ml-1">
+                        info
+                      </span>
+                    </Tooltip>
                   </dt>
 
                   <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
