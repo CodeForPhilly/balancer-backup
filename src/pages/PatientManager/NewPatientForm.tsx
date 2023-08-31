@@ -27,7 +27,12 @@ const NewPatientForm = ({
     OtherDiagnosis: "",
     Description: "",
     CurrentMedications: "",
+    PriorMedications: "",
     PossibleMedications: { drugs: [] },
+    Mania: "False",
+    Depression: "False",
+    Hypomania: "False",
+    Psychotic: "No",
   });
 
   const handleMouseDown = () => {
@@ -57,9 +62,9 @@ const NewPatientForm = ({
     setIsLoading(true); // Start loading
 
     const payload = {
-      diagnosis: newPatientInfo.Diagnosis,
+      diagnosis:
+        newPatientInfo.Diagnosis !== null ? newPatientInfo.Diagnosis : "manic",
     };
-
     try {
       const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -86,11 +91,11 @@ const NewPatientForm = ({
       setPatientInfo({ ...newPatientInfo, ID: firstFiveCharacters });
 
       if (data) {
-        // const description = data.message.choices[0].message.content;
+        const description = data.message.choices[0].message.content;
 
         const newDescription = {
           ...newPatientInfo,
-          // Description: description,
+          Description: description,
           ID: firstFiveCharacters,
           PossibleMedications: possibleMedicationsData,
         };
@@ -128,10 +133,16 @@ const NewPatientForm = ({
   const handleClickSummary = () => {
     setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
-      Diagnosis: "",
-      OtherDiagnosis: "",
-      CurrentMedications: "",
       ID: "",
+      Diagnosis: "Manic",
+      OtherDiagnosis: "",
+      Description: "",
+      CurrentMedications: "",
+      PriorMedications: "",
+      PossibleMedications: { drugs: [] },
+      Mania: "False",
+      Depression: "False",
+      Hypomania: "False",
     }));
     setEnterNewPatient(!enterNewPatient);
   };
@@ -139,10 +150,16 @@ const NewPatientForm = ({
   const handleClickNewPatient = () => {
     setNewPatientInfo((prevPatientInfo) => ({
       ...prevPatientInfo,
-      Diagnosis: "",
-      OtherDiagnosis: "",
-      CurrentMedications: "",
       ID: "",
+      Diagnosis: "Manic",
+      OtherDiagnosis: "",
+      Description: "",
+      CurrentMedications: "",
+      PriorMedications: "",
+      PossibleMedications: { drugs: [] },
+      Mania: "False",
+      Depression: "False",
+      Hypomania: "False",
     }));
   };
 
@@ -151,19 +168,29 @@ const NewPatientForm = ({
     checkboxName: string
   ) => {
     const isChecked = e.target.checked;
-
     setNewPatientInfo((prevInfo) => ({
       ...prevInfo,
-      [checkboxName]: isChecked,
+      [checkboxName]: isChecked ? "True" : "False", // Update for both checked and unchecked
+    }));
+  };
+
+  const handleRadioChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    radioName: string
+  ) => {
+    const selectedValue = e.target.value;
+    setNewPatientInfo((prevInfo) => ({
+      ...prevInfo,
+      [radioName]: selectedValue,
     }));
   };
 
   return (
-    <section>
+    <section className="flex items-center justify-center">
       {/* {search} */}
       <div className="mx-3 md:mx-0 md:p-0">
         <br />
-        <div className="flex justify-between">
+        <div className="flex w-[870px] justify-between">
           {enterNewPatient ? (
             <div onClick={handleClickNewPatient}>
               <h2 className="header_logo cursor-pointer font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600 ">
@@ -173,15 +200,14 @@ const NewPatientForm = ({
             </div>
           ) : (
             <div onClick={handleClickSummary}>
-              <h2 className="cursor-pointer font-satoshi text-xl font-bold text-gray-600 hover:text-blue-600 ">
-                Click To Enter New
-                <span className="blue_gradient"> Patient</span>
+              <h2 className="header_logo cursor-pointer font-satoshi text-xl font-bold text-gray-600  hover:text-blue-600  ">
+                Click To Enter New Patient
               </h2>
             </div>
           )}
           <div
             onClick={handleClickSummary}
-            className="m-2 cursor-pointer items-center"
+            className=" cursor-pointer items-center"
           >
             {enterNewPatient ? (
               <svg
@@ -217,10 +243,10 @@ const NewPatientForm = ({
           </div>
         </div>
         {enterNewPatient && (
-          <form onSubmit={handleSubmit} className="mt-2">
+          <form onSubmit={handleSubmit} className="mt-2 ">
             <div className="summary_box  ">
-              <div className="mt-5 flex items-center justify-between">
-                <div>
+              <div className=" flex items-center border-b border-gray-900/10 py-6  ">
+                <div className="w-[300px]">
                   <label
                     htmlFor="current-state"
                     className="block text-sm font-medium leading-6 text-gray-900"
@@ -228,7 +254,7 @@ const NewPatientForm = ({
                     Current state
                   </label>
                 </div>
-                <div className="pr-16">
+                <div className="w-[500px] pl-16">
                   <select
                     value={newPatientInfo.Diagnosis}
                     onChange={handleDiagnosisChange}
@@ -245,7 +271,7 @@ const NewPatientForm = ({
                 </div>
               </div>
 
-              <div className="border-b border-gray-900/10 px-4 py-6 pb-12 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+              <div className="border-b border-gray-900/10 py-6  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <div>
                   <legend className="text-sm font-semibold leading-6 text-gray-900">
                     Bipolar history
@@ -311,8 +337,8 @@ const NewPatientForm = ({
                   </div>
                 </div>
               </div>
-              <div className="border-b border-gray-900/10 pb-12">
-                <p className="mt-6 text-sm leading-6 text-gray-600">
+              <div className="border-b border-gray-900/10 py-6 ">
+                <p className=" text-sm leading-6 text-gray-600">
                   Check if apply to patient
                 </p>
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -326,6 +352,8 @@ const NewPatientForm = ({
                         id="psychotic"
                         name="psychotic"
                         type="radio"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "Psychotic")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
@@ -339,6 +367,8 @@ const NewPatientForm = ({
                         id="psychotic"
                         name="psychotic"
                         type="radio"
+                        value="No"
+                        onChange={(e) => handleRadioChange(e, "Psychotic")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
@@ -361,10 +391,12 @@ const NewPatientForm = ({
                         id="suicide"
                         name="suicide"
                         type="radio"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "Suicide")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
-                        htmlFor="suicide"
+                        htmlFor="push-everything"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Yes
@@ -374,10 +406,12 @@ const NewPatientForm = ({
                         id="suicide"
                         name="suicide"
                         type="radio"
+                        value="No"
+                        onChange={(e) => handleRadioChange(e, "Suicide")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
-                        htmlFor="suicide"
+                        htmlFor="push-email"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         No
@@ -385,12 +419,15 @@ const NewPatientForm = ({
                     </div>
                   </dd>
                 </fieldset>
+
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <div>
                     <dt className="flex text-sm font-medium leading-6 text-gray-900">
                       At risk for Kidney disease
                       <Tooltip text="Lithium can affect kidney function, so it will not be included in the suggested medication list for patients with a risk or history of kidney disease.">
-                        <span className="material-symbols-outlined">info</span>
+                        <span className="material-symbols-outlined  ml-1">
+                          info
+                        </span>
                       </Tooltip>
                     </dt>
                   </div>
@@ -428,7 +465,9 @@ const NewPatientForm = ({
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
                     At risk for Liver disease
                     <Tooltip text="Depakote is processed through the liver, so it will not be included in the suggested medication list for patients with a risk or history of liver disease.">
-                      <span className="material-symbols-outlined">info</span>
+                      <span className="material-symbols-outlined  ml-1">
+                        info
+                      </span>
                     </Tooltip>
                   </dt>
 
@@ -464,9 +503,11 @@ const NewPatientForm = ({
                 </fieldset>
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
-                    At risk for low blood pressure or concern for falls
                     <Tooltip text="Second-generation antipsychotics can cause low blood pressure upon standing, putting the patient at risk of passing out and hitting their head, so they will not be included in suggested medication list for patients with a risk or history of low blood pressure.">
-                      <span className="material-symbols-outlined">info</span>
+                      At risk for low blood pressure or concern for falls
+                      <span className="material-symbols-outlined  ml-1">
+                        info
+                      </span>
                     </Tooltip>
                   </dt>
 
@@ -504,7 +545,9 @@ const NewPatientForm = ({
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
                     Has weight gain concerns
                     <Tooltip text="Seroquel, Risperdal, Abilify, and Zyprexa are known for causing weight gain, so they will not be included in the suggested medications list for patients with concerns about weight gain.">
-                      <span className="material-symbols-outlined">info</span>
+                      <span className="material-symbols-outlined  ml-1">
+                        info
+                      </span>
                     </Tooltip>
                   </dt>
 
@@ -539,13 +582,13 @@ const NewPatientForm = ({
                   </dd>
                 </fieldset>
               </div>
-              <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:px-0">
-                <div>
+              <div className="flex border-b border-gray-900/10 py-6 ">
+                <div className="w-[300px]">
                   <legend className="flex text-sm font-medium leading-6 text-gray-900">
                     Reproductive Status
                   </legend>
                 </div>
-                <div className="">
+                <div className="w-[500px] pl-16">
                   <div className="  flex gap-x-3">
                     <div className="flex h-6 items-center ">
                       <input
@@ -594,60 +637,70 @@ const NewPatientForm = ({
                   </div>
                 </div>
               </div>
-              <div className="mt-5 items-center  justify-center">
-                <label
-                  htmlFor="current-state"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  Current medications
-                </label>
-                <input
-                  id="currentMedications"
-                  type="ani_input"
-                  value={newPatientInfo.CurrentMedications}
-                  onChange={(e) =>
-                    setNewPatientInfo({
-                      ...newPatientInfo,
-                      CurrentMedications: String(e.target.value),
-                    })
-                  }
-                  required
-                  placeholder="Separate multiple medications with commas"
-                  className={
-                    isLoading
-                      ? " url_input_loading peer w-1/2"
-                      : "ani_input peer mt-2 w-1/2"
-                  }
-                />
+              <div className="mt-5 flex  items-center">
+                <div className="w-[300px]">
+                  <label
+                    htmlFor="current-state"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Current medications
+                  </label>
+                </div>
+                <div className="w-[500px]  pl-16">
+                  <input
+                    id="currentMedications"
+                    type="ani_input"
+                    value={newPatientInfo.CurrentMedications}
+                    onChange={(e) =>
+                      setNewPatientInfo({
+                        ...newPatientInfo,
+                        CurrentMedications: String(e.target.value),
+                      })
+                    }
+                    required
+                    placeholder="Separate multiple medications with commas"
+                    className={
+                      isLoading
+                        ? " url_input_loading peer w-1/2"
+                        : "ani_input peer mt-2 w-1/2"
+                    }
+                  />
+                </div>
               </div>
-              <div className="mt-5 items-center  justify-center">
-                <label
-                  htmlFor="current-state"
-                  className="block text-sm font-medium leading-6 text-gray-900"
-                >
-                  <Tooltip text="Any bipolar medications entered here will not appear in the list of suggested medications, as they have already been tried without success.">
+              <div className="mt-5 flex items-center ">
+                <div className=" w-[300px]">
+                  <label
+                    htmlFor="current-state"
+                    className="block flex text-sm font-medium leading-6 text-gray-900"
+                  >
                     Prior medications
-                    <span className="material-symbols-outlined ml-1">info</span>
-                  </Tooltip>
-                </label>
-                <input
-                  id="currentMedications"
-                  type="ani_input"
-                  value={newPatientInfo.CurrentMedications}
-                  onChange={(e) =>
-                    setNewPatientInfo({
-                      ...newPatientInfo,
-                      CurrentMedications: String(e.target.value),
-                    })
-                  }
-                  required
-                  placeholder="Separate multiple medications with commas"
-                  className={
-                    isLoading
-                      ? " url_input_loading peer w-1/2"
-                      : "ani_input peer mt-2 w-1/2"
-                  }
-                />
+                    <Tooltip text="Any bipolar medications entered here will not appear in the list of suggested medications, as they have already been tried without success.">
+                      <span className="material-symbols-outlined  ml-1">
+                        info
+                      </span>
+                    </Tooltip>
+                  </label>
+                </div>
+                <div className="w-[500px]  pl-16">
+                  <input
+                    id="priorMedications"
+                    type="ani_input"
+                    value={newPatientInfo.PriorMedications}
+                    onChange={(e) =>
+                      setNewPatientInfo({
+                        ...newPatientInfo,
+                        PriorMedications: String(e.target.value),
+                      })
+                    }
+                    required
+                    placeholder="Separate multiple medications with commas"
+                    className={
+                      isLoading
+                        ? " url_input_loading peer w-1/2"
+                        : "ani_input peer mt-2 w-1/2"
+                    }
+                  />
+                </div>
               </div>
 
               <div className="mt-7 flex justify-end">

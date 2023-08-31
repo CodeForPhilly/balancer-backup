@@ -16,7 +16,13 @@ const PatientManager = () => {
     OtherDiagnosis: "",
     Description: "",
     CurrentMedications: "",
+    PriorMedications: "",
     PossibleMedications: { drugs: [] },
+    Depression: "",
+    Hypomania: "",
+    Mania: "",
+    Psychotic: "",
+    Suicide: "",
   });
 
   const handlePatientDeleted = (deletedId: string) => {
@@ -27,7 +33,13 @@ const PatientManager = () => {
         OtherDiagnosis: "",
         Description: "",
         CurrentMedications: "",
+        PriorMedications: "",
         PossibleMedications: { drugs: [] },
+        Depression: "",
+        Hypomania: "",
+        Mania: "",
+        Psychotic: "",
+        Suicide: "",
       });
       setIsPatientDeleted(true);
     }
@@ -41,7 +53,7 @@ const PatientManager = () => {
   // TODO: add error and loading state guards
 
   return (
-    <div className="mt-20 w-full max-w-2xl md:mt-28">
+    <div className="mt-20 flex w-full max-w-6xl flex-col items-center justify-center md:mt-28">
       {/* AI-powered Bipolar Medication: <br className="max-md:hidden" /> */}
       {/* <h1 className="head_text">
         <span className="orange_gradient">Balancer</span>
@@ -51,7 +63,7 @@ const PatientManager = () => {
         Balancer is a free and open-source tool for helping prescribers narrow
         down suitable bipolar medications based on patient characteristics.
       </h2>
-      <div className="mt-0 flex w-full flex-col md:mt-12">
+      <div className="mt-0 flex w-[75%] flex-col md:mt-12 ">
         <PatientSummary
           patientInfo={patientInfo}
           isPatientDeleted={isPatientDeleted}

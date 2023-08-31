@@ -177,11 +177,11 @@ input[type="ani_input"]:not(:placeholder-shown) ~ .input-text {
 }
 
 .summary_box {
-  @apply max-w-[670px] rounded-md border  bg-white p-4 ring-1 hover:ring-slate-300 hover:ring-slate-300;
+  @apply w-[870px] rounded-md border  bg-white p-4 px-8 ring-1 hover:ring-slate-300 hover:ring-slate-300;
   /* backdrop-blur */
 }
 .tooltip-container {
-  @apply ml-1 cursor-pointer;
+  @apply cursor-pointer;
 }
 .tooltip {
   position: absolute;
