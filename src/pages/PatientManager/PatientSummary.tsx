@@ -126,7 +126,7 @@ const PatientSummary = ({
                     {patientInfo.ID}
                   </h3>
                   <p className="mt-1 max-w-2xl text-sm leading-6  text-gray-500">
-                    Patient details and application.
+                    Patient details and application
                   </p>
                 </div>
                 <div className="mt-3 ">
@@ -171,7 +171,7 @@ const PatientSummary = ({
                         </dd>
                       </div>
                     </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3  sm:gap-4 sm:px-0">
+                    <div className="border-b border-gray-900/10 px-4 py-6 sm:grid sm:grid-cols-3  sm:gap-4 sm:px-0">
                       <dt className="mt-3 flex text-sm font-medium leading-6 text-gray-900">
                         Risk Assessment:
                       </dt>
@@ -191,8 +191,93 @@ const PatientSummary = ({
                           </span>
                           <span className="font-medium ">
                             {patientInfo.Suicide == "Yes" ? (
-                              <li className="flex items-center justify-between  py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                              <li className="flex items-center justify-between  border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
                                 Patient has attempted suicide
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                          <span className="font-medium ">
+                            {patientInfo.Kidney == "Yes" ? (
+                              <li className="flex items-center justify-between border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                                <Tooltip text="Lithium can affect kidney function, so it will not be included in the suggested medication list for patients with a risk or history of kidney disease.">
+                                  At risk for Kidney disease
+                                  <span className="material-symbols-outlined  ml-1">
+                                    info
+                                  </span>
+                                </Tooltip>
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                          <span className="font-medium ">
+                            {patientInfo.Liver == "Yes" ? (
+                              <li className="flex items-center justify-between border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                                <Tooltip text="Depakote is processed through the liver, so it will not be included in the suggested medication list for patients with a risk or history of liver disease.">
+                                  At risk for Liver disease
+                                  <span className="material-symbols-outlined  ml-1">
+                                    info
+                                  </span>
+                                </Tooltip>
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                          <span className="font-medium ">
+                            {patientInfo.blood_pressure == "Yes" ? (
+                              <li className="flex items-center justify-between border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                                <Tooltip text="Second-generation antipsychotics can cause low blood pressure upon standing, putting the patient at risk of passing out and hitting their head, so they will not be included in suggested medication list for patients with a risk or history of low blood pressure.">
+                                  At risk for low blood pressure or concern for
+                                  falls
+                                  <span className="material-symbols-outlined  ml-1">
+                                    info
+                                  </span>
+                                </Tooltip>
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                          <span className="font-medium ">
+                            {patientInfo.weight_gain == "Yes" ? (
+                              <li className="flex items-center justify-between border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                                <Tooltip text="Seroquel, Risperdal, Abilify, and Zyprexa are known for causing weight gain, so they will not be included in the suggested medications list for patients with concerns about weight gain.">
+                                  Has weight gain concerns
+                                  <span className="material-symbols-outlined  ml-1">
+                                    info
+                                  </span>
+                                </Tooltip>
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                          <span className="font-medium ">
+                            {patientInfo.Reproductive == "Yes" ? (
+                              <li className="flex items-center justify-between border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                                <Tooltip text="Depakote is known for causing birth defects and will not be included in the suggested medications list for patients interested in becoming pregnant.">
+                                  Wants to conceive in next 2 years
+                                  <span className="material-symbols-outlined ml-1">
+                                    info
+                                  </span>
+                                </Tooltip>
+                              </li>
+                            ) : (
+                              ""
+                            )}
+                          </span>
+                          <span className="font-medium ">
+                            {patientInfo.risk_pregnancy == "Yes" ? (
+                              <li className="flex items-center justify-between border-b border-gray-900/10 py-4 pl-4 pr-5 text-sm leading-4 hover:bg-indigo-100 ">
+                                <Tooltip text="Depakote is known for causing birth defects and will not be included in the suggested medications list for patients at risk of pregnancy. Note: If the patient is on birth control, taking Depakote is less of a risk.">
+                                  Any risk of pregnancy
+                                  <span className="material-symbols-outlined ml-1">
+                                    info
+                                  </span>
+                                </Tooltip>
                               </li>
                             ) : (
                               ""

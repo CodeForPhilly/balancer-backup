@@ -184,10 +184,11 @@ input[type="ani_input"]:not(:placeholder-shown) ~ .input-text {
   @apply cursor-pointer;
 }
 .tooltip {
+  @apply border;
   position: absolute;
   /* top: calc(-100% - 50px); */
   transform: translateX(-50%);
-  background-color: #e2e8f0;
+  background-color: #f4f9ff;
   color: #111827;
   padding: 10px;
   border-radius: 4px;

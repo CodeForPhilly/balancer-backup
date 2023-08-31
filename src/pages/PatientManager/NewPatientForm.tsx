@@ -33,6 +33,13 @@ const NewPatientForm = ({
     Depression: "False",
     Hypomania: "False",
     Psychotic: "No",
+    Suicide: "No",
+    Kidney: "No",
+    Liver: "No",
+    weight_gain: "No",
+    blood_pressure: "No",
+    Reproductive: "No",
+    risk_pregnancy: "No",
   });
 
   const handleMouseDown = () => {
@@ -143,6 +150,14 @@ const NewPatientForm = ({
       Mania: "False",
       Depression: "False",
       Hypomania: "False",
+      Psychotic: "No",
+      Suicide: "No",
+      Kidney: "No",
+      Liver: "No",
+      weight_gain: "No",
+      blood_pressure: "No",
+      Reproductive: "No",
+      risk_pregnancy: "No",
     }));
     setEnterNewPatient(!enterNewPatient);
   };
@@ -160,6 +175,14 @@ const NewPatientForm = ({
       Mania: "False",
       Depression: "False",
       Hypomania: "False",
+      Psychotic: "No",
+      Suicide: "No",
+      Kidney: "No",
+      Liver: "No",
+      weight_gain: "No",
+      blood_pressure: "No",
+      Reproductive: "No",
+      risk_pregnancy: "No",
     }));
   };
 
@@ -419,28 +442,27 @@ const NewPatientForm = ({
                     </div>
                   </dd>
                 </fieldset>
-
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <div>
-                    <dt className="flex text-sm font-medium leading-6 text-gray-900">
-                      At risk for Kidney disease
-                      <Tooltip text="Lithium can affect kidney function, so it will not be included in the suggested medication list for patients with a risk or history of kidney disease.">
-                        <span className="material-symbols-outlined  ml-1">
-                          info
-                        </span>
-                      </Tooltip>
-                    </dt>
-                  </div>
+                  <dt className="flex text-sm font-medium leading-6 text-gray-900">
+                    At risk for Kidney disease
+                    <Tooltip text="Lithium can affect kidney function, so it will not be included in the suggested medication list for patients with a risk or history of kidney disease.">
+                      <span className="material-symbols-outlined  ml-1">
+                        info
+                      </span>
+                    </Tooltip>
+                  </dt>
                   <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     <div className="flex items-center gap-x-3 pr-16">
                       <input
                         id="Kidney"
                         name="Kidney"
                         type="radio"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "Kidney")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
-                        htmlFor="Kidney"
+                        htmlFor="push-everything"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Yes
@@ -450,10 +472,12 @@ const NewPatientForm = ({
                         id="Kidney"
                         name="Kidney"
                         type="radio"
+                        value="No"
+                        onChange={(e) => handleRadioChange(e, "Kidney")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
-                        htmlFor="Kidney"
+                        htmlFor="push-email"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         No
@@ -470,17 +494,18 @@ const NewPatientForm = ({
                       </span>
                     </Tooltip>
                   </dt>
-
                   <dd className="mt-2 pl-24 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                     <div className="flex items-center gap-x-3 pr-16">
                       <input
                         id="Liver"
                         name="Liver"
                         type="radio"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "Liver")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
-                        htmlFor="Liver"
+                        htmlFor="push-everything"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         Yes
@@ -490,10 +515,12 @@ const NewPatientForm = ({
                         id="Liver"
                         name="Liver"
                         type="radio"
+                        value="No"
+                        onChange={(e) => handleRadioChange(e, "Liver")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
-                        htmlFor="Liver"
+                        htmlFor="push-email"
                         className="block text-sm font-medium leading-6 text-gray-900"
                       >
                         No
@@ -501,6 +528,7 @@ const NewPatientForm = ({
                     </div>
                   </dd>
                 </fieldset>
+
                 <fieldset className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="flex text-sm font-medium leading-6 text-gray-900">
                     <Tooltip text="Second-generation antipsychotics can cause low blood pressure upon standing, putting the patient at risk of passing out and hitting their head, so they will not be included in suggested medication list for patients with a risk or history of low blood pressure.">
@@ -517,6 +545,8 @@ const NewPatientForm = ({
                         id="blood_pressure"
                         name="blood_pressure"
                         type="radio"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "blood_pressure")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
@@ -530,6 +560,8 @@ const NewPatientForm = ({
                         id="blood_pressure"
                         name="blood_pressure"
                         type="radio"
+                        value="No"
+                        onChange={(e) => handleRadioChange(e, "blood_pressure")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
@@ -557,6 +589,8 @@ const NewPatientForm = ({
                         id="weight_gain"
                         name="weight_gain"
                         type="radio"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "weight_gain")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
@@ -570,6 +604,8 @@ const NewPatientForm = ({
                         id="weight_gain"
                         name="weight_gain"
                         type="radio"
+                        value="No"
+                        onChange={(e) => handleRadioChange(e, "weight_gain")}
                         className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                       <label
@@ -592,9 +628,11 @@ const NewPatientForm = ({
                   <div className="  flex gap-x-3">
                     <div className="flex h-6 items-center ">
                       <input
-                        id="comments"
-                        name="comments"
+                        id="Reproductive"
+                        name="Reproductive"
                         type="checkbox"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "Reproductive")}
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                     </div>
@@ -615,9 +653,11 @@ const NewPatientForm = ({
                   <div className=" mt-2 hidden gap-x-3 sm:flex">
                     <div className="flex h-6 items-center">
                       <input
-                        id="candidates"
-                        name="candidates"
+                        id="risk_pregnancy"
+                        name="risk_pregnancy"
                         type="checkbox"
+                        value="Yes"
+                        onChange={(e) => handleRadioChange(e, "risk_pregnancy")}
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
                       />
                     </div>

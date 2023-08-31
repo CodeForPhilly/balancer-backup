@@ -13,6 +13,12 @@ export interface PatientInfo {
   };
   Psychotic: string;
   Suicide: string;
+  Kidney: string;
+  Liver: string;
+  blood_pressure: string;
+  weight_gain: string;
+  Reproductive: string;
+  risk_pregnancy: string;
 }
 
 export interface NewPatientInfo {
@@ -29,4 +35,7 @@ export interface NewPatientInfo {
     drugs?: string[];
   };
   Psychotic: string;
+  Suicide: string;
+  Kidney: string;
+  Liver: string;
 }
