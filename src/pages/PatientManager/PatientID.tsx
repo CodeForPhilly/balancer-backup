@@ -12,10 +12,10 @@ interface PatientIDInputProps {
 function PatientIDInput({ patientInfo, setPatientInfo }: PatientIDInputProps) {
   useEffect(() => {
     const generatedGuid = uuidv4();
-
     const firstFiveCharacters = generatedGuid.substring(0, 5);
+    console.log(firstFiveCharacters);
     setPatientInfo({ ...patientInfo, ID: firstFiveCharacters });
-  }, [patientInfo, setPatientInfo]);
+  }, []);
 
   return (
     <div className="">

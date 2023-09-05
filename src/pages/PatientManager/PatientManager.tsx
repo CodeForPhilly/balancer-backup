@@ -2,13 +2,12 @@ import { useState } from "react";
 
 import NewPatientForm from "./NewPatientForm.tsx";
 import PatientHistory from "./PatientHistory.tsx";
-import PatientSummary from "./PatientSummary.tsx";
-import { PatientInfo } from "./PatientTypes.ts";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import { copy, loader } from "../../assets/index.js";
+import PatientSummary from "./PatientSummary.tsx";
+import { PatientInfo } from "./PatientTypes.ts";
+import { copy } from "../../assets/index.js";
 import Welcome from "../../components/Welcome/Welcome.tsx";
-import { useLazyGetMedicationInfoQuery } from "../../services/medicationsApi.tsx";
 
 const PatientManager = () => {
   const [isPatientDeleted, setIsPatientDeleted] = useState<boolean>(false);
@@ -19,7 +18,19 @@ const PatientManager = () => {
     OtherDiagnosis: "",
     Description: "",
     CurrentMedications: "",
+    PriorMedications: "",
     PossibleMedications: { drugs: [] },
+    Depression: "",
+    Hypomania: "",
+    Mania: "",
+    Psychotic: "",
+    Suicide: "",
+    Kidney: "",
+    Liver: "",
+    blood_pressure: "",
+    weight_gain: "",
+    Reproductive: "",
+    risk_pregnancy: "",
   });
 
   const handlePatientDeleted = (deletedId: string) => {
@@ -30,26 +41,40 @@ const PatientManager = () => {
         OtherDiagnosis: "",
         Description: "",
         CurrentMedications: "",
+        PriorMedications: "",
         PossibleMedications: { drugs: [] },
+        Depression: "",
+        Hypomania: "",
+        Mania: "",
+        Psychotic: "",
+        Suicide: "",
+        Kidney: "",
+        Liver: "",
+        blood_pressure: "",
+        weight_gain: "",
+        Reproductive: "",
+        risk_pregnancy: "",
       });
+
       setIsPatientDeleted(true);
     }
   };
 
   const [allPatientInfo, setAllPatientInfo] = useState<PatientInfo[]>([]);
 
-  const [getMedicationInfo] = useLazyGetMedicationInfoQuery();
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
 
   // TODO: add error and loading state guards
 
   return (
-    <div className="mt-28 w-full max-w-2xl">
+    <div className="mt-20 flex w-full max-w-6xl flex-col items-center justify-center md:mt-28">
       <Welcome
         subHeader="Designed to assist prescribers"
         descriptionText="Balancer is a free and open-source tool for helping prescribers narrow
         down suitable bipolar medications based on patient characteristics."
       />
-      <div className="mt-16 flex w-full flex-col gap-2">
+      <div className="mt-0 flex w-[75%] flex-col md:mt-12 ">
         <PatientSummary
           patientInfo={patientInfo}
           isPatientDeleted={isPatientDeleted}
