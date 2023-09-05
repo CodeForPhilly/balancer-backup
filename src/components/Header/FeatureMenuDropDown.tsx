@@ -10,7 +10,7 @@ export const FeatureMenuDropDown = () => {
             to="/"
             className=" text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
           >
-            Diagnosis
+            Medication Suggester
           </Link>
         </ul>
         <ul className=" mb-8">
@@ -18,7 +18,10 @@ export const FeatureMenuDropDown = () => {
             to="/login"
             className=" mr-9 text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
           >
-            Drug Summary and Comparison
+            Medication Summary and Comparison
+            {/* <span className="absolute ml-1.5 transition-transform duration-300 hover:rotate-180">
+            &#8593;
+          </span> */}
           </Link>
         </ul>
         <ul className=" mb-8">
@@ -26,7 +29,7 @@ export const FeatureMenuDropDown = () => {
             to="/login"
             className="mr-9 text-black hover:border-b-2 hover:border-blue-600 hover:text-black hover:no-underline"
           >
-            Drug Review Lookup
+            Review Lookup
             {/* <span className="absolute ml-1.5 transition-transform duration-300 hover:rotate-180">
             &#8593;
           </span> */}

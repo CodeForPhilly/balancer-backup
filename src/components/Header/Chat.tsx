@@ -2,8 +2,10 @@ import React from "react";
 // import { Link } from "react-router-dom";
 import "../../components/Header/chat.css";
 import { useState, useEffect } from "react";
+
 import axios from "axios";
-import TypingAnimation from "./components/TypingAnimation";
+
+import TypingAnimation from "./components/typinganimation";
 import chatBubble from "../../assets/chatbubble.svg";
 
 interface ChatLogItem {
@@ -25,6 +27,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
     "What are the common side effects?",
     "How to manage medication schedule?",
   ];
+  const [pageContent, setPageContent] = useState("");
 
   const systemMessage = {
     role: "system",
@@ -56,7 +59,8 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
   };
 
   const sendMessage = (message: ChatLogItem[]) => {
-    const url = "http://localhost:3001/chatgpt";
+    const baseUrl = import.meta.env.VITE_API_BASE_URL;
+    const url = `${baseUrl}/chatgpt`;
 
     const apiMessages = message.map((messageObject) => {
       let role = "";
@@ -102,9 +106,9 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
         ></div>
       )} */}
       <div
-        className={`fixed bottom-3 right-4 rounded ${
+        className={`fixed bottom-0 right-0 rounded md:bottom-3 md:right-4 ${
           showChat ? "show_chat border-1bg-white ring-slate-1000/10" : "h-12 "
-        } shadow transition-all`}
+        } shadow transition-all `}
       >
         {showChat ? (
           <div
@@ -116,7 +120,7 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
               style={{ borderBottomColor: "#abcdef" }}
             >
               <div className=" ml-4 text-black">
-                Welcome to Balancer! <br />
+                Questions for me? <br />
               </div>
               <div
                 className="delete mr-2 flex h-6 w-8 cursor-pointer items-center justify-center rounded-full bg-white text-black hover:bg-red-500"
@@ -140,9 +144,9 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
             <div className="mt-6 flex flex-grow flex-col space-y-2 p-5 pb-44">
               {chatLog.length === 0 ? (
                 <div className="text-gray-500">
-                  Balancer is a powerful open-source tool available for free
-                  use. Simply start typing your questions or concerns, and we'll
-                  do our best to assist you. <br />
+                  Want to know more about a medication or have a question? Ask
+                  Balancer in this chat, and information will be pulled from all
+                  over the internet to assist you <br />
                   <br />
                   {/* <br />
                   <br /> Balancer is an assistive tool and cannot be used as a replacement for a real human prescriber. */}
@@ -177,23 +181,23 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
             </div>
 
             <div className="inside_chat absolute bottom-0 left-0 right-0 rounded-b-lg bg-white p-4">
-              <div className="flex  space-x-2 p-2 ">
+              {/* <div className="flex  space-x-2 p-2 ">
                 {suggestionPrompts.map((suggestion, index) => (
                   <button
                     type="button"
                     key={index}
-                    className="rounded-md border p-2 text-black hover:bg-blue-200"
+                    className="rounded-md border p-2 text-sm text-black hover:bg-blue-200"
                     onClick={() => setInputValue(suggestion)}
                   >
                     {suggestion}
                   </button>
                 ))}
-              </div>
+              </div> */}
               <form onSubmit={handleSubmit} className="mb-1 flex">
                 <div className="ml-2 flex-grow">
                   <input
                     type="text"
-                    className="input_chat ring-slate-1000/10 dark:highlight-white/5"
+                    className="input_chat ring-slate-1000/10 dark:highlight-white/5 text-sm"
                     placeholder="Talk to me..."
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
@@ -210,9 +214,9 @@ const Chat: React.FC<ChatDropDownProps> = ({ showChat, setShowChat }) => {
         ) : (
           <div
             onClick={() => setShowChat(true)}
-            className=" hover: absolute bottom-20 right-20 h-6 w-6 cursor-pointer  rounded-full object-contain hover:cursor-pointer hover:border-b-2 hover:border-blue-600 hover:bg-gray-200 "
+            className="  absolute bottom-9 right-5 flex h-10 w-10  cursor-pointer items-center justify-center rounded-full border border-blue-600 bg-blue-100 object-contain hover:cursor-pointer hover:border-blue-600 hover:bg-blue-300 md:bottom-20 md:right-20 "
           >
-            <img src={chatBubble} alt="logo" className="   " />
+            <img src={chatBubble} alt="logo" className="h-6 w-6 " />
           </div>
         )}
       </div>
